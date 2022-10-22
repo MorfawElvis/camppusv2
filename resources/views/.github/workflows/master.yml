@@ -14,6 +14,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: camppus@sabibicc.net
-        username: ${{ secrets.camppus@sabibicc.net}}
-        password: ${{ secrets.fgCh%P)p=-c^ }}
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME}}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /sabibicc
