@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Student Bulk Upload')
+@push('page-css')
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="card shadow-lg w-75 mx-auto">
         <div class="card-header bg-primary">
