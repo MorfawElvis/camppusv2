@@ -23,11 +23,11 @@ class HomeController extends Controller
             $class_rooms = ClassRoom::withCount('students')->get()->toArray();
             $array_size = count($class_rooms);
 
-            $class_room = [];
-            $enrollment = [];
+            // $class_room = [];
+            // $enrollment = [];
             for($i=0; $i < $array_size; $i++){
-                $class_room =  $class_rooms[$i]['class_name']; 
-                $enrollment =  $class_rooms[$i]['students_count']; 
+                $class_room[] =  $class_rooms[$i]['class_name']; 
+                $enrollment[] =  $class_rooms[$i]['students_count']; 
             }
             //Enrollment analyses chart
             $enrollment_chart = new EnrollmentStatistics;
