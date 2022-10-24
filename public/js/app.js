@@ -5227,19 +5227,6 @@ $(document).ready(function () {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   };
-}); //Import button animation
-
-var button = document.getElementById('import');
-var save = document.getElementById('save-button');
-var btn_text = document.getElementById('button-text');
-var spinner = document.getElementById("spinner");
-button.addEventListener('click', function () {
-  btn_text.innerText = "Importing";
-  spinner.classList.remove("hide");
-});
-save.addEventListener('click', function () {
-  btn_text.innerText = "Saving";
-  spinner.classList.remove("hide");
 });
 
 /***/ }),

@@ -9,18 +9,12 @@ use App\Models\Student;
 
 class HomeController extends Controller
 {
-    private $class_room, $enrollment;
+    private $class_room, $enrollment=[];
     
     public function __construct()
     {
         $this->middleware('auth');
     }
-
-    public function test()
-    {
-
-    }
-
     public function index()
     {
             
