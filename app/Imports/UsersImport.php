@@ -5,11 +5,13 @@ namespace App\Imports;
 use App\Models\User;
 use App\Models\Student;
 use DB;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UsersImport implements ToCollection, WithUpserts, WithHeadingRow
 {

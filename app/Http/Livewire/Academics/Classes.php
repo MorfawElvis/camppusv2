@@ -62,7 +62,7 @@ class Classes extends Component
     {
         $class_rooms =  ClassRoom::with(['section', 'level'])
                                    ->withCount('students')
-                                   ->get();
+                                   ->paginate(7);
         $levels = Level::orderBy('id', 'asc')->get();
         $sections = Section::select(['id','section_name'])->get();
         $this->academic_year_id = SchoolYear::where('year_status', 'opened')->pluck('id')->first();

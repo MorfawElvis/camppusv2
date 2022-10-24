@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Imports\UsersImport;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -20,7 +21,13 @@ class UsersController extends Controller
         ],[
           'file_upload.required' => 'Please select the file to be uploaded',
         ]);
-        Excel::import(new UsersImport, $request->file('file_upload'));
-        return redirect()->back()->with('success', 'Records successfully imported');
+        try{
+            Excel::import(new UsersImport, $request->file('file_upload'));
+            return redirect()->back()->with('success', 'Records successfully imported');
+        }
+        catch(Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+       
     }
 }

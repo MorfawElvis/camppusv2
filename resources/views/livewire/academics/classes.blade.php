@@ -10,14 +10,14 @@
             </div>
             <a wire:click="showClassModal" class="btn btn-outline-primary rounded-pill float-right mb-2 {{ $academic_year_id ? 'enabled' : 'disabled' }} " wire:ignore>
                 <i class="fas fa-plus-circle mr-2"></i>Create Class</a>
-            <table class="table table-striped table-hover table-responsive-lg mt-4 text-center">
+            <table class="table table-striped table-hover table-responsive-lg mt-4">
                 <thead>
                 <tr>
                     <th>S/N</th>
-                    <th>Class Name</th>
                     <th>Level</th>
+                    <th>Class Name</th>
                     <th>Section</th>
-                    <th>Enrollment</th>
+                    <th class="text-center">Enrollment</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -25,10 +25,10 @@
                 @forelse ($class_rooms as $class )
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $class->class_name }}</td>
                     <td>{{ $class->level->level_name }}</td>
+                    <td>{{ $class->class_name }}</td>
                     <td>{{ $class->section->section_name }}</td>
-                    <td>{{ $class->students_count }}</td>
+                    <td class="text-center">{{ $class->students_count }}</td>
                     <td class="text-center">
                         <span><button class="btn btn-xs btn-outline-primary"><i class="fas fa-tasks mr-1"></i>Manage Subjects</button></span>
                         <span><a href="{{ route('admin.upload.students', $class->id) }}" class="btn btn-xs btn-primary" ><i class="fas fa-file-import mr-1"></i>Import Students</a></span>
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="card-footer">
-
+              {{ $class_rooms->links() }}
         </div>
     {{-- class modal--}}
     <div class="modal fade" id="classModal"  tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
