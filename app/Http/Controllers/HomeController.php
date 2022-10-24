@@ -23,16 +23,17 @@ class HomeController extends Controller
             $class_rooms = ClassRoom::withCount('students')->get()->toArray();
             $array_size = count($class_rooms);
 
+            $class_room = [];
+            $enrollment = [];
             for($i=0; $i < $array_size; $i++){
-                $class[]      =  $class_rooms[$i]['class_name']; 
-                $enrollment[] =  $class_rooms[$i]['students_count']; 
+                $class_room =  $class_rooms[$i]['class_name']; 
+                $enrollment =  $class_rooms[$i]['students_count']; 
             }
             //Enrollment analyses chart
             $enrollment_chart = new EnrollmentStatistics;
-            $enrollment_chart->labels($class);
+            $enrollment_chart->labels($class_room);
             $enrollment_chart->dataset('Enrollment analyses by class', 'bar', $enrollment)->backgroundColor(['maroon', 'orange','navy','purple', 'blue',
             'maroon', 'orange','navy','purple', 'blue','maroon', 'orange','navy','purple', 'blue','maroon', 'orange','navy','purple', 'blue']);
-
             //Gender analyses chart
             $gender_chart = new GenderAnalyses;
             $gender_chart->labels(['Males','Females']);

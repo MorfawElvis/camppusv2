@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Settings;
 
+use App\Models\SchoolTerm;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\SchoolYear;
@@ -46,7 +47,8 @@ class AcademicYears extends Component
     public function deleteYear()
     {
         //TODO: Prevent delete of active school year
-        SchoolYear::findOrFail($this->yearDeleted)->delete();
+         SchoolYear::findOrFail($this->yearDeleted)->delete();
+         SchoolTerm::where('school_year_id', $this->yearDeleted)->delete();
         $this->alert('success', 'Record has been deleted successfully');
     }
     public function showEditModal($academic_year)

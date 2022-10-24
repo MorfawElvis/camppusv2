@@ -93,6 +93,12 @@
                                         <p>Sections</p>
                                     </a>
                                 </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-levels') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.levels') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Levels</p>
+                                    </a>
+                                </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('manage-classes') ? 'active' : '' }}">
                                     <a href="{{ route('admin.manage.classes') }}" class="nav-link">
                                         <i class="fas fa-tasks"></i>
