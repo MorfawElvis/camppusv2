@@ -15,10 +15,10 @@
     @livewireStyles
 </head>
 	<body>
-    <div class="loader">
+    {{-- <div class="loader">
         <div></div>
         <img src="{{ asset('images/camppus-logo.svg') }}" class="img-circle elevation-2" alt="User Image">
-    </div>
+    </div> --}}
     <section class="ftco-section camppus-wrapper">
        @livewire('auth.user-login')
     </section>
