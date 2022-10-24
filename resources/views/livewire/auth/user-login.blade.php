@@ -1,13 +1,12 @@
-
 <div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5 mt-5">
                 <div class="login-wrap p-4 p-md-5">
                     <div class="icon d-flex align-items-center justify-content-center mb-5">
-                        <img src="{{ asset('storage/logo/camppus-logo.png') }}" class="rounded-circle" alt="Camppus Logo" style="width: 60%;">
+                        <img src="{{ asset('images/sabibi.JPG') }}" class="rounded-circle" alt="Camppus Logo" style="width: 60%;">
                     </div>
-{{--                    <h3 class="text-center mb-4">Have an account?</h3>--}}
+                    <h3 class="text-center mb-4">Have an account?</h3>
                     <div class="text-center">
                         @if ($errors->any())
                             <div class="alert alert-danger text-danger h6">

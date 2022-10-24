@@ -17,7 +17,7 @@
 	<body>
     <div class="loader">
         <div></div>
-        <img src="{{ asset('storage/logo/camppus-logo.svg') }}" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ asset('images/camppus-logo.svg') }}" class="img-circle elevation-2" alt="User Image">
     </div>
     <section class="ftco-section camppus-wrapper">
        @livewire('auth.user-login')
