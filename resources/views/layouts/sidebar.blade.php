@@ -3,7 +3,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Camppus Logo -->
         <a href="" class="brand-link text-decoration-none text-start text-wrap">
-            <img src="{{ asset('storage/logo/camppus-logo-transparent.png') }}" alt="Camppus Logo" class="brand-image img-circle elevation-3">
+            <img src="{{ asset('images/sabibi.JPG') }}" alt="Camppus Logo" class="brand-image img-circle elevation-3">
+            <!--<img src="{{ asset('storage/logo/camppus-logo-transparent.png') }}" alt="Camppus Logo" class="brand-image img-circle elevation-3">-->
             @if($general_setting->school_name ?? '')
                 <span class="fs-6">{{ $general_setting->school_name}}</span>
             @else
@@ -14,12 +15,12 @@
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="{{asset('storage/images/user-male.svg')}}" class="img-circle elevation-2" alt="User Image">
-                </div>
+                <!--<div class="image">-->
+                <!--    <img src="{{asset('storage/images/user-male.svg')}}" class="img-circle elevation-2" alt="User Image">-->
+                <!--</div>-->
                 <div class="info">
                     @auth
-                        <a href="#" class="d-block text-decoration-none">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
+                        <a href="#" class="d-block text-decoration-none">{{\Illuminate\Support\Facades\Auth::user()->user_code}}</a>
                     @endauth
                 </div>
             </div>
@@ -89,32 +90,25 @@
                                     <a href="{{ route('admin.manage.sections') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-tasks"></i>
-                                        <p>Manage Sections</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-levels') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.levels') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Manage Levels</p>
+                                        <p>Sections</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('manage-classes') ? 'active' : '' }}">
                                     <a href="{{ route('admin.manage.classes') }}" class="nav-link">
                                         <i class="fas fa-tasks"></i>
-                                        <p>Manage Classes</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-subjects') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.subjects') }}" class="nav-link">
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Manage Subjects</p>
+                                        <p>Classes</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('manage-departments') ? 'active' : '' }}">
                                     <a href="{{ route('admin.manage.departments') }}" class="nav-link">
                                         <i class="fas fa-tasks"></i>
-                                        <p>Manage Departments</p>
+                                        <p>Departments</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-subjects') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.subjects') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Subjects</p>
                                     </a>
                                 </li>
                             </ul>
@@ -332,7 +326,7 @@
                                 <li class="nav-item nav-item-submenu {{ request()->is('academic-terms') ? 'active' : '' }}">
                                     <a href="{{ route('admin.academic.terms') }}" class="nav-link">
                                         <i class="fas fa-calendar-check"></i>
-                                        <p>Academic Terms</p>
+                                        <p>Terms</p>
                                     </a>
                                 </li>
                             </ul>
