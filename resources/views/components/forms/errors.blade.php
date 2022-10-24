@@ -1,7 +1,8 @@
-@if(Session::has('success'))
-    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-        <i class="fas fa-check-circle fs-3 me-3"></i>
-        <strong>{{ Session::get('success') }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+    @if(Session::has('alert-' . $msg))
+    <div class="alert alert-{{ $msg }} alert-dismissible fade show">
+       <strong>{{ Session::get('alert-' .$msg) }}</strong>
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
+    @endif
+  @endforeach

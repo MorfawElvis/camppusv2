@@ -23,10 +23,10 @@ class UsersController extends Controller
         ]);
         try{
             Excel::import(new UsersImport, $request->file('file_upload'));
-            return redirect()->back()->with('success', 'Records successfully imported');
+            return redirect()->back()->with('alert-success', 'Records successfully imported');
         }
         catch(Exception $e){
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('alert-danger', $e->getMessage());
         }
        
     }
