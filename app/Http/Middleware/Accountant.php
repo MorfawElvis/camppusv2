@@ -22,6 +22,6 @@ class Accountant
         {
             return $next($request);
         }
-        return  Redirect::route('user.login');
+        return  Redirect::route('login');
     }
 }

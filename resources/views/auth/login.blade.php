@@ -11,15 +11,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/login/login.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/css/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 	<body>
-    {{-- <div class="loader">
-        <div></div>
-        <img src="{{ asset('images/camppus-logo.svg') }}" class="img-circle elevation-2" alt="User Image">
-    </div> --}}
-    <section class="ftco-section camppus-wrapper">
+        <x-page.loader></x-page.loader>
+    <section class="main">
        @livewire('auth.user-login')
     </section>
     @livewireScripts

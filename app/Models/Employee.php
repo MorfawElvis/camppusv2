@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+
+use Illuminate\Database\Eloquent\Model;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+
 
 /**
  * App\Models\Employee
@@ -51,6 +51,7 @@ class Employee extends Model
         'user_id',
         'date_of_birth',
         'place_of_birth',
+        'matriculation',
         'gender',
         'highest_qualification',
         'position',
@@ -68,21 +69,20 @@ class Employee extends Model
     protected $casts = [
         'is_dismissed' => 'boolean',
         'is_on_leave' => 'boolean',
-    ];
-
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'length' => 3, 'prefix' => 'EMP']);
-        });
-    }
+    ]; 
     protected function fullName(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => strtoupper($value),
             set: fn ($value) => ucfirst($value),
         );
+    }
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+           $model->matriculation =  IdGenerator::generate(['table' => 'employees', 'field' => 'matriculation', 'length' => 8, 'prefix' => 'EMP-']);
+        });
     }
     protected function gender():Attribute {
          return Attribute::make(

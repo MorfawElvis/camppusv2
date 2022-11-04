@@ -171,7 +171,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <x-buttons.save/>
+                <x-buttons.save></x-buttons.save>
             </form>
         </div>
     </div>

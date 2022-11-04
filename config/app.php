@@ -69,6 +69,7 @@ return [
 
     'timezone' => 'Africa/Douala',
 
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\SchoolTermController;
-use App\Http\Controllers\SchoolYearController;
+use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Student\StudentRegistrationController;
-use App\Http\Controllers\TestController;
+use App\Http\Livewire\Finance\FeeItems;
+use App\Http\Livewire\Finance\FeePayments;
+use App\Http\Livewire\Finance\ViewPayments;
+use App\Http\Livewire\Scholarship\CreateScholarships;
+use App\Http\Livewire\Scholarship\ManageScholarships;
 use App\Http\Livewire\Settings\SchoolSettings;
-use App\Http\Livewire\Test;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -51,41 +53,16 @@ Route::group(['middleware' => 'auth', ], function ()
         
         Route::resources([
              'student-registration' => \App\Http\Controllers\Student\StudentRegistrationController::class,
-             'staff-registration'   => \App\Http\Controllers\staff\StaffRegistrationController::class
+             'staff-registration'   => \App\Http\Controllers\Staff\StaffRegistrationController::class
         ]);
 
     });
-    //Teacher
-    Route::middleware(['middleware' => 'teacher', 'as' => 'teacher'])->group(function () {
-
-        });
-
-    //Accountant
-    Route::middleware(['middleware' => 'accountant', 'as' => 'accountant'])->group(function () {
-
-        });
-
-    //SuperAdmin
-    Route::name('admin.')
-        ->middleware('superAdmin')->group(function () {
-
-        });
-
-    //Library
-    Route::name('library.')
-        ->middleware('library')->group(function () {
-
-        });
-
-    //Dormitory
-    Route::name('dormitory.')
-        ->middleware('dormitory')->group(function () {
-
-        });
-
-    //Student
-    Route::name('student.')
-        ->middleware('student')->group(function () {
-
-        });
+    //Bursar
+        Route::get('/create-fee-items', FeeItems::class)->name('fee_items.create');
+        Route::get('/manage-fee-payments', FeePayments::class)->name('fee_payments.manage');
+        Route::get('/school-fee-receipt/{id}', [FinanceController::class, 'printReceipt'])->name('fee.receipt');
+        Route::get('/school-fee-statement/{id}', [FinanceController::class, 'printFeeStatement'])->name('fee.statement');
+        Route::get('/view-payments', ViewPayments::class)->name('view.payments');
+        Route::get('/create-scholarships', CreateScholarships::class)->name('create.scholarships');
+        Route::get('/manage-scholarships', ManageScholarships::class)->name('manage.scholarships');
 });

@@ -21,7 +21,6 @@ class NewStudentRequest extends FormRequest
             'date_of_admission' => 'nullable',
             'gender' => 'required',
             'section_id' => 'required',
-            'level_id' => 'required',
             'class_id' => 'required',
             'email'    => 'nullable|email',
             'address'  => 'nullable|string',

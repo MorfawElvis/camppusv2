@@ -16,6 +16,7 @@ class NewStaffRequest extends FormRequest
         return [
             'photo' => 'image|mimes:png,jpg,jpeg|max:2048',
             'full_name' => 'required',
+            'role'      => 'required',
             'date_of_birth' => 'required',
             'place_of_birth' => 'required',
             'gender' => 'required',
@@ -38,6 +39,7 @@ class NewStaffRequest extends FormRequest
     {
         return [
             'full_name.required' => "The name of the staff is required",
+            'role.required' => "The role of the staff is required",
             'date_of_birth.required' => "The date of birth of staff is required",
             'place_of_birth.required' => "The place of birth of staff is required",
             'gender.required' => "The the gender of the staff is required",

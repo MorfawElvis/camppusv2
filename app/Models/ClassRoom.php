@@ -32,7 +32,7 @@ class ClassRoom extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-      'class_name', 'level_id', 'academic_year_id', 'section_id'
+        'class_name', 'level_id', 'academic_year_id', 'section_id', 'payable_fee'
     ];
 
     public function level(): BelongsTo
@@ -54,10 +54,18 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Student::class);
     }
-    
+ 
+    public function payments()
+    {
+        return $this->hasManyThrough(FeePayment::class,  Student::class);
+    }
+
     public function setClassNameAttribute($value)
     {
         $this->attributes['class_name'] = Str::upper($value);
     }
-
+    public function setPayableFeeAttribute($value)
+    {
+        $this->attributes['payable_fee'] = str_replace(',', '', $value);
+    }
 }

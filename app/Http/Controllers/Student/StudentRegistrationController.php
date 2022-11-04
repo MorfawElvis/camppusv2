@@ -38,6 +38,7 @@ class StudentRegistrationController extends Controller
         return view('studentRegistration.create', compact('countries', 'genders', 'denominations', 'sections'));
     }
 
+    //Get the class rooms based on filtered section 
     public function get_class_rooms(Request $request){
           if($request->has('section_id')){
             return DB::table('class_rooms')->where('section_id', $request->input('section_id'))->get();
@@ -72,7 +73,7 @@ class StudentRegistrationController extends Controller
 
           });
 
-        return back()->with('success','New record created successfully!');
+        return back()->with('alert-success','New record created successfully!');
     }
     public function show($id)
     {

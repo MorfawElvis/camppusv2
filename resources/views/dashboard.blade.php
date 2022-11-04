@@ -78,10 +78,9 @@
 
                        <div class="info-box-content">
                            <span class="info-box-text">Total Expected Fees</span>
-                           <span class="info-box-number">
-                  0
-                  <small>FCFA</small>
-                </span>
+                           <span class="info-box-number"> 
+                                {{ total_fees_expected() . ' XAF' }}
+                           </span>
                        </div>
                        <!-- /.info-box-content -->
                    </div>
@@ -92,10 +91,7 @@
 
                        <div class="info-box-content">
                            <span class="info-box-text">Total Fees Collected</span>
-                           <span class="info-box-number">
-                  0
-                  <small>FCFA</small>
-                </span>
+                           <span class="info-box-number"> {{ get_total_fees_paid() .' XAF' }}</span>
                        </div>
                        <!-- /.info-box-content -->
                    </div>

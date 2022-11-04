@@ -31,7 +31,9 @@
                         </td>
                         <td>
                             <span><a class="btn btn-xs btn-primary" wire:click.prevent="showEditModal({{ $academic_year}})"><i class="fas fa-edit me-2"></i>Edit</a></span>
+                            @if ($academic_year->year_status != 'opened')
                             <span><a class="btn btn-xs btn-danger" wire:click.prevent="confirmDeleteYear({{ $academic_year->id }})"><i class="fas fa-trash me-2"></i>Delete</a></span>
+                            @endif
                         </td>
                     </tr>
                 @empty

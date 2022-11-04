@@ -16,7 +16,7 @@ class Classes extends Component
     use WithPagination,LivewireAlert;
     public $editMode = false;
     protected $paginationTheme = 'bootstrap';
-    public $className, $level_id, $academic_year_id, $deletedClass, $section_id;
+    public $className, $level_id, $academic_year_id, $deletedClass, $section_id, $editedSection, $payableFee, $classEditedId;
 
     protected $listeners = [
         'deleteLevel'
@@ -32,19 +32,52 @@ class Classes extends Component
             'className'  => 'required|string',
             'section_id' => 'required',
             'level_id'  => 'required',
+            'payableFee' => 'required',
         ],[
             'className.required' => 'The :attribute cannot be empty',
             'section_id.required' => 'The :attribute cannot be empty',
             'level_id.required' => 'The :attribute cannot be empty',
+            'payableFee.required' => 'The :attribute cannot be empty',
         ]);
         ClassRoom::create([
             'class_name'        => $this->className,
             'section_id'        => $this->section_id,
             'level_id'          => $this->level_id,
+            'payable_fee'       => $this->payableFee,
             'academic_year_id'  => $this->academic_year_id
         ]);
         $this->dispatchBrowserEvent('hideClassModal');
         $this->alert('success', 'The record has been added successfully');
+    }
+
+    public function editModal($class){
+        $this->reset();
+        $this->className         = $class['class_name'];
+        $this->classEditedId     = $class['id'];
+        $this->section_id        = $class['section']['id'];
+        $this->editedSection     = $class['section']['section_name'];
+        $this->editMode        = true;
+        $this->dispatchBrowserEvent('showClassModal');
+    }
+
+    public function editClass()
+    {
+        $this->validate([
+            'className'  => 'required|string',
+            'section_id' => 'required',
+            'payableFee' => 'required',
+        ],[
+            'className.required' => 'The :attribute cannot be empty',
+            'section_id.required' => 'The :attribute cannot be empty',
+            'payableFee.required' => 'The :attribute cannot be empty',
+        ]);
+        ClassRoom::findOrFail($this->classEditedId)->update([
+            'class_name'  => $this->className,
+            'section_id'  => $this->section_id,
+            'payable_fee'  => $this->payableFee,
+        ]);
+        $this->dispatchBrowserEvent('hideClassModal');
+        $this->alert('success', 'Record has been updated successfully');
     }
     public function confirmDeleteLevel($level_id)
     {

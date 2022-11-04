@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ClassRoom;
+use App\Models\FeePayment;
 use App\Models\Student;
 use App\Models\SchoolTerm;
 use App\Models\SchoolYear;
@@ -50,5 +51,27 @@ if(!function_exists('get_total_classes'))
         return ClassRoom::where('academic_year_id', $current_school_year)->count();
     }
 
+}
+
+if(!function_exists('get_total_fees_paid'))
+{
+    function get_total_fees_paid()
+    {
+         $total_fee = FeePayment::sum('amount');
+         return number_format($total_fee);
+    }
+}
+
+if(!function_exists('total_fees_expected'))
+{
+    function total_fees_expected()
+    {
+        $total_expected = 0;
+        $class_rooms = ClassRoom::withCount('students')->get();
+        foreach($class_rooms as $class_room){
+            $total_expected += $class_room->students_count*$class_room->payable_fee;
+        }
+        return number_format($total_expected);
+    }
 }
 

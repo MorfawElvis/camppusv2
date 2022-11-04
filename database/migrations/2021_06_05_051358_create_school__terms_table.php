@@ -15,11 +15,11 @@ class CreateSchoolTermsTable extends Migration
     {
         Schema::create('school_terms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('school_year_id');
             $table->string('term_name');
+            $table->unsignedInteger('school_year_id');
             $table->string('term_status')->default('closed');
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
     /**
@@ -30,5 +30,6 @@ class CreateSchoolTermsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('school_terms');
+        
     }
 }

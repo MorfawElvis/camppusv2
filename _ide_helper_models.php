@@ -30,7 +30,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|ClassRoom withoutTrashed()
  * @mixin \Eloquent
  * @property int $section_id
+ * @property int|null $payable_fee
  * @property-read \App\Models\SchoolYear|null $academic_year
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
+ * @property-read int|null $payments_count
  * @property-read \App\Models\Section|null $section
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
@@ -96,6 +99,31 @@ namespace App\Models{
  * @mixin \Eloquent
  */
 	class Employee extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\FeePayment
+ *
+ * @property int $id
+ * @property int $student_id
+ * @property string $transaction_date
+ * @property int $amount
+ * @property string $payment_mode
+ * @property int|null $user_id
+ * @property string|null $receipt_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Student|null $student
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment newQuery()
+ * @method static \Illuminate\Database\Query\Builder|FeePayment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment query()
+ * @method static \Illuminate\Database\Query\Builder|FeePayment withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|FeePayment withoutTrashed()
+ */
+	class FeePayment extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -238,6 +266,8 @@ namespace App\Models{
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ClassRoom[] $class_rooms
  * @property-read int|null $class_rooms_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
  */
 	class Section extends \Eloquent {}
 }
@@ -273,6 +303,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  * @mixin \Eloquent
  * @property-read \App\Models\ClassRoom|null $class_room
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
+ * @property-read int|null $payments_count
  */
 	class Student extends \Eloquent {}
 }

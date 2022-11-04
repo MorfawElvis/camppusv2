@@ -73,12 +73,15 @@ class Student extends Model
     {
         return $this->belongsTo(ClassRoom::class);
     }
-
+    public function payments()
+    {
+        return $this->hasMany(FeePayment::class);
+    }
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-           $model->matriculation =  IdGenerator::generate(['table' => 'students', 'field' => 'matriculation', 'length' => 8, 'prefix' => Carbon::now()->year]);
+           $model->matriculation =  IdGenerator::generate(['table' => 'students', 'field' => 'matriculation', 'length' => 14, 'prefix' => Carbon::now()->year.'-'.date('m').'-']);
         });
     }
     protected function fullName(): Attribute
@@ -94,5 +97,12 @@ class Student extends Model
                 return  $value == 'F' ? 'Female' : 'Male';
             }
         );
+    }
+
+    public static function search($search)
+    {
+        return empty($search) ? static::query()
+                      : static::where('full_name', 'like', '%'.$search.'%')
+                      ->orWhere('matriculation', 'like', '%'.$search.'%');
     }
 }

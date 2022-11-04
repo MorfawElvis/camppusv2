@@ -1,5 +1,4 @@
-require("./bootstrap");
-require("./custom.js");
+import './bootstrap';
 
 var url = window.location;
 $("ul.nav-treeview  a")
@@ -22,16 +21,6 @@ $(".toggle-password").click(function() {
         input.attr("type", "password");
     }
 });
-$(function() {
-    $('button[data-bs-toggle="pill"]').on('click', function(e) {
-        window.localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
-    });
-    var activeTab = window.localStorage.getItem('activeTab');
-    if (activeTab) {
-        $('#custom-pill button[data-bs-target="' + activeTab + '"]').tab('show');
-        window.localStorage.removeItem("activeTab");
-    }
-});
 $(document).ready(function () {
     toastr.options = {
         "closeButton": true,
@@ -49,9 +38,39 @@ $(document).ready(function () {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 });
+document.querySelectorAll('.number-separator').forEach((item) => {
+    item.addEventListener('input', (e) => {
+        if (/^[0-9.,]+$/.test(e.target.value)) {
+        e.target.value = parseFloat(
+            e.target.value.replace(/,/g, '')
+        ).toLocaleString('en');
+        } else {
+        e.target.value = e.target.value.substring(0, e.target.value.length - 1);
+        }
+    });
+});
+window.setTimeout(function() {
+    $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+window.setTimeout(function() {
+    $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 4000);
+const loader = document.querySelector('.loader');
+        const main = document.querySelector('.main');
 
+        function init() {
+            setTimeout(() => {
+                loader.style.opacity = 0;
+                loader.style.display = 'none';
 
-
-
+                main.style.display = 'block';
+                setTimeout(() => (main.style.opacity = 1), 50);
+            }, 2000);
+        }
+init();

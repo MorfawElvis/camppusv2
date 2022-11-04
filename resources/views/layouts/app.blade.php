@@ -8,13 +8,13 @@
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link rel="icon" href="{{ url('favicon.ico') }}" type="image/x-icon">
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     @stack('page-css')
     @livewireStyles
 </head>
-    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}}">
+    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}}">   
         <div class="wrapper" id="app">
             @include('layouts.header')
             @include('layouts.sidebar')
@@ -42,7 +42,6 @@
         </div>
         <!-- Scripts -->
         <script src="{{asset('js/jquery-3.min.js')}}"></script>
-        <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
         <script src="{{ asset('js/custom/bootstrap-switch.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>

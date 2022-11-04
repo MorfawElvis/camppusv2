@@ -119,7 +119,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:yellowgreen;">
                             <i class="nav-icon fas fa-file-contract"></i>
@@ -144,7 +144,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:deeppink;">
@@ -156,23 +156,23 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                {{-- <li class="nav-item nav-item-submenu {{ request()->is('create-fee-items') ? 'active' : '' }}">
+                                    <a href="{{ route('fee_items.create') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-coins"></i>
-                                        <p>Configure Fess</p>
+                                        <p>Fee Items</p>
                                     </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                </li> --}}
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-fee-payments') ? 'active' : '' }}">
+                                    <a href="{{ route('fee_payments.manage') }}" class="nav-link">
                                         <i class="fas fa-hand-holding-usd"></i>
-                                        <p>Fee Payment</p>
+                                        <p>Fee Payments</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item nav-item-submenu {{ request()->is('view-payments') ? 'active' : '' }}">
+                                    <a href="{{ route('view.payments') }}" class="nav-link">
                                         <i class="fas fa-receipt"></i>
-                                        <p>School Fees Report</p>
+                                        <p>View Payments</p>
                                     </a>
                                 </li>
                             </ul>
@@ -188,25 +188,25 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item nav-item-submenu {{ request()->is('create-scholarships') ? 'active' : '' }}">
+                                    <a href="{{ route('create.scholarships') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-cog"></i>
-                                        <p>Manage Categories</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-file-signature"></i>
                                         <p>Create Scholarships</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu">
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-scholarships') ? 'active' : '' }}">
+                                    <a href="{{ route('manage.scholarships') }}" class="nav-link">
+                                        <i class="fas fa-file-signature"></i>
+                                        <p>Manage Scholarships</p>
+                                    </a>
+                                </li>
+                                {{-- <li class="nav-item nav-item-submenu">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-receipt"></i>
                                         <p>Reports</p>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -311,7 +311,7 @@
                             <i class="nav-icon fas fa-cogs"></i>
                             </span>
                                 <p>
-                                    Settings
+                                    School Settings
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -332,7 +332,7 @@
                                 <li class="nav-item nav-item-submenu {{ request()->is('academic-terms') ? 'active' : '' }}">
                                     <a href="{{ route('admin.academic.terms') }}" class="nav-link">
                                         <i class="fas fa-calendar-check"></i>
-                                        <p>Terms</p>
+                                        <p>Academic Terms</p>
                                     </a>
                                 </li>
                             </ul>
