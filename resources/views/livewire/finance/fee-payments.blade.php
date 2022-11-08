@@ -107,20 +107,22 @@
                                 <label  class="required">Amount</label>
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="date" wire:model='transaction_date' class="form-control @error('transaction_date') is-invalid @enderror" required>
+                                <input type="date" wire:model='transaction_date' class="form-control @error('transaction_date') is-invalid @enderror">
                                 <label class="required" for="floatingInput">Transaction Date</label>
-                              </div>
+                            </div>
                         @endif
                         <div>
                             <div wire:loading>
                                 Please wait....
                             </div>
                             <div class="float-right">
+                                @if (!is_null($student_id))
                                 <button type="button" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit"  class="btn btn-primary rounded-pill" {{ $buttonDisabled ? 'disabled' : 'enabled' }}>
                                     <div wire:loading.delay wire:target="submit" class="spinner-border spinner-border-sm text-white"></div>
-                                    Save Entry
+                                    Save 
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </form>

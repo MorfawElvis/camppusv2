@@ -252,7 +252,7 @@
   window.addEventListener("load", function(){
     window.print();
     window.onafterprint = function(event) {
-        window.location.href = '/manage-fee-payments'   
+        window.location.href = '/view-payments'   
      };
   });
 </script>

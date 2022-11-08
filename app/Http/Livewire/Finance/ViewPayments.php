@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Finance;
 
-use App\Models\ClassRoom;
 use App\Models\Section;
 use App\Models\Student;
 use Livewire\Component;
+use App\Models\ClassRoom;
+use App\Models\FeePayment;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
@@ -13,8 +14,9 @@ class ViewPayments extends Component
 {
     use WithPagination;
 
-    public $search;
+    public $search, $student_id, $balance_owed, $amount_collected, $transaction_date;
     public $perPage = 10;
+    public $buttonDisabled = false;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -30,5 +32,49 @@ class ViewPayments extends Component
         ->with(['class_room.section'])
         ->paginate($this->perPage);
         return view('livewire.finance.view-payments',compact('student_fees', 'class_fees'));
+    }
+
+    public function showFeePaymentModal($student_id)
+    {
+        $this->reset();
+        $this->student_id = $student_id;
+        $student = Student::where('id', $student_id)
+                 ->with('class_room')
+                 ->withSum('payments', 'amount')
+                 ->first();
+       $payable_fee = $student->class_room->payable_fee;
+       $amount_paid = $student->payments_sum_amount;
+       
+        $this->balance_owed = $payable_fee - $amount_paid;
+        $this->dispatchBrowserEvent('showFeePaymentModal');
+
+    }
+    
+    public function updatedAmountCollected()
+    {
+         if($this->amount_collected > $this->balance_owed ){
+            $this->buttonDisabled = true;
+         }else
+         $this->buttonDisabled = false;
+    }
+
+    public function newFeePayment()
+    {
+        $this->validate([
+            'amount_collected'    => 'required',
+            'transaction_date'    => 'required'
+        ],
+        ['amount_collected.required' => 'Please enter amount',
+         'transaction_date.required' => 'Please enter transaction date']
+    );
+        //TODO: Make a service class for this query - query is in feepayment component
+        $payment =FeePayment::create([
+             'student_id'          => $this->student_id,
+             'transaction_date'    => $this->transaction_date,
+             'amount'              => $this->amount_collected,
+             'payment_mode'        => 'Cash',
+             'user_id'             => auth()->user()->id
+        ]);
+        return \Redirect::route('view.receipt', $payment->id);
     }
 }

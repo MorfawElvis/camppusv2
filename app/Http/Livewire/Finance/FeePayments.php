@@ -42,6 +42,7 @@ class FeePayments extends Component
     }
     public function updatedStudentId($student_id)
     {
+        //TODO: Make a service class to query balance owed by a student - same query in viewpayment component
       $student = Student::where('id', $student_id)
                  ->with('class_room')
                  ->withSum('payments', 'amount')
@@ -60,6 +61,13 @@ class FeePayments extends Component
     }
     public function newFeePayment()
     {
+        $this->validate([
+            'amount_collected'    => 'required',
+            'transaction_date'    => 'required'
+        ],
+        ['amount_collected.required' => 'Please enter amount',
+         'transaction_date.required' => 'Please enter transaction date']
+        );
         $payment =FeePayment::create([
              'student_id'          => $this->student_id,
              'transaction_date'    => $this->transaction_date,

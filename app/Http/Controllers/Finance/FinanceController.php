@@ -11,10 +11,14 @@ class FinanceController extends Controller
 {
     public function printReceipt(int $payment_id)
     {
-        $data = FeePayment::where('id', $payment_id)
-                            ->with('student.class_room.section', 'student.payments', 'student.class_room.academic_year')
-                            ->first();
+        $data = $this->get_payment_detail_per_student($payment_id);
         return view('prints.receipt', compact('data'));
+    }
+
+    public function viewReceipt(int $payment_id)
+    {
+        $data = $this->get_payment_detail_per_student($payment_id);
+        return view('prints.view_receipt', compact('data'));
     }
 
     public function printFeeStatement(int $student_id)
@@ -24,5 +28,12 @@ class FinanceController extends Controller
                          ->withSum('payments', 'amount')
                          ->first();
         return view('prints.fee_statement', compact('data'));
+    }
+
+    public function get_payment_detail_per_student($payment_id)
+    {
+        return FeePayment::where('id', $payment_id)
+                            ->with('student.class_room.section', 'student.payments', 'student.class_room.academic_year')
+                            ->first();
     }
 }
