@@ -13,10 +13,18 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class FeePayments extends Component
 {
     use WithPagination,LivewireAlert;
+
     protected $paginationTheme = 'bootstrap';
+
+    protected $listeners = [
+          'deleteConfirmed'
+    ];
+
     public $amount_collected, $students, $section_id, $class_rooms, 
-           $balance_owed, $class_id, $student_id, $transaction_date, $search;
+           $balance_owed, $class_id, $student_id, $transaction_date, $search, $deletedPayment;
+
     public $buttonDisabled =  false;
+
     public function render()
     {
         $sections = Section::all();
@@ -76,5 +84,16 @@ class FeePayments extends Component
              'user_id'             => auth()->user()->id
         ]);
         return \Redirect::route('fee.receipt', $payment->id);
+    }
+    public function deletePayment($payment_id)
+    {
+        $this->deletedPayment = $payment_id;
+        $this->confirm('',[
+            'onConfirmed' => 'deleteConfirmed',
+        ]);
+    }
+    public function deleteConfirmed(){
+          FeePayment::destroy($this->deletedPayment);
+          $this->alert('success' ,'Record has been deleted successfully');
     }
 }

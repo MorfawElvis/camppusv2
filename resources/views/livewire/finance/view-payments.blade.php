@@ -17,7 +17,7 @@
                     <table class="table table-striped table-hover table-responsive-lg">
                         <div class="d-flex mb-3">
                             <div class="col-4">
-                                <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search student">
+                                <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search name or matriculation number">
                             </div>
                             <div class="ms-auto col-1">
                                 <select class="form-select" wire:model="perPage">

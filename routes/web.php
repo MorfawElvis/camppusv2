@@ -8,6 +8,8 @@ use App\Http\Livewire\Finance\ViewPayments;
 use App\Http\Livewire\Scholarship\CreateScholarships;
 use App\Http\Livewire\Scholarship\ManageScholarships;
 use App\Http\Livewire\Settings\SchoolSettings;
+use App\Http\Livewire\Student\StudentList;
+use App\Http\Livewire\Staff\StaffList;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -46,11 +48,12 @@ Route::group(['middleware' => 'auth', ], function ()
         Route::get('/manage-classes', \App\Http\Livewire\Academics\Classes::class)->name('manage.classes');
         Route::get('/manage-departments', \App\Http\Livewire\Academics\Departments::class)->name('manage.departments');
         Route::get('/manage-subjects', \App\Http\Livewire\Academics\Subjects::class)->name('manage.subjects');
-        Route::get('/student-registration', \App\Http\Livewire\Student\StudentRegistration::class)->name('student.registration');
         Route::get('/upload-students/{id}', [\App\Http\Controllers\User\UsersController::class, 'upLoadView'])->name('upload.students');
         Route::post('/import-students', [\App\Http\Controllers\User\UsersController::class, 'import'])->name('import.students');
         Route::get('/class-rooms', [StudentRegistrationController::class, 'get_class_rooms']);
-        
+        Route::get('/student-list', StudentList::class)->name('student.list');
+        Route::get('/staff-list', StaffList::class)->name('staff.list');
+
         Route::resources([
              'student-registration' => \App\Http\Controllers\Student\StudentRegistrationController::class,
              'staff-registration'   => \App\Http\Controllers\Staff\StaffRegistrationController::class

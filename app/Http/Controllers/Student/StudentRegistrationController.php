@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\NewStudentRequest;
 use App\Models\ClassRoom;
+use App\Models\Employee;
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
@@ -27,7 +28,12 @@ class StudentRegistrationController extends Controller
     }
     public function index()
     {
-        //
+        // $students = Student::with('user', 'class_room')
+        //              ->whereHas('user', function($query){
+        //                 $query->where('user_status', '=', '1');
+        //                })
+        //              ->Paginate(10);
+        // return view('studentRegistration.index', compact('students'));
     }
     public function create()
     {

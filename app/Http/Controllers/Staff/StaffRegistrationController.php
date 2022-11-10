@@ -27,7 +27,12 @@ class StaffRegistrationController extends Controller
     }
     public function index()
     {
-        //
+        // $staffs = Employee::with('user')
+        //                     ->whereHas('user', function($query){
+        //                     $query->where('user_status', '=', '1');
+        //                     })
+        //                     ->paginate(10);
+        // return view('staffRegistration.index', compact('staffs'));
     }
     public function create()
     {

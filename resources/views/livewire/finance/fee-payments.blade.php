@@ -32,14 +32,14 @@
                 @forelse ($fee_payments as $fee_payment)
                 <tr>
                     <td>{{ $fee_payments->firstItem() + $loop->index }}</td>
-                    <td>{{ $fee_payment->student->full_name }}</td>
-                    <td>{{ $fee_payment->student->class_room->section->section_name }}</td>
-                    <td>{{ $fee_payment->student->class_room->class_name }}</td>
+                    <td>{{ $fee_payment->student->full_name ?? 'Student deleted or Dismissed' }}</td>
+                    <td>{{ $fee_payment->student->class_room->section->section_name ?? '' }}</td>
+                    <td>{{ $fee_payment->student->class_room->class_name ?? '' }}</td>
                     <td class="text-center">{{ number_format($fee_payment->amount) . ' XAF'}}</td>
                     <td class="text-center">{{ $fee_payment->transaction_date }}</td>
                     <td class="text-center">
-                        <span><a href="{{ url('/school-fee-receipt', [$fee_payment->id]) }}"  class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Print Receipt</a></span>
-                        <span><a class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a></span>
+                        <span><a href="{{ url('/school-fee-receipt', [$fee_payment->id]) }}"  class="btn btn-xs btn-primary {{ $fee_payment->student->full_name ?? 'disabled' }}"><i class="fas fa-print mr-2"></i>Print Receipt</a></span>
+                        <span><a wire:click.prevent="deletePayment({{ $fee_payment->id }})" class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a></span>
                     </td>
                 </tr>
                 @empty

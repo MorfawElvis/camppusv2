@@ -3,11 +3,12 @@
 namespace App\Providers;
 
 
-use App\Models\GeneralSetting;
 use App\Models\SchoolTerm;
+use App\Models\GeneralSetting;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
     }
 
     /**

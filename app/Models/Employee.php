@@ -77,6 +77,9 @@ class Employee extends Model
             set: fn ($value) => ucfirst($value),
         );
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
     public static function boot()
     {
         parent::boot();

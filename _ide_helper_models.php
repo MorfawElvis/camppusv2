@@ -97,6 +97,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \App\Models\User|null $user
  */
 	class Employee extends \Eloquent {}
 }

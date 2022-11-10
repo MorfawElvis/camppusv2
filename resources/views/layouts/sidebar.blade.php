@@ -73,6 +73,19 @@
                                         <p>Register Staff</p>
                                     </a>
                                 </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('student-list') ? 'active' : '' }} ">
+                                    <a href="{{ route('admin.student.list') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-user-graduate"></i>
+                                        <p>View Student List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('staff-list') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.staff.list') }}" class="nav-link">
+                                        <i class="fas fa-user-tie"></i>
+                                        <p>View Staff List</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
