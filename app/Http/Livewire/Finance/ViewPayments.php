@@ -52,7 +52,8 @@ class ViewPayments extends Component
     
     public function updatedAmountCollected()
     {
-         if($this->amount_collected > $this->balance_owed ){
+        $amount_collected = str_replace(',', '', $this->amount_collected);
+         if($amount_collected > $this->balance_owed ){
             $this->buttonDisabled = true;
          }else
          $this->buttonDisabled = false;

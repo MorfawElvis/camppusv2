@@ -94,7 +94,7 @@
                         @endif
                         @if (!is_null($student_id))
                             <div class="form-floating mb-4">
-                                <input type="text"  class="form-control" value="{{ number_format($balance_owed) }}" disabled>
+                                <input type="text" class="form-control" value="{{ number_format($balance_owed) }}" disabled>
                                 <label  class="required">Balanced Owed</label>
                             </div>
                             <div class="form-floating mb-4">
