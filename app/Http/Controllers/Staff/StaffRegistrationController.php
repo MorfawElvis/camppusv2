@@ -8,9 +8,13 @@ use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\GeneralSetting;
 use App\Services\UserRegistration;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Intervention\Image\ImageManagerStatic;
 use App\Http\Requests\Staff\NewStaffRequest;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
@@ -25,15 +29,6 @@ class StaffRegistrationController extends Controller
         $this->genders = $userRegistration->setGender();
         $this->denominations = $userRegistration->setDenomination();
     }
-    public function index()
-    {
-        // $staffs = Employee::with('user')
-        //                     ->whereHas('user', function($query){
-        //                     $query->where('user_status', '=', '1');
-        //                     })
-        //                     ->paginate(10);
-        // return view('staffRegistration.index', compact('staffs'));
-    }
     public function create()
     {
         $countries = $this->countries;
@@ -45,6 +40,9 @@ class StaffRegistrationController extends Controller
     public function store(NewStaffRequest $request)
     {
         DB::transaction(function () use ($request){
+            if($request->hasFile('photo')){
+                $profile_image = $this->storeImage($request->file('photo'));
+              } 
             $user = User::create([
                 'role_id' => $request->input('role'),
                 'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
@@ -65,30 +63,29 @@ class StaffRegistrationController extends Controller
                 'date_of_employment' => $request->input('employment_date'),
                 'address' => $request->input('address'),
                 'phone_number' => $request->input('phone_number'),
-                'insurance_number' => $request->input('insurance_number')
+                'insurance_number' => $request->input('insurance_number'),
+                'profile_image' => $profile_image ?? Null
             ]);
 
        });
        return back()->with('alert-success','New record created successfully!');
     }
-
-    public function show($id)
+    protected function storeImage($file)
     {
-        //
+        $img   = ImageManagerStatic::make($file)->resize(400, 400,)->sharpen(10)->encode('jpg');
+        $name  = Str::random() . '.jpg';
+        Storage::disk('public')->put('public/employees_photos/'.$name,$img);
+        return $name;
     }
-
-    public function edit($id)
+    public function employeeCards()
     {
-        //
+        return view('cards.employee_cards');
     }
-
-    public function update(Request $request, $id)
+    public function generateEmployeeCards()
     {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        $employees =  Employee::all();
+        $generator = new BarcodeGeneratorPNG();;
+        $setting = GeneralSetting::first();
+        return view('prints.employee_id_cards', compact('employees', 'generator', 'setting'));
     }
 }

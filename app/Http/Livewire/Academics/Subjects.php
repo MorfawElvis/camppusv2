@@ -4,8 +4,6 @@ namespace App\Http\Livewire\Academics;
 
 use App\Models\Department;
 use App\Models\Subject;
-use App\Models\User;
-use DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;

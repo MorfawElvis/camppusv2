@@ -85,7 +85,9 @@
                             @if($school_logo)
                             <img src="{{ $school_logo->temporaryUrl() }}" class="rounded" style="width: 80px; height: 80px;">
                             @else
-                            <img src="{{$schoolSettings->school_logoPath ?? ''}}" alt="school-logo" class="rounded">
+                             @isset($schoolSettings->school_logo)
+                             <img src="{{ asset('storage/public/logo/'.$schoolSettings->school_logo)  }}" alt="school-logo" class="rounded">
+                             @endisset
                             @endif
                         </div>
                     </div>

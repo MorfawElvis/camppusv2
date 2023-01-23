@@ -21,7 +21,7 @@
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Student's Details</legend>
+                        <legend  class="float-none w-auto">General Information</legend>
                         <div class="row g-3">
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Parent's Details</legend>
+                        <legend  class="float-none w-auto">Parent's Address</legend>
                         <div class="row g-3">
                             <div class="col-lg-4">
                                 <div class="form-floating mb-3">
@@ -162,7 +162,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3">
-                                    <label for="formFile" class="form-label">Student's Photo</label>
+                                    <label for="formFile" class="form-label">Profile Image</label>
                                     <input class="form-control @error('photo') is-invalid @enderror" type="file" name="photo">
                                     <small>Passport size photo not more than 2M</small>
                                     @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror

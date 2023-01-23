@@ -169,13 +169,6 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                {{-- <li class="nav-item nav-item-submenu {{ request()->is('create-fee-items') ? 'active' : '' }}">
-                                    <a href="{{ route('fee_items.create') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-coins"></i>
-                                        <p>Fee Items</p>
-                                    </a>
-                                </li> --}}
                                 <li class="nav-item nav-item-submenu {{ request()->is('manage-fee-payments') ? 'active' : '' }}">
                                     <a href="{{ route('fee_payments.manage') }}" class="nav-link">
                                         <i class="fas fa-hand-holding-usd"></i>
@@ -186,6 +179,20 @@
                                     <a href="{{ route('view.payments') }}" class="nav-link">
                                         <i class="fas fa-receipt"></i>
                                         <p>View Payments</p>
+                                    </a>
+                                </li>
+                                 <li class="nav-item nav-item-submenu {{ request()->is('extra-fees') ? 'active' : '' }}">
+                                    <a href="{{ route('extra_fee.create') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-coins"></i>
+                                        <p>Extra Fee</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-extra-fees') ? 'active' : '' }}">
+                                    <a href="{{ route('extra_fee.manage') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-coins"></i>
+                                        <p>Manage Extra Fee</p>
                                     </a>
                                 </li>
                             </ul>
@@ -222,7 +229,8 @@
                                 </li> --}}
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <!-- TODO: Payroll module not done -->
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:indianred;">
                             <i class="nav-icon fas fa-credit-card"></i>
@@ -253,7 +261,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:coral;">
@@ -265,28 +273,30 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item nav-item-submenu {{ request()->is('expense-category') ? 'active' : '' }}">
+                                    <a href="{{ route('expense.category') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-book-open"></i>
-                                        <p>Book Keeping</p>
+                                        <p>Expense Category</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item nav-item-submenu {{ request()->is('add-expense') ? 'active' : '' }}">
+                                    <a href="{{ route('add.expense') }}" class="nav-link">
                                         <i class="fas fa-comments-dollar"></i>
-                                        <p>Cash Request</p>
+                                        <p>Add Expense</p>
                                     </a>
                                 </li>
+                                <!-- TODO: Add expense report to expense module -->
                                 <li class="nav-item nav-item-submenu">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-warehouse"></i>
-                                        <p>Inventory</p>
+                                        <p>Expense Report</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <!-- TODO: Facilities module not done -->
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:violet;">
                             <i class="nav-icon fas fa-bus-alt"></i>
@@ -317,7 +327,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:tomato;">
@@ -346,6 +356,29 @@
                                     <a href="{{ route('admin.academic.terms') }}" class="nav-link">
                                         <i class="fas fa-calendar-check"></i>
                                         <p>Academic Terms</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span style="font-size: 16px; color:rgb(5, 145, 63);"><i class="nav-icon fas fa-folder-plus"></i></span>
+                                <p>
+                                    Extras
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.student.cards') }}" class="nav-link">
+                                        <i class="fas fa-id-card"></i>
+                                        <p>Student Cards</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.employee.cards') }}" class="nav-link">
+                                        <i class="fas fa-id-card"></i>
+                                        <p>Employee Cards</p>
                                     </a>
                                 </li>
                             </ul>

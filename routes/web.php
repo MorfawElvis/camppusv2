@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Finance\FinanceController;
+use App\Http\Controllers\Staff\StaffRegistrationController;
 use App\Http\Controllers\Student\StudentRegistrationController;
+use App\Http\Livewire\Finance\AddExpense;
+use App\Http\Livewire\Finance\ExpenseCategory;
+use App\Http\Livewire\Finance\ExtraFee;
 use App\Http\Livewire\Finance\FeeItems;
 use App\Http\Livewire\Finance\FeePayments;
 use App\Http\Livewire\Finance\ViewPayments;
@@ -50,9 +54,19 @@ Route::group(['middleware' => 'auth', ], function ()
         Route::get('/manage-subjects', \App\Http\Livewire\Academics\Subjects::class)->name('manage.subjects');
         Route::get('/upload-students/{id}', [\App\Http\Controllers\User\UsersController::class, 'upLoadView'])->name('upload.students');
         Route::post('/import-students', [\App\Http\Controllers\User\UsersController::class, 'import'])->name('import.students');
-        Route::get('/class-rooms', [StudentRegistrationController::class, 'get_class_rooms']);
         Route::get('/student-list', StudentList::class)->name('student.list');
         Route::get('/staff-list', StaffList::class)->name('staff.list');
+
+        Route::controller(StudentRegistrationController::class)->group(function(){
+            Route::get('/class-rooms', 'get_class_rooms');
+            Route::get('/student-cards', 'studentCards')->name('student.cards');
+            Route::post('/generate-cards', 'generateCards')->name('generate.cards');
+        });
+
+        Route::controller(StaffRegistrationController::class)->group(function(){
+            Route::get('/employee-cards', 'employeeCards')->name('employee.cards');
+            Route::get('/generate-cards', 'generateEmployeeCards')->name('generate.employee.cards');
+        });
 
         Route::resources([
              'student-registration' => \App\Http\Controllers\Student\StudentRegistrationController::class,
@@ -61,12 +75,18 @@ Route::group(['middleware' => 'auth', ], function ()
 
     });
     //Bursar
-        Route::get('/create-fee-items', FeeItems::class)->name('fee_items.create');
+        //Fees Module
+        Route::get('/extra-fees', ExtraFee::class)->name('extra_fee.create');
         Route::get('/manage-fee-payments', FeePayments::class)->name('fee_payments.manage');
+        Route::get('/manage-extra-fees', [FinanceController::class, 'managaeExtraFees'])->name('extra_fee.manage');
         Route::get('/school-fee-receipt/{id}', [FinanceController::class, 'printReceipt'])->name('fee.receipt');
         Route::get('/view-receipt/{id}', [FinanceController::class, 'viewReceipt'])->name('view.receipt');
         Route::get('/school-fee-statement/{id}', [FinanceController::class, 'printFeeStatement'])->name('fee.statement');
         Route::get('/view-payments', ViewPayments::class)->name('view.payments');
+        //Scholarship Module
         Route::get('/create-scholarships', CreateScholarships::class)->name('create.scholarships');
         Route::get('/manage-scholarships', ManageScholarships::class)->name('manage.scholarships');
+        //Expense Module
+        Route::get('/expense-category', ExpenseCategory::class)->name('expense.category');
+        Route::get('/add-expense', AddExpense::class)->name('add.expense');
 });

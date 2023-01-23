@@ -25,7 +25,7 @@
             border-width: 1px !important;
             border-style: solid !important;
             border-color: black !important;
-            font-size: 22px;
+            font-size: 28px;
             -webkit-print-color-adjust:exact ;
         }
         .table tr td{
@@ -122,14 +122,18 @@
                 $total_paid = 0;
             @endphp
             @foreach ($data->student->payments as $payment) 
-             <tr>
+             {{-- <tr>
                 <th>{{ $payment->transaction_date }}</th>
                 <td tyle="font-weight: 400;">{{ number_format($payment->amount) . '  XAF'}}</td>
-              </tr>
+              </tr> --}}
               @php
                   $total_paid += $payment->amount
               @endphp
             @endforeach
+            <tr>
+              <th>Total Amount Paid</th>
+              <td>{{ number_format($total_paid) . '  XAF' }}</td>
+            </tr>
             <tr>
               <th>Balanced Owed:</th>
               <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
@@ -140,9 +144,7 @@
       <!-- /.col -->
     </div>
     <!-- /.row -->
-  </section>
-  <h4>*************************************************************************************************************</h4>
-  <section class="invoice">
+    <h4>***************************************************************************************************************************</h4>
     <!-- title row -->
     <div class="row mb-4">
       <div class="col-12">
@@ -227,14 +229,18 @@
                 $total_paid = 0;
             @endphp
             @foreach ($data->student->payments as $payment) 
-             <tr>
+             {{-- <tr>
                 <th>{{ $payment->transaction_date }}</th>
                 <td tyle="font-weight: 400;">{{ number_format($payment->amount) . '  XAF'}}</td>
-              </tr>
+              </tr> --}}
               @php
                   $total_paid += $payment->amount
               @endphp
             @endforeach
+            <tr>
+              <th>Total Amount Paid</th>
+              <td>{{ number_format($total_paid) . '  XAF' }}</td>
+            </tr>
             <tr>
               <th>Balanced Owed:</th>
               <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>

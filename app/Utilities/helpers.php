@@ -6,6 +6,8 @@ use App\Models\Student;
 use App\Models\SchoolTerm;
 use App\Models\SchoolYear;
 use App\Models\Subject;
+use App\Models\User;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 if(!function_exists('current_school_year'))
 {
@@ -72,6 +74,14 @@ if(!function_exists('total_fees_expected'))
             $total_expected += $class_room->students_count*$class_room->payable_fee;
         }
         return number_format($total_expected);
+    }
+}
+
+if(!function_exists('get_online_users'))
+{
+    function get_online_users()
+    { 
+        return User::all();
     }
 }
 

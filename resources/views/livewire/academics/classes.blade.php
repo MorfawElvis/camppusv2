@@ -6,10 +6,17 @@
         </div>
         <div class="card-body">
             <div class="callout callout-warning text-warning fw-bold">
-                <i class="fas fa-info-circle"></i> Create a Level before creating a Class.
+                <i class="fas fa-info-circle"></i> Recommended Actions
+                <ol>
+                    <li>Create and set the current school year first.</li>
+                    <li>Create a Level before creating a Class.</li>
+                </ol>
             </div>
-            <a wire:click="showClassModal" class="btn btn-outline-primary rounded-pill float-right mb-2 {{ $academic_year_id ? 'enabled' : 'disabled' }} " wire:ignore>
-                <i class="fas fa-plus-circle mr-2"></i>Create Class</a>
+            <a wire:click="showClassModal"  class="btn btn-outline-primary rounded-pill float-right mb-2 {{ $academic_year_id ? 'enabled' : 'disabled' }} " 
+            wire:ignore>
+                <i class="fas fa-plus-circle mr-2"></i>
+                Create Class
+                </a>
             <table class="table table-striped table-hover table-responsive-lg mt-4">
                 <caption class="mt-2">{{ $class_rooms->links() }}</caption>
                 <thead>
@@ -47,9 +54,6 @@
                 </tbody>
             </table>
             </div>
-        </div>
-        <div class="card-footer">
-            
         </div>
     {{-- class modal--}}
     <div class="modal fade" id="classModal"  tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>

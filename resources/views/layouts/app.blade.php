@@ -14,7 +14,7 @@
     @stack('page-css')
     @livewireStyles
 </head>
-    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}}">   
+    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}} layout-navbar-fixed">   
         <div class="wrapper" id="app">
             @include('layouts.header')
             @include('layouts.sidebar')
@@ -22,8 +22,19 @@
                 <div class="content">
                     <div class="container-fluid">
                         <div class="content-header">
-                            <div class="row mb-2">
+                            <div class="row">
+                                @php
+                                    $t = 0;
+                                @endphp
                                 <div class="col-sm-6">
+                                 @foreach (get_online_users() as $user )
+                                    @php
+                                      $t += $user->isOnline();
+                                    @endphp
+                                 @endforeach
+                                 @if (request()->is('dashboard'))
+                                    Online Users <span class="badge bg-primary">{{ $t }}</span>
+                                 @endif
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">

@@ -7,10 +7,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic;
-use Illuminate\Support\Str;
 use App\Traits\DataFetch;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use App\Services\Test;
+
 
 
 class SchoolSettings extends Component
@@ -62,14 +61,14 @@ class SchoolSettings extends Component
             return null;
         }
         $img   = ImageManagerStatic::make($this->school_logo)->resize(80, 80)->encode('jpg');
-        $name  = Str::random() . '.jpg';
-        Storage::disk('public')->put($name, $img);
+        $name  = 'school_logo.jpg';
+        Storage::disk('public')->put('public/logo/'.$name,$img);
         return $name;
     }
     public function updateImage(){
         $schoolSettings = $this->getFirstData(new GeneralSetting());
         if ($this->school_logo){
-            Storage::disk('public')->delete($schoolSettings->school_logo);
+            Storage::disk('public')->delete('public/logo/'.$schoolSettings->school_logo);
             $logo = $this->storeImage();
             $this->form['school_logo'] = $logo;
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Imports\UsersImport;
+use App\Models\ClassRoom;
 use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -11,8 +12,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class UsersController extends Controller
 {
     public function upLoadView($id)
-    {
-        return view('users.student_bulk_import', compact('id'));
+    { 
+        //TODO: Make a repository to query class rooms
+        $class_name = ClassRoom::where('id' ,$id)->select('class_name')->first();
+        return view('users.student_bulk_import', compact('id', 'class_name'));
     }
     public function import(Request $request)
     {

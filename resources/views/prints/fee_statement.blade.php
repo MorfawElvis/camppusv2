@@ -125,7 +125,7 @@
               <td style="font-weight: 600;">{{ number_format($data->class_room->payable_fee) . '  XAF'}}</td>
             </tr>
              <tr>
-                <th>Total Paid</th>
+                <th>Total Amount Paid</th>
                 <td tyle="font-weight: 400;">{{ number_format($data->payments_sum_amount) . '  XAF'}}</td>
               </tr>
             <tr>

@@ -97,9 +97,77 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $profile_image
  * @property-read \App\Models\User|null $user
  */
 	class Employee extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Expense
+ *
+ * @property int $id
+ * @property int|null $expense_category_id
+ * @property int $expense_amount
+ * @property string $entry_date
+ * @property string|null $expense_description
+ * @property int $enteredBy_id
+ * @property int|null $approvedBy_id
+ * @property int|null $is_approved
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\ExpenseCategory|null $expense_category
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Expense onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense query()
+ * @method static \Illuminate\Database\Query\Builder|Expense withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Expense withoutTrashed()
+ */
+	class Expense extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ExpenseCategory
+ *
+ * @property int $id
+ * @property string $category_name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
+ * @property-read int|null $expenses_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ExpenseCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory query()
+ * @method static \Illuminate\Database\Query\Builder|ExpenseCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ExpenseCategory withoutTrashed()
+ */
+	class ExpenseCategory extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ExtraFee
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-write mixed $amount
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ExtraFee onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee query()
+ * @method static \Illuminate\Database\Query\Builder|ExtraFee withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ExtraFee withoutTrashed()
+ */
+	class ExtraFee extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -201,6 +269,57 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Scholarship
+ *
+ * @property int $id
+ * @property int $student_id
+ * @property int $school_year_id
+ * @property int $scholarship_category_id
+ * @property int $renewable
+ * @property int|null $is_approved
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\ScholarshipCategory|null $scholarship_category
+ * @property-read \App\Models\SchoolYear|null $school_year
+ * @property-read \App\Models\Student|null $student
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Scholarship onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship query()
+ * @method static \Illuminate\Database\Query\Builder|Scholarship withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Scholarship withoutTrashed()
+ */
+	class Scholarship extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ScholarshipCategory
+ *
+ * @property int $id
+ * @property string $scholarship_name
+ * @property string $scholarship_category
+ * @property int|null $discount
+ * @property string $scholarship_coverage
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read int|null $scholarships_count
+ * @property-write mixed $scholarship_amount
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory query()
+ * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory withoutTrashed()
+ */
+	class ScholarshipCategory extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\SchoolTerm
  *
  * @property int $id
@@ -243,6 +362,8 @@ namespace App\Models{
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ClassRoom[] $class_rooms
  * @property-read int|null $class_rooms_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read int|null $scholarships_count
  */
 	class SchoolYear extends \Eloquent {}
 }
@@ -303,9 +424,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Student withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $profile_image
  * @property-read \App\Models\ClassRoom|null $class_room
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExtraFee[] $extra_fees
+ * @property-read int|null $extra_fees_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
  * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read int|null $scholarships_count
  */
 	class Student extends \Eloquent {}
 }

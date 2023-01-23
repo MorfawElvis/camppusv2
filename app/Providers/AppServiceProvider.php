@@ -30,12 +30,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot():void
     {
-        Model::preventLazyLoading(! app()->isProduction());
-//        $general_setting = GeneralSetting::first();
-//        $current_term   = School_Term::where('term_status', 'opened')->first();
-//        View::share([
-//            'current_term' => $current_term,
-//            'general_setting' => $general_setting
-//        ]);
+        Model::shouldBeStrict(!app()->isProduction());
     }
 }

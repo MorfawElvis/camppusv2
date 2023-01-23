@@ -8,7 +8,7 @@
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ get_total_students() }}</h3>
-
+                              
                             <p>Students</p>
                         </div>
                         <div class="icon">

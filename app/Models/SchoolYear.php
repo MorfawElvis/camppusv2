@@ -41,4 +41,9 @@ class SchoolYear extends Model
     {
         return $this->hasMany(SchoolTerm::class);
     }
+    
+    public function scholarships()
+    {
+        return $this->hasMany(Scholarship::class);
+    }
 }

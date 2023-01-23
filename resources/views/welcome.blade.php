@@ -41,10 +41,10 @@
         <div class="content">
             <div class="container">
                 <div class="row p-5 m-5">
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>SCHOOL ADMIN</h3>
+                                <h3>ADMIN</h3>
 
                                 <p>Manage Academics / Discipline </p>
                             </div>
@@ -54,7 +54,7 @@
                             <a href="https://sabibi.camppus.cc" class="small-box-footer" target="_blank">Click to login  <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3>BURSARY</h3>

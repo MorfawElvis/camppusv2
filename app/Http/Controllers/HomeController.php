@@ -6,6 +6,7 @@ use App\Charts\EnrollmentStatistics;
 use App\Charts\GenderAnalyses;
 use App\Models\ClassRoom;
 use App\Models\Student;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -43,7 +44,7 @@ class HomeController extends Controller
             $gender_chart->labels(['Males','Females']);
             $gender_chart->dataset('Gender analyses', 'doughnut', [$enrollment_boys, $enrollment_girls])->backgroundColor(['blue','pink']);
            
-        return view('dashboard', compact('enrollment_chart','gender_chart',));
+        return view('dashboard', compact('enrollment_chart','gender_chart'));
     }
     public function showConfirmForm()
     {

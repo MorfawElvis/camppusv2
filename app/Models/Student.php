@@ -57,7 +57,8 @@ class Student extends Model
         'phone_number',
         'address',
         'is_dismissed',
-        'is_graduated'
+        'is_graduated',
+        'profile_image'
         ];
     protected $casts = [
         'is_dismissed' => 'boolean',
@@ -77,6 +78,17 @@ class Student extends Model
     {
         return $this->hasMany(FeePayment::class);
     }
+    
+    public function scholarships()
+    {
+        return $this->hasMany(Scholarship::class);
+    }
+
+    public function extra_fees()
+    {
+        return $this->hasMany(ExtraFee::class);
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -89,6 +101,13 @@ class Student extends Model
         return Attribute::make(
             get: fn ($value) => strtoupper($value),
             set: fn ($value) => ucfirst($value),
+        );
+    }
+
+    protected function placeOfBirth(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strtoupper($value),
         );
     }
     protected function gender():Attribute {

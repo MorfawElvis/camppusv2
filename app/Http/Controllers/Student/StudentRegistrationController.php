@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Student\NewStudentRequest;
-use App\Models\ClassRoom;
-use App\Models\Employee;
+use DB;
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Student;
-use App\Models\User;
-use App\Services\UserRegistration;
-use DB;
-use Illuminate\Http\Request;
-
+use App\Models\Employee;
+use App\Models\ClassRoom;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\GeneralSetting;
+use App\Repositories\StudentRepo;
+use App\Services\UserRegistration;
+use App\Repositories\ClassRoomRepo;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Intervention\Image\ImageManagerStatic;
+use App\Http\Requests\Student\NewStudentRequest;
+use phpDocumentor\Reflection\Types\Null_;
 
 class StudentRegistrationController extends Controller
 {
@@ -26,21 +32,12 @@ class StudentRegistrationController extends Controller
         $this->genders = $userRegistration->setGender();
         $this->denominations = $userRegistration->setDenomination();
     }
-    public function index()
-    {
-        // $students = Student::with('user', 'class_room')
-        //              ->whereHas('user', function($query){
-        //                 $query->where('user_status', '=', '1');
-        //                })
-        //              ->Paginate(10);
-        // return view('studentRegistration.index', compact('students'));
-    }
     public function create()
     {
         $countries = $this->countries;
         $genders = $this->genders;
         $denominations = $this->denominations;
-        $sections = Section::select(['id','section_name'])->get();
+        $sections = (new ClassRoomRepo)->get_school_sections();
         return view('studentRegistration.create', compact('countries', 'genders', 'denominations', 'sections'));
     }
 
@@ -55,8 +52,12 @@ class StudentRegistrationController extends Controller
      * @throws \Exception
      */
     public function store(NewStudentRequest $request)
-    {
+    { 
           DB::transaction(function () use ($request){
+              
+              if($request->hasFile('photo')){
+                $profile_image = $this->storeImage($request->file('photo'));
+              }           
                $user = User::create([
                    'role_id' => 7,
                    'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
@@ -74,27 +75,34 @@ class StudentRegistrationController extends Controller
                    'denomination' => $request->input('denomination'),
                    'date_of_admission' => $request->input('date_of_admission'),
                    'address' => $request->input('address'),
-                   'phone_number' => $request->input('phone_number')
+                   'phone_number' => $request->input('phone_number'),
+                   'profile_image' => $profile_image ?? Null
                ]);
 
           });
 
         return back()->with('alert-success','New record created successfully!');
     }
-    public function show($id)
+    protected function storeImage($file)
     {
+        $img   = ImageManagerStatic::make($file)->resize(400, 400,)->sharpen(10)->encode('jpg');
+        $name  = Str::random() . '.jpg';
+        Storage::disk('public')->put('public/students_photos/'.$name,$img);
+        return $name;
+    }
 
-    }
-    public function edit($id)
+    public function studentCards()
     {
-        //
+         $sections = (new ClassRoomRepo)->get_school_sections();
+         return view('cards.student_cards', compact('sections'));
     }
-    public function update(Request $request, $id)
+    
+    public function generateCards(Request $request)
     {
-        //
+        $generator = new BarcodeGeneratorPNG();;
+        $setting = GeneralSetting::first();
+        $students =  (new StudentRepo)->get_students($request->input('class_id'));
+        return view('prints.student_id_cards', compact('students', 'generator','setting'));
     }
-    public function destroy($id)
-    {
-        //
-    }
+
 }

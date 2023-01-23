@@ -57,8 +57,4 @@ class GeneralSetting extends Model
     {
         return Carbon::parse($timestamp)->format('d M, Y');
     }
-    public function getSchoolLogoPathAttribute()
-    {
-        return Storage::disk('public')->url($this->school_logo);
-    }
 }

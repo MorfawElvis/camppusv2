@@ -63,7 +63,8 @@ class Employee extends Model
         'phone_number',
         'address',
         'is_dismissed',
-        'is_on_leave'
+        'is_on_leave',
+        'profile_image'
     ];
 
     protected $casts = [

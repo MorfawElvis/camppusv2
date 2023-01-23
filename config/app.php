@@ -68,6 +68,7 @@ return [
     */
 
     'timezone' => 'Africa/Douala',
+   
 
 
     /*

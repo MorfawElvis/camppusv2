@@ -9,6 +9,7 @@ use App\Http\Middleware\Library;
 use App\Http\Middleware\Student;
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\Teacher;
+use App\Http\Middleware\UserActivity;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -44,6 +45,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\UserActivity::class
         ],
 
         'api' => [

@@ -22,11 +22,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $subject->subject_name }}</td>
-                        @if($subject->subject_code)
-                        <td class="text-center">{{ $subject->subject_code}}</td>
-                        @else
-                            <td class="text-center">{{'--'}}</td>
-                        @endif
+                        <td class="text-center">{{ $subject->subject_code  ? $subject->subject_code : '--'}}</td>
                         <td class="text-center">{{ $subject->department->department_name ?? '--' }}</td>
                         <td class="text-center">
                             <span><a class="btn btn-xs btn-primary" wire:click.prevent="editModal({{ $subject }})" ><i class="fas fa-edit mr-2"></i>Edit</a></span>

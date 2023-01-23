@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e50f95db99473507de650eaedf811375960e60c1',
+        'reference' => '9f3188d0eb137d7354813a39671d6031ebfb3fda',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -511,7 +511,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e50f95db99473507de650eaedf811375960e60c1',
+            'reference' => '9f3188d0eb137d7354813a39671d6031ebfb3fda',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -847,6 +847,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'picqer/php-barcode-generator' => array(
+            'pretty_version' => 'v2.2.4',
+            'version' => '2.2.4.0',
+            'reference' => 'b98f110cc5a79f723688fb17fd90b9325300d844',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../picqer/php-barcode-generator',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'psr/cache' => array(
             'pretty_version' => '3.0.0',
             'version' => '3.0.0.0',
@@ -943,8 +952,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
