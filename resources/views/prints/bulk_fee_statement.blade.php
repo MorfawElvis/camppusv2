@@ -21,6 +21,10 @@
         padding: 5px;
       }
         @media print{
+          .pagebreak {
+                clear: both;
+                page-break-after: always;
+            }
         .table thead tr th,.table tbody tr td, .table tr th{
             border-width: 1px !important;
             border-style: solid !important;
@@ -35,6 +39,7 @@
   </style>
 </head>
 <body>
+@foreach ($data as $student_data )
 <div class="wrapper">
   <!-- Main content -->
   <section class="invoice">
@@ -54,7 +59,7 @@
             </div>
           <div class="center my-4">
             SCHOOL FEE STATEMENT<br>
-            <h5>ACADEMIC YEAR: {{ $data->class_room->academic_year->year_name ?? '' }}</h5>
+            <h5>ACADEMIC YEAR: {{ $student_data->class_room->academic_year->year_name ?? '' }}</h5>
         </div>
         </h2>
       </div>
@@ -63,16 +68,16 @@
     <div class="row invoice-info">
       <div class="col-sm-8 invoice-col">
         <address>
-          <h4>Student's Name: <strong>{{ $data->full_name }}</strong><br>
-          Section: {{ $data->class_room->section->section_name }}<br>
-          Class: {{ $data->class_room->class_name }}<br>
-          Admission No: {{ $data->matriculation }}
+          <h4>Student's Name: <strong>{{ $student_data->full_name }}</strong><br>
+          Section: {{ $student_data->class_room->section->section_name }}<br>
+          Class: {{ $student_data->class_room->class_name }}<br>
+          Admission No: {{ $student_data->matriculation }}
         </h4>
         </address>
       </div>
       <div class="col-sm-4 invoice-col">
         <h4><b>Printed:</b> {{ date("d/m/Y") }} <br></h4>
-        <h4><b>Dormitory: {{ $data->is_boarding ? 'YES' : 'NO' }} </b></h4>
+        <h4><b>Dormitory: {{ $student_data->is_boarding ? 'YES' : 'NO' }} </b></h4>
       </div>
       </div>
       <!-- /.col -->
@@ -88,7 +93,7 @@
           </tr>
           </thead>
           <tbody>
-            @forelse ( $data->payments as $payment )
+            @forelse ( $student_data->payments as $payment )
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ $payment->transaction_date }}</td>
@@ -123,15 +128,15 @@
           <table class="table table-bordered">
             <tr>
               <th style="width:50%">Total Payable Fee</th>
-              @if ($data->is_boarding)
-              <td style="font-weight: 600;">{{ number_format($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
+              @if ($student_data->is_boarding)
+              <td style="font-weight: 600;">{{ number_format($student_data->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
               @else
-              <td style="font-weight: 600;">{{ number_format($data->class_room->payable_fee) . '  XAF'}}</td>
+              <td style="font-weight: 600;">{{ number_format($student_data->class_room->payable_fee) . '  XAF'}}</td>
               @endif
             </tr>
              <tr>
                 <th>Total Amount Paid</th>
-                <td tyle="font-weight: 400;">{{ number_format($data->payments_sum_amount) . '  XAF'}}</td>
+                <td tyle="font-weight: 400;">{{ number_format($student_data->payments_sum_amount) . '  XAF'}}</td>
              </tr>
              <tr>
               <th>Discount/Scholarship</th>
@@ -139,10 +144,10 @@
              </tr>
             <tr>
               <th>Balanced Owed:</th>
-                @if ($data->is_boarding)
-                  <td>{{ number_format(($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $data->payments_sum_amount ) . '  XAF' }}</td>
+                @if ($student_data->is_boarding)
+                  <td>{{ number_format(($student_data->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student_data->payments_sum_amount ) . '  XAF' }}</td>
                 @else
-                  <td>{{ number_format($data->class_room->payable_fee - $data->payments_sum_amount ) . '  XAF' }}</td>
+                  <td>{{ number_format($student_data->class_room->payable_fee - $student_data->payments_sum_amount ) . '  XAF' }}</td>
                 @endif
             </tr>
           </table>
@@ -155,6 +160,7 @@
   <!-- /.content -->
   <div class="pagebreak"> </div>
 </div>
+@endforeach
 <script type="text/javascript"> 
   window.addEventListener("load", function(){
     window.print();

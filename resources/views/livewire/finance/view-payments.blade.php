@@ -111,7 +111,7 @@
                                 <td class="text-center"><span class="badge bg-danger">0.00%</span></td>
                             @endif     
                             <td class="text-center">
-                                <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Statements</a></span>
+                                <span><a href="{{ url('/bulk-fee-statement', [$class_fee->id]) }}" class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Statements</a></span>
                                 <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Summary</a></span>
                             </td>
                         </tr>   
