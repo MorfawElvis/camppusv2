@@ -152,9 +152,7 @@
     </div>
     <!-- /.row -->
   </section>
-  <!-- /.content -->
-  <div class="pagebreak"> </div>
-</div>
+  </div>
 <script type="text/javascript"> 
   window.addEventListener("load", function(){
     window.print();

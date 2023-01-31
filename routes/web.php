@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth', ], function ()
         Route::get('/view-receipt/{id}', [FinanceController::class, 'viewReceipt'])->name('view.receipt');
         Route::get('/school-fee-statement/{id}', [FinanceController::class, 'printFeeStatement'])->name('fee.statement');
         Route::get('/bulk-fee-statement/{id}', [FinanceController::class, 'printBulkFeeStatement'])->name('bulk_fee.statement');
+        Route::get('/class-fee-summary/{id}', [FinanceController::class, 'classFeeSummary'])->name('fee.summary');
         Route::get('/view-payments', ViewPayments::class)->name('view.payments');
         //Scholarship Module
         Route::get('/create-scholarships', CreateScholarships::class)->name('create.scholarships');

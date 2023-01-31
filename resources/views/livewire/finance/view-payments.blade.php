@@ -112,7 +112,7 @@
                             @endif     
                             <td class="text-center">
                                 <span><a href="{{ url('/bulk-fee-statement', [$class_fee->id]) }}" class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Statements</a></span>
-                                <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Summary</a></span>
+                                <span><a href="{{ url('/class-fee-summary',  [$class_fee->id]) }}" class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Summary</a></span>
                             </td>
                         </tr>   
                          @empty
