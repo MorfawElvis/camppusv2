@@ -45,7 +45,7 @@
         </div>
     </div>
     {{-- Subject Modal --}}
-    <div class="modal fade" id="scholarshipCategoryModdal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="scholarshipCategoryModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -94,7 +94,7 @@
                         </div>
                             @if ($scholarship_coverage == 'partial')
                                 <div class="form-floating mb-4">
-                                    <input type="text" wire:model.lazy="scholarship_discount" class="form-control number-separator @error('scholarship_discount') is-invalid @enderror">
+                                    <input type="number" wire:model.lazy="scholarship_discount" max="100" class="form-control  @error('scholarship_discount') is-invalid @enderror">
                                     @error('scholarship_discount')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -113,10 +113,10 @@
 @push('page-scripts')
     <script>
         window.addEventListener('showScholarshipCategoryModal', event => {
-            $('#scholarshipCategoryModdal').modal('show');
+            $('#scholarshipCategoryModal').modal('show');
         });
         window.addEventListener('hideScholarshipCategoryModal', event => {
-            $('#scholarshipCategoryModdal').modal('hide');
+            $('#scholarshipCategoryModal').modal('hide');
         });
     </script>
 @endpush

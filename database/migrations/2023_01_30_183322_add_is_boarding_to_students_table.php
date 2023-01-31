@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('extra_fees', function (Blueprint $table) {
-            $table->id();
-            $table->string('fee_type');
-            $table->integer('amount');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('students', function (Blueprint $table) {
+            $table->boolean('is_boarding')->default(0);
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extra_fees');
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropColumn('is_boarding');
+        });
     }
 };

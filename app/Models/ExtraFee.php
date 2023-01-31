@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ExtraFee extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
+    protected $fillable = [ 'fee_type', 'amount'];
+
     public const EXTRA_FEE_TYPE = [
-        'boarding fee'     => 'boarding fee',
         'book fee'         => 'book fee',
         'destruction fee'  => 'destruction fee',
         'medical fee'      => 'medical fee'
@@ -31,4 +32,11 @@ class ExtraFee extends Model
     {
         $this->attributes['amount'] = str_replace(',', '', $value);
     }
+
+    protected function getFeeTypeAttribute($value)
+    {
+        return $this->attributes['fee_type'] = strtoupper($value);
+    }
+   
+
 }

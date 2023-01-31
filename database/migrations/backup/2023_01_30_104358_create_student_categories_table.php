@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('extra_fees', function (Blueprint $table) {
+        Schema::create('student_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('fee_type');
-            $table->integer('amount');
+            $table->string('category_type');
+            $table->integer('category_fee')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extra_fees');
+        Schema::dropIfExists('student_categories');
     }
 };

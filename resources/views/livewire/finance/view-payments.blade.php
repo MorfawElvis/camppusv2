@@ -52,15 +52,23 @@
                             <td>{{ $student_fee->full_name }}</td>
                             {{-- <td>{{ $student_fee->class_room->section->section_name }}</td> --}}
                             <td>{{ $student_fee->class_room->class_name }}</td>
-                            <td class="text-center">{{ number_format($student_fee->class_room->payable_fee) }}</td>
+                            @if ($student_fee->is_boarding)
+                             <td class="text-center">{{ number_format($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee ) }}</td>
+                             @else
+                             <td class="text-center">{{ number_format($student_fee->class_room->payable_fee)}}</td>
+                            @endif 
                             <td class="text-center">{{ number_format($student_fee->payments_sum_amount) }}</td>
-                            <td class="text-center">{{ number_format($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) }}</td>
+                            @if ($student_fee->is_boarding)
+                              <td class="text-center">{{ number_format(($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student_fee->payments_sum_amount) }}</td>
+                             @else
+                              <td class="text-center">{{ number_format($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) }}</td>
+                            @endif
                             <td class="text-center"><span class="badge {{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'bg-success' : 'bg-warning'}}
                                 ">{{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'Completed' : 'Incomplete'}}
                             </span>
                             </td>
                             <td class="text-center">
-                                <span><a href="{{ url('/school-fee-statement', [$student_fee->id]) }}" class="btn btn-xs btn-success"><i class="fas fa-print mr-2"></i>Print Statement</a></span>
+                                <span><a href="{{ url('/school-fee-statement', [$student_fee->id]) }}" class="btn btn-xs btn-success"><i class="fas fa-print mr-2"></i>Statement</a></span>
                                 <span><a wire:click.prevent="showFeePaymentModal({{ $student_fee->id }})" class="btn btn-xs btn-success"><i class="fas fa-hand-holding-usd mr-2"></i>Collect Fee</a></span>
                             </td>
                         </tr>
@@ -103,7 +111,8 @@
                                 <td class="text-center"><span class="badge bg-danger">0.00%</span></td>
                             @endif     
                             <td class="text-center">
-                                <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Print Statement</a></span>
+                                <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Statements</a></span>
+                                <span><a class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Summary</a></span>
                             </td>
                         </tr>   
                          @empty

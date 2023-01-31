@@ -2,6 +2,7 @@
 
 use App\Models\ClassRoom;
 use App\Models\FeePayment;
+use App\Models\GeneralSetting;
 use App\Models\Student;
 use App\Models\SchoolTerm;
 use App\Models\SchoolYear;
@@ -85,3 +86,10 @@ if(!function_exists('get_online_users'))
     }
 }
 
+if(!function_exists('get_boarding_fee'))
+{
+    function get_boarding_fee()
+    {
+        return GeneralSetting::select('boarding_fee')->first();
+    }
+}

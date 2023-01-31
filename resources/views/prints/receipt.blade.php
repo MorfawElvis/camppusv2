@@ -71,8 +71,8 @@
         </address>
       </div>
       <div class="col-sm-4 invoice-col">
-        <h4><b>Receipt No: {{ $data->receipt_number }} </b><br>
-      </h4>
+        <h4><b>Receipt No: {{ $data->receipt_number }} </b><br></h4>
+        <h4><b>Dormitory: {{ $data->student->is_boarding ? 'YES' : 'NO' }} </b></h4>
       </div>
       <!-- /.col -->
     </div>
@@ -116,7 +116,11 @@
           <table class="table table-bordered">
             <tr>
               <th style="width:50%">Total Payable Fee</th>
+              @if ($data->student->is_boarding)
+              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
+              @else
               <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee) . '  XAF'}}</td>
+              @endif
             </tr>
             @php
                 $total_paid = 0;
@@ -135,8 +139,16 @@
               <td>{{ number_format($total_paid) . '  XAF' }}</td>
             </tr>
             <tr>
+              <th>Discount/Scholarship</th>
+              <td></td>
+            </tr>
+            <tr>
               <th>Balanced Owed:</th>
-              <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+             @if ($data->student->is_boarding)
+                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $total_paid ) . '  XAF' }}</td>
+             @else
+                <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+             @endif
             </tr>
           </table>
         </div>
@@ -178,8 +190,8 @@
         </address>
       </div>
       <div class="col-sm-4 invoice-col">
-        <h4><b>Receipt No: {{ $data->receipt_number }} </b><br>
-      </h4>
+        <h4><b>Receipt No: {{ $data->receipt_number }} </b><br></h4>
+        <h4><b>Dormitory: {{ $data->student->is_boarding ? 'YES' : 'NO' }} </b></h4>
       </div>
       <!-- /.col -->
     </div>
@@ -223,7 +235,11 @@
           <table class="table table-bordered">
             <tr>
               <th style="width:50%">Total Payable Fee</th>
+              @if ($data->student->is_boarding)
+              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
+              @else
               <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee) . '  XAF'}}</td>
+              @endif
             </tr>
             @php
                 $total_paid = 0;
@@ -242,8 +258,16 @@
               <td>{{ number_format($total_paid) . '  XAF' }}</td>
             </tr>
             <tr>
+              <th>Discount/Scholarship</th>
+              <td></td>
+            </tr>
+            <tr>
               <th>Balanced Owed:</th>
-              <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+             @if ($data->student->is_boarding)
+                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $total_paid ) . '  XAF' }}</td>
+             @else
+                <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+             @endif
             </tr>
           </table>
         </div>

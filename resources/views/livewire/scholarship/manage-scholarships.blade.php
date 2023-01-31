@@ -5,24 +5,126 @@
             <i class="fas fa-arrow-alt-circle-down mr-2"></i>Manage Scholarships
         </div>
         <div class="card-body">
-            
+            <div class="mb-3">
+                    <a wire:click.prevent="showScholarshipModal" class="btn btn-outline-primary rounded-pill float-end" id="add-button">
+                        <i class="fas fa-plus-circle mr-2"></i>Award Scholarship</a>
+              </div>
+            <table class="table table-striped table-hover table-responsive-lg">
+                <caption class="mt-2"></caption>
+                <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Student's Name</th>
+                    <th>Class</th>
+                    <th>Schorlaship</th>
+                    <th>Coverage</th>                                   
+                </tr>
+                </thead>
+                <tbody>
+                 @forelse ($students_with_scholarships as $student)
+                     <tr>
+                        <td>{{ $loop->index+1 }}</td>
+                        <td>{{ $student->student->full_name }}</td>
+                        <td>{{ $student->student->class_room->class_name }}</td>
+                        <td>{{ $student->scholarship_category->scholarship_name }}</td>
+                        <td>{{ $student->scholarship_category->scholarship_coverage }}</td>
+                     </tr>
+                 @empty
+                 <tr  class="text-center">
+                     <td colspan="6"><i class="fas fa-question-circle mr-2"></i>No record found</td>
+                 </tr>            
+                 @endforelse
+                </tbody>
+            </table>
         </div>
         <div class="card-footer">
            
         </div>
     </div>
     {{-- Subject Modal --}}
-    <div class="modal fade" id="subjectModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
+    <div class="modal fade" id="scholarshipModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-plus-circle mr-2"></i></h5>
+                    <h5 class="modal-title"><i class="fas fa-plus-circle mr-2"></i>Award Scholarship</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                   
+                    <form wire:submit.prevent="newScholarship" class="form-floating">
+                        <div class="form-floating mb-3">
+                            <select wire:model.lazy="section_id" class="form-select" required>
+                              <option selected>Open this select menu</option>
+                              @foreach ($sections as $section )
+                              <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                              @endforeach
+                            </select>
+                            <label for="floatingSelect">Section</label>
+                        </div>
+                        @if (!is_null($class_rooms))
+                            <div class="form-floating mb-3">
+                                <select wire:model.lazy="class_id" class="form-select" required>
+                                <option selected>Open this select menu</option>
+                                @foreach ($class_rooms as $class_room )
+                                   <option value="{{ $class_room->id }}">{{ $class_room->class_name }}</option>
+                                @endforeach
+                                </select>
+                                <label for="floatingSelect">Class</label>
+                            </div>
+                        @endif
+                        @if (!is_null($students))
+                        <div class="form-floating mb-3">
+                            <select class="form-select @error('student_id') is-invalid @enderror" id="floatingSelect" wire:model.lazy="student_id" required>
+                              <option selected>Open this select menu</option>
+                              @foreach ($students as $student)
+                              <option value="{{ $student->id }}">{{ $student->full_name }}</option>
+                              @endforeach
+                            </select>
+                            @error('student_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                            <label for="floatingSelect">Name of Student</label>
+                        </div>
+                        @endif
+                        @if (!is_null($student_id))
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="floatingSelect" wire:model.lazy="scholarship_id" required>
+                              <option selected>Open this select menu</option>
+                              @foreach ($scholarships as $scholarship)
+                              <option value="{{ $scholarship->id }}">{{ $scholarship->scholarship_name }} | {{ $scholarship->scholarship_category }} | {{ $scholarship->scholarship_coverage }} | {{ $scholarship->discount . '%' }}</option>
+                              @endforeach
+                            </select>
+                            <label for="floatingSelect">Schorlaship</label>
+                        </div>
+                        @endif
+                        <div wire:loading>
+                            Please wait....
+                        </div>
+                        <div>
+                            <div class="float-right">
+                                @if (!is_null($student_id))
+                                <button type="button" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit"  class="btn btn-primary rounded-pill">
+                                    <div wire:loading.delay wire:target="submit" class="spinner-border spinner-border-sm text-white"></div>
+                                    Save 
+                                </button>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@push('page-scripts')
+    <script>
+        window.addEventListener('showScholarshipModal', event => {
+            $('#scholarshipModal').modal('show');
+        });
+        window.addEventListener('hideSholarshipModal', event => {
+            $('#scholarshipModal').modal('hide');
+        });
+    </script>
+@endpush

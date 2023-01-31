@@ -155,9 +155,11 @@ namespace App\Models{
  * App\Models\ExtraFee
  *
  * @property int $id
+ * @property string $fee_type
+ * @property int $amount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-write mixed $amount
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee newModelQuery()
@@ -215,6 +217,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting query()
  * @mixin \Eloquent
+ * @property int|null $boarding_fee
  */
 	class GeneralSetting extends \Eloquent {}
 }
@@ -432,8 +435,31 @@ namespace App\Models{
  * @property-read int|null $payments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
  * @property-read int|null $scholarships_count
+ * @property-read \App\Models\StudentCategory|null $student_category
  */
 	class Student extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\StudentCategory
+ *
+ * @property int $id
+ * @property string $category_type
+ * @property int|null $category_fee
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|StudentCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory query()
+ * @method static \Illuminate\Database\Query\Builder|StudentCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|StudentCategory withoutTrashed()
+ */
+	class StudentCategory extends \Eloquent {}
 }
 
 namespace App\Models{

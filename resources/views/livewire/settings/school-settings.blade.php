@@ -51,13 +51,13 @@
                         </div>
                     </div>
                     <div class="row p-3">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-floating">
                                 <input type="text" name="" class="form-control" wire:model.defer="form.school_website" id="floatingInput"  placeholder="Enter school website">
                                 <label for="floatingInput">School Website</label>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-floating">
                                 <input type="tel"  class="form-control @error('form.school_phone_number') is-invalid @enderror" wire:model.defer="form.school_phone_number"  placeholder="Enter school phone number">
                                 @error('form.school_phone_number')
@@ -66,6 +66,17 @@
                                 </div>
                                 @enderror
                                 <label for="floatingPassword" class="required">School Phone Number</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-floating">
+                                <input type="tel"  class="form-control number-separator @error('form.boarding_fee') is-invalid @enderror" wire:model.defer="form.boarding_fee"  placeholder="Enter school phone number">
+                                @error('form.boarding_fee')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                                <label for="floatingPassword">Boarding Fee</label>
                             </div>
                         </div>
                     </div>

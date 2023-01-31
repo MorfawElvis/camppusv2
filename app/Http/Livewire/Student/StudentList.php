@@ -18,7 +18,9 @@ class StudentList extends Component
     use WithPagination,LivewireAlert, WithFileUploads;
 
     public $deletedStudent, $search, $perPage, $full_name, $place_of_birth, 
-    $date_of_birth, $profile_image, $photo, $editedStudentId, $classId;
+    $date_of_birth, $profile_image, $photo, $editedStudentId;
+
+    public $classId = null;
     protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
@@ -34,13 +36,12 @@ class StudentList extends Component
     {   
         $class_rooms =  (new ClassRoomRepo)->get_all_class_rooms();
         $students = Student::search($this->search)
-                     ->with('user', 'class_room')
-                     ->where('class_room_id', '=', $this->classId)
+                     ->with('user', 'class_room.section', 'class_room')
                      ->whereHas('user', function($query){
                         $query->where('user_status', '=', '1');
                        })
-                     ->simplePaginate($this->perPage);
-        return view('livewire.student.student-list', compact('students', 'class_rooms'));
+                     ->paginate($this->perPage);
+        return view('livewire.student.student-list', compact('students', 'class_rooms',));
     }
 
     public function deleteStudent($user_id)
@@ -94,4 +95,5 @@ class StudentList extends Component
           Student::where('user_id', $this->deletedStudent)->delete();
           $this->alert('success' ,'Record has been deleted successfully');
     }
+
 }

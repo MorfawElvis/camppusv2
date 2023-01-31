@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
 
 /**
  * App\Models\GeneralSetting
@@ -42,6 +43,7 @@ class GeneralSetting extends Model
         'principal_signature',
         'collapsed_sidebar',
         'fixed_header',
+        'boarding_fee'
     ];
 //    protected $dateFormat = 'd/m/Y';
     protected $casts = [
@@ -56,5 +58,9 @@ class GeneralSetting extends Model
     public function getUpdatedAtAttribute($timestamp)
     {
         return Carbon::parse($timestamp)->format('d M, Y');
+    }
+    public function setBoardingFeeAttribute($value)
+    {
+        $this->attributes['boarding_fee'] = str_replace(',', '', $value);
     }
 }

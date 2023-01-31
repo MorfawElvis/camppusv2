@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\Finance\FinanceController;
-use App\Http\Controllers\Staff\StaffRegistrationController;
-use App\Http\Controllers\Student\StudentRegistrationController;
-use App\Http\Livewire\Finance\AddExpense;
-use App\Http\Livewire\Finance\ExpenseCategory;
-use App\Http\Livewire\Finance\ExtraFee;
-use App\Http\Livewire\Finance\FeeItems;
-use App\Http\Livewire\Finance\FeePayments;
-use App\Http\Livewire\Finance\ViewPayments;
-use App\Http\Livewire\Scholarship\CreateScholarships;
-use App\Http\Livewire\Scholarship\ManageScholarships;
-use App\Http\Livewire\Settings\SchoolSettings;
-use App\Http\Livewire\Student\StudentList;
-use App\Http\Livewire\Staff\StaffList;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Staff\StaffList;
+use App\Http\Livewire\StudentCategory;
+use App\Http\Livewire\Finance\ExtraFee;
+use App\Http\Livewire\Finance\FeeItems;
+use App\Http\Livewire\Finance\AddExpense;
+use App\Http\Livewire\Finance\FeePayments;
+use App\Http\Livewire\Student\StudentList;
+use App\Http\Livewire\Finance\ViewPayments;
+use App\Http\Livewire\Finance\ExpenseCategory;
+use App\Http\Livewire\Settings\SchoolSettings;
+use App\Http\Controllers\Finance\FinanceController;
+use App\Http\Livewire\Scholarship\CreateScholarships;
+use App\Http\Livewire\Scholarship\ManageScholarships;
+use App\Http\Controllers\Staff\StaffRegistrationController;
+use App\Http\Controllers\Student\StudentRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::group(['middleware' => 'auth', ], function ()
         Route::get('/manage-subjects', \App\Http\Livewire\Academics\Subjects::class)->name('manage.subjects');
         Route::get('/upload-students/{id}', [\App\Http\Controllers\User\UsersController::class, 'upLoadView'])->name('upload.students');
         Route::post('/import-students', [\App\Http\Controllers\User\UsersController::class, 'import'])->name('import.students');
+        Route::get('/student-category', StudentCategory::class)->name('student.category');
         Route::get('/student-list', StudentList::class)->name('student.list');
         Route::get('/staff-list', StaffList::class)->name('staff.list');
 

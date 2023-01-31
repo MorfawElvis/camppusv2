@@ -55,7 +55,11 @@ class FeePayments extends Component
                  ->with('class_room')
                  ->withSum('payments', 'amount')
                  ->first();
-       $payable_fee = $student->class_room->payable_fee;
+        if($student->is_boarding){
+           $payable_fee = $student->class_room->payable_fee + get_boarding_fee()->boarding_fee;
+        }else
+           $payable_fee = $student->class_room->payable_fee;
+           
        $amount_paid = $student->payments_sum_amount;
        
        $this->balance_owed = $payable_fee - $amount_paid;

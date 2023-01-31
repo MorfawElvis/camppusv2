@@ -86,6 +86,7 @@ class Classes extends Component
             'onConfirmed' => 'deleteLevel'
         ]);
     }
+    //TODO: Add delete functionality for class rooms
     public function deleteClass()
     {
         Level::destroy($this->deletedLevel);

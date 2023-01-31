@@ -49,13 +49,13 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item mt-2">
                             <a href="#" class="nav-link">
-                            <span style="font-size: 16px; color:limegreen;">
-                            <i class="nav-icon fas fa-users-cog"></i>
+                            <span style="font-size: 16px; color:rgb(71, 212, 255);">
+                            <i class="nav-icon fas fa-cogs"></i>
                             </span>
                                 <p>
-                                    User Management
+                                    MANAGE STUDENTS
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -67,17 +67,30 @@
                                         <p>Register Student</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('staff-registration/create') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.staff-registration.create') }}" class="nav-link">
-                                        <i class="fas fa-user-tie"></i>
-                                        <p>Register Staff</p>
-                                    </a>
-                                </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('student-list') ? 'active' : '' }} ">
                                     <a href="{{ route('admin.student.list') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-user-graduate"></i>
-                                        <p>View Student List</p>
+                                        <p>Manage Students</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav nav-item">
+                            <a href="#" class="nav-link">
+                                <span style="font-size: 16px; color:rgb(255, 191, 71);">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                </span>
+                                <p>
+                                    MANAGE STAFF
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('staff-registration/create') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.staff-registration.create') }}" class="nav-link">
+                                        <i class="fas fa-user-tie"></i>
+                                        <p>Register Staff</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('staff-list') ? 'active' : '' }}">
@@ -90,44 +103,72 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <span style="font-size: 16px; color:dodgerblue;">
-                            <i class="nav-icon fas fa-graduation-cap"></i>
+                            <span style="font-size: 16px; color:deeppink;">
+                            <i class="nav-icon fas fa-money-check-alt"></i>
                             </span>
                                 <p>
-                                    Academic Settings
+                                    STUDENT FEES
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-sections') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.sections') }}" class="nav-link">
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-fee-payments') ? 'active' : '' }}">
+                                    <a href="{{ route('fee_payments.manage') }}" class="nav-link">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                        <p>Fee Payments</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('view-payments') ? 'active' : '' }}">
+                                    <a href="{{ route('view.payments') }}" class="nav-link">
+                                        <i class="fas fa-receipt"></i>
+                                        <p>View Payments</p>
+                                    </a>
+                                </li>
+                                 <li class="nav-item nav-item-submenu {{ request()->is('extra-fees') ? 'active' : '' }}">
+                                    <a href="{{ route('extra_fee.create') }}" class="nav-link">
                                         <span class="orange"></span>
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Sections</p>
+                                        <i class="fas fa-coins"></i>
+                                        <p>Extra Fees</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-levels') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.levels') }}" class="nav-link">
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Levels</p>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-extra-fees') ? 'active' : '' }}">
+                                    <a href="{{ route('extra_fee.manage') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-coins"></i>
+                                        <p>Manage Extra Fees</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-classes') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.classes') }}" class="nav-link">
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Classes</p>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <span style="font-size: 16px; color:coral;">
+                            <i class="nav-icon fas fa-wallet"></i>
+                            </span>
+                                <p>
+                                    EXPENSES
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('expense-category') ? 'active' : '' }}">
+                                    <a href="{{ route('expense.category') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-book-open"></i>
+                                        <p>Expense Category</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-departments') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.departments') }}" class="nav-link">
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Departments</p>
+                                <li class="nav-item nav-item-submenu {{ request()->is('add-expense') ? 'active' : '' }}">
+                                    <a href="{{ route('add.expense') }}" class="nav-link">
+                                        <i class="fas fa-comments-dollar"></i>
+                                        <p>Add Expense</p>
                                     </a>
                                 </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-subjects') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage.subjects') }}" class="nav-link">
-                                        <i class="fas fa-tasks"></i>
-                                        <p>Subjects</p>
+                                <!-- TODO: Add expense report to expense module -->
+                                <li class="nav-item nav-item-submenu">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-warehouse"></i>
+                                        <p>Expense Report</p>
                                     </a>
                                 </li>
                             </ul>
@@ -160,50 +201,11 @@
                         </li> --}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <span style="font-size: 16px; color:deeppink;">
-                            <i class="nav-icon fas fa-money-check-alt"></i>
-                            </span>
-                                <p>
-                                    Student Fees
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-fee-payments') ? 'active' : '' }}">
-                                    <a href="{{ route('fee_payments.manage') }}" class="nav-link">
-                                        <i class="fas fa-hand-holding-usd"></i>
-                                        <p>Fee Payments</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('view-payments') ? 'active' : '' }}">
-                                    <a href="{{ route('view.payments') }}" class="nav-link">
-                                        <i class="fas fa-receipt"></i>
-                                        <p>View Payments</p>
-                                    </a>
-                                </li>
-                                 <li class="nav-item nav-item-submenu {{ request()->is('extra-fees') ? 'active' : '' }}">
-                                    <a href="{{ route('extra_fee.create') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-coins"></i>
-                                        <p>Extra Fee</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('manage-extra-fees') ? 'active' : '' }}">
-                                    <a href="{{ route('extra_fee.manage') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-coins"></i>
-                                        <p>Manage Extra Fee</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:cyan;">
                             <i class="nav-icon fas fa-money-bill-wave"></i>
                             </span>
                                 <p>
-                                    Scholarships
+                                    SCHOLARSHIPS
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -262,39 +264,6 @@
                                 </li>
                             </ul>
                         </li> --}}
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                            <span style="font-size: 16px; color:coral;">
-                            <i class="nav-icon fas fa-wallet"></i>
-                            </span>
-                                <p>
-                                    Finance
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu {{ request()->is('expense-category') ? 'active' : '' }}">
-                                    <a href="{{ route('expense.category') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-book-open"></i>
-                                        <p>Expense Category</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu {{ request()->is('add-expense') ? 'active' : '' }}">
-                                    <a href="{{ route('add.expense') }}" class="nav-link">
-                                        <i class="fas fa-comments-dollar"></i>
-                                        <p>Add Expense</p>
-                                    </a>
-                                </li>
-                                <!-- TODO: Add expense report to expense module -->
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-warehouse"></i>
-                                        <p>Expense Report</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                         <!-- TODO: Facilities module not done -->
                         {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -334,7 +303,7 @@
                             <i class="nav-icon fas fa-cogs"></i>
                             </span>
                                 <p>
-                                    School Settings
+                                    SETTINGS
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -358,9 +327,40 @@
                                         <p>Academic Terms</p>
                                     </a>
                                 </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-sections') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.sections') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Sections</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-levels') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.levels') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Levels</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-classes') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.classes') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Classes</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-departments') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.departments') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Departments</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-subjects') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage.subjects') }}" class="nav-link">
+                                        <i class="fas fa-tasks"></i>
+                                        <p>Subjects</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <span style="font-size: 16px; color:rgb(5, 145, 63);"><i class="nav-icon fas fa-folder-plus"></i></span>
                                 <p>
@@ -381,8 +381,15 @@
                                         <p>Employee Cards</p>
                                     </a>
                                 </li>
+                                 <li class="nav-item nav-item-submenu {{ request()->is('student-category') ? 'active' : '' }} ">
+                                    <a href="{{ route('admin.student.category') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>Student Category</p>
+                                    </a>
+                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                     </ul>
                 </nav>
             </div>

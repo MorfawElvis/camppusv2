@@ -22,16 +22,17 @@ class ViewPayments extends Component
 
     public function render()
     {
+        $get_boarding_fee = get_boarding_fee();
         $class_fees = ClassRoom::with('students' ,'students.payments')
                                  ->withCount('students')
                                  ->withSum('payments', 'amount')
                                  ->paginate(8);           
         $student_fees = Student::search($this->search)
-        ->select(['full_name', 'matriculation','gender','class_room_id', 'id'])
+        ->select(['full_name', 'matriculation','gender','class_room_id', 'id', 'is_boarding'])
         ->withSum('payments', 'amount')
         ->with(['class_room.section'])
         ->paginate($this->perPage);
-        return view('livewire.finance.view-payments',compact('student_fees', 'class_fees'));
+        return view('livewire.finance.view-payments',compact('student_fees', 'class_fees', 'get_boarding_fee'));
     }
 
     public function showFeePaymentModal($student_id)
@@ -42,11 +43,15 @@ class ViewPayments extends Component
                  ->with('class_room')
                  ->withSum('payments', 'amount')
                  ->first();
-       $payable_fee = $student->class_room->payable_fee;
-       $amount_paid = $student->payments_sum_amount;
-       
-        $this->balance_owed = $payable_fee - $amount_paid;
-        $this->dispatchBrowserEvent('showFeePaymentModal');
+        if($student->is_boarding){
+        $payable_fee = $student->class_room->payable_fee + get_boarding_fee()->boarding_fee;
+        }else
+        $payable_fee = $student->class_room->payable_fee;
+        
+        $amount_paid = $student->payments_sum_amount;
+        
+         $this->balance_owed = $payable_fee - $amount_paid;
+         $this->dispatchBrowserEvent('showFeePaymentModal');
 
     }
     

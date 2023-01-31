@@ -88,7 +88,11 @@ class Student extends Model
     {
         return $this->hasMany(ExtraFee::class);
     }
-
+    
+    public function student_category()
+    {
+        return $this->belongsTo(StudentCategory::class);
+    }
     public static function boot()
     {
         parent::boot();
