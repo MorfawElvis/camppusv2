@@ -29,7 +29,7 @@ class FinanceController extends Controller
          
          $get_boarding_fee = get_boarding_fee();
          $data = Student::where('id', $student_id)
-                         ->with(['class_room.section','payments','class_room.academic_year'])
+                         ->with(['class_room.section','payments','class_room.academic_year', 'scholarship.scholarship_category'])
                          ->withSum('payments', 'amount')
                          ->first();
         return view('prints.fee_statement', compact('data', 'get_boarding_fee'));

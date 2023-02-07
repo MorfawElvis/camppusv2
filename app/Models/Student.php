@@ -79,9 +79,9 @@ class Student extends Model
         return $this->hasMany(FeePayment::class);
     }
     
-    public function scholarships()
+    public function scholarship()
     {
-        return $this->hasMany(Scholarship::class);
+        return $this->hasOne(Scholarship::class);
     }
 
     public function extra_fees()

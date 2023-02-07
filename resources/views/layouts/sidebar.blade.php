@@ -71,7 +71,7 @@
                                     <a href="{{ route('admin.student.list') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-user-graduate"></i>
-                                        <p>Manage Students</p>
+                                        <p>View Students</p>
                                     </a>
                                 </li>
                             </ul>

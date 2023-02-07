@@ -135,7 +135,13 @@
              </tr>
              <tr>
               <th>Discount/Scholarship</th>
-              <td tyle="font-weight: 400;"></td>
+              <td tyle="font-weight: 400;">
+                {{-- @php
+                  if($data->scholarship->scholarship_category->discount){
+                    $data->class_room->payable_fee * $data->scholarship->scholarship_category->discount
+                  }
+                @endphp --}}
+              </td>
              </tr>
             <tr>
               <th>Balanced Owed:</th>

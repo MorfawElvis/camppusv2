@@ -47,7 +47,7 @@ class ManageScholarships extends Component
               'renewable'             =>  0,
               'is_approved'           =>  1,
         ]);
-        $this->dispatchBrowserEvent('hideScholarshipModal');
+        $this->dispatchBrowserEvent('hideSholarshipModal');
         $this->alert('success' ,'Record has been added successfully');
     }
 

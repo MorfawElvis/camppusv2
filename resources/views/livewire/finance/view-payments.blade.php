@@ -15,11 +15,11 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab" wire:ignore.self>
                     <table class="table table-striped table-hover table-responsive-lg">
-                        <div class="d-flex mb-3">
-                            <div class="col-4">
+                        <div class="row mb-3 g-3">
+                            <div class="col-lg-8">
                                 <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search name or matriculation number">
                             </div>
-                            <div class="ms-auto col-1">
+                            <div class="ms-auto col-lg-2">
                                 <select class="form-select" wire:model="perPage">
                                     <option value="10" selected>10</option>
                                     <option value="15">15</option>

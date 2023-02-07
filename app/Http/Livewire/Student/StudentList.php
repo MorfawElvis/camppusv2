@@ -20,7 +20,9 @@ class StudentList extends Component
     public $deletedStudent, $search, $perPage, $full_name, $place_of_birth, 
     $date_of_birth, $profile_image, $photo, $editedStudentId;
 
-    public $classId = null;
+    public int $isBoarding = 0; 
+
+    public $class_id = null;
     protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
@@ -31,7 +33,7 @@ class StudentList extends Component
         'full_name'          => 'required',
         'date_of_birth'      => 'required',
     ];
-
+    
     public function render()
     {   
         $class_rooms =  (new ClassRoomRepo)->get_all_class_rooms();
@@ -40,8 +42,10 @@ class StudentList extends Component
                      ->whereHas('user', function($query){
                         $query->where('user_status', '=', '1');
                        })
-                     ->paginate($this->perPage);
-        return view('livewire.student.student-list', compact('students', 'class_rooms',));
+                     ->where('class_room_id', '=', $this->class_id)
+                     ->paginate(10);
+
+        return view('livewire.student.student-list', compact('class_rooms', 'students'));
     }
 
     public function deleteStudent($user_id)
@@ -89,11 +93,16 @@ class StudentList extends Component
         $name  = Str::random() . '.jpg';
         Storage::disk('public')->put('public/students_photos/'.$name,$img);
         return $name;
-    }
+    }  
     public function deleteConfirmed(){
           User::destroy($this->deletedStudent);
           Student::where('user_id', $this->deletedStudent)->delete();
           $this->alert('success' ,'Record has been deleted successfully');
     }
-
+    public function updateBoardingStatus($student_id)
+    {
+        //   Student::findorFail($student_id)->update([
+        //       'is_boarding'  => $this->isBoarding,
+        //   ]);
+    }
 }

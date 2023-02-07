@@ -428,13 +428,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  * @mixin \Eloquent
  * @property string|null $profile_image
+ * @property int $is_boarding
  * @property-read \App\Models\ClassRoom|null $class_room
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExtraFee[] $extra_fees
  * @property-read int|null $extra_fees_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
  * @property-read int|null $payments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
- * @property-read int|null $scholarships_count
+ * @property-read \App\Models\Scholarship|null $scholarship
  * @property-read \App\Models\StudentCategory|null $student_category
  */
 	class Student extends \Eloquent {}
@@ -444,12 +444,7 @@ namespace App\Models{
 /**
  * App\Models\StudentCategory
  *
- * @property int $id
- * @property string $category_type
- * @property int|null $category_fee
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-write mixed $category_fee
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
  * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory newModelQuery()

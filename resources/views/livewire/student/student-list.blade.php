@@ -4,7 +4,20 @@
     <div class="card-header bg-primary">
         <i class=" fas fa-arrow-alt-circle-down mr-1"></i>Student List 
     </div>
-    <div class="card-body" wire:ignore.self>
+    <div class="card-body">
+        <div class="row g-3 mb-3 justify-content-between">
+          <div class="col-lg-2">
+            <select class="form-select" wire:model="class_id">
+              <option value="">Select class</option>
+              @foreach ($class_rooms as $class_room)
+              <option value="{{ $class_room->id }}">{{ $class_room->class_name }}</option>
+              @endforeach
+           </select>
+          </div>
+          <div class="col-lg-8">
+            <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search name or matriculation number">
+          </div>
+        </div>
         <table class="table table-striped table-hover table-responsive-lg">
             <thead>
               <tr>
@@ -26,13 +39,13 @@
                 <td>{{ $student->gender }}</td>
                 <td>{{ $student->class_room->section->section_name }}</td>
                 <td>{{ $student->class_room->class_name }}</td>
-                <td class="text-center" wire:ignore>
-                    @livewire('toggle-switch', [
-                    'model' => $student,
-                    'field' => 'is_boarding'
-                    ])
+                <td class="text-center">
+                   <livewire:toggle-switch
+                   :model="$student"
+                   field="is_boarding"
+                   key="{{ $student->id }}"
+                   />
                 </td>
-                {{-- <td>{{ $student->user->user_code }}</td> --}}
                 <td class="text-center">
                     <a wire:click.prevent="editStudentModal({{ $student }})" class="btn btn-xs btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
                     <a wire:click.prevent="deleteStudent({{ $student->user->id }})" class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a>
@@ -47,12 +60,12 @@
          </table>
     </div>
     <div class="card-footer">
-        <div class="float-end"  wire:ignore>
+        <div class="float-end">
             {{ $students->links() }}
         </div>
     </div>
 </div>
-<div class="modal fade" id="editStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" tabindex="-1" wire:ignore.self>
+<div class="modal fade" id="editStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" tabindex="-1" wire:ignore>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">

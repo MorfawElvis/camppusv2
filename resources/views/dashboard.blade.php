@@ -58,36 +58,33 @@
                 </div>
             </div>
            <div class="row mt-2">
-               <div class="col-lg-3 col-6">
-                   <div class="info-box">
-                       <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-cog"></i></span>
+                <div class="col-lg-3 col-6">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bill-wave"></i></span>
 
-                       <div class="info-box-content">
-                           <span class="info-box-text">Total Expenditure</span>
-                           <span class="info-box-number">
-                 0
-                  <small>FCFA</small>
-                </span>
-                       </div>
-                       <!-- /.info-box-content -->
-                   </div>
-               </div>
-               <div class="col-lg-3 col-6">
-                   <div class="info-box">
-                       <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-cog"></i></span>
-
-                       <div class="info-box-content">
-                           <span class="info-box-text">Total Expected Fees</span>
-                           <span class="info-box-number"> 
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Expected Fees</span>
+                            <span class="info-box-number"> 
                                 {{ total_fees_expected() . ' XAF' }}
-                           </span>
-                       </div>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+               <div class="col-lg-3 col-6">
+                   <div class="info-box">
+                       <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-check"></i></span>
+
+                       <div class="info-box-content">
+                           <span class="info-box-text">Fees Collected Today</span>
+                           <span class="info-box-number">{{ get_total_fees_paid_today() .' XAF' }}</span>
+                   </div>
                        <!-- /.info-box-content -->
                    </div>
                </div>
                <div class="col-lg-3 col-6">
                    <div class="info-box">
-                       <span class="info-box-icon bg-success elevation-1"><i class="fas fa-cog"></i></span>
+                       <span class="info-box-icon bg-success elevation-1"><i class="fas fa-hand-holding-usd"></i></span>
 
                        <div class="info-box-content">
                            <span class="info-box-text">Total Fees Collected</span>
@@ -98,7 +95,7 @@
                </div>
                <div class="col-lg-3 col-6">
                    <div class="info-box">
-                       <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                       <span class="info-box-icon bg-info elevation-1"><i class="fas fa-coins"></i></span>
 
                        <div class="info-box-content">
                            <span class="info-box-text">Total Monthly Payroll</span>
