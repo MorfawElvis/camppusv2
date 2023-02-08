@@ -37,8 +37,9 @@
                             <th>Class</th>
                             <th class="text-center">Payable Fee</th>
                             <th class="text-center">Amount Paid</th>                   
+                            <th class="text-center">Discount</th>                   
                             <th class="text-center">Balance Owed</th> 
-                            <th class="text-center">Status</th>                    
+                            {{-- <th class="text-center">Status</th>                     --}}
                             <th class="text-center">Actions</th>                    
                         </tr>
                         </thead>
@@ -48,6 +49,12 @@
                         @endphp
                         @forelse ($student_fees as $student_fee)
                         <tr>
+                            @php
+                                $discount = 0;
+                                if (isset($student_fee->scholarship->scholarship_category->discount)) {
+                                    $discount = $student_fee->class_room->payable_fee * ($student_fee->scholarship->scholarship_category->discount / 100);
+                                }
+                            @endphp
                             <td>{{ $student_fees->firstItem() + $loop->index }}</td>
                             <td>{{ $student_fee->full_name }}</td>
                             {{-- <td>{{ $student_fee->class_room->section->section_name }}</td> --}}
@@ -58,15 +65,16 @@
                              <td class="text-center">{{ number_format($student_fee->class_room->payable_fee)}}</td>
                             @endif 
                             <td class="text-center">{{ number_format($student_fee->payments_sum_amount) }}</td>
+                            <td class="text-center">{{ number_format($discount) }}</td>
                             @if ($student_fee->is_boarding)
-                              <td class="text-center">{{ number_format(($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student_fee->payments_sum_amount) }}</td>
+                              <td class="text-center">{{ number_format(($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($student_fee->payments_sum_amount + $discount)) }}</td>
                              @else
-                              <td class="text-center">{{ number_format($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) }}</td>
+                              <td class="text-center">{{ number_format($student_fee->class_room->payable_fee - ($student_fee->payments_sum_amount + $discount)) }}</td>
                             @endif
-                            <td class="text-center"><span class="badge {{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'bg-success' : 'bg-warning'}}
+                            {{-- <td class="text-center"><span class="badge {{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'bg-success' : 'bg-warning'}}
                                 ">{{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'Completed' : 'Incomplete'}}
                             </span>
-                            </td>
+                            </td> --}}
                             <td class="text-center">
                                 <span><a href="{{ url('/school-fee-statement', [$student_fee->id]) }}" class="btn btn-xs btn-success"><i class="fas fa-print mr-2"></i>Statement</a></span>
                                 <span><a wire:click.prevent="showFeePaymentModal({{ $student_fee->id }})" class="btn btn-xs btn-success"><i class="fas fa-hand-holding-usd mr-2"></i>Collect Fee</a></span>

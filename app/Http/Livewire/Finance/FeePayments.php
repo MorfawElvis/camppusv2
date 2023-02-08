@@ -55,6 +55,9 @@ class FeePayments extends Component
                  ->with('class_room')
                  ->withSum('payments', 'amount')
                  ->first();
+        if(isset($student->scholarship->scholarship_category->discount)){
+            $discount = $student->class_room->payable_fee * ($student->scholarship->scholarship_category->discount / 100);
+        }
         if($student->is_boarding){
            $payable_fee = $student->class_room->payable_fee + get_boarding_fee()->boarding_fee;
         }else
@@ -62,7 +65,7 @@ class FeePayments extends Component
            
        $amount_paid = $student->payments_sum_amount;
        
-       $this->balance_owed = $payable_fee - $amount_paid;
+       $this->balance_owed = $payable_fee - ($amount_paid + ($discount ?? 0));
     }
     public function updatedAmountCollected()
     {

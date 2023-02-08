@@ -126,10 +126,6 @@
                 $total_paid = 0;
             @endphp
             @foreach ($data->student->payments as $payment) 
-             {{-- <tr>
-                <th>{{ $payment->transaction_date }}</th>
-                <td tyle="font-weight: 400;">{{ number_format($payment->amount) . '  XAF'}}</td>
-              </tr> --}}
               @php
                   $total_paid += $payment->amount
               @endphp
@@ -140,7 +136,14 @@
             </tr>
             <tr>
               <th>Discount/Scholarship</th>
-              <td></td>
+              @if ($data->student->scholarship->scholarship_category->discount ?? '')
+                  @php
+                    $discount = $data->student->class_room->payable_fee * ($data->student->scholarship->scholarship_category->discount / 100);
+                  @endphp
+                  <td>{{ number_format($discount) . '  XAF' }}</td>
+                  @else
+                  <td>{{ '0' }}</td>
+              @endif
             </tr>
             <tr>
               <th>Balanced Owed:</th>
@@ -258,15 +261,25 @@
               <td>{{ number_format($total_paid) . '  XAF' }}</td>
             </tr>
             <tr>
+              @php
+              $discount = 0;
+              @endphp
               <th>Discount/Scholarship</th>
-              <td></td>
+              @if ($data->student->scholarship->scholarship_category->discount ?? '')
+                  @php
+                    $discount = $data->student->class_room->payable_fee * ($data->student->scholarship->scholarship_category->discount / 100);
+                  @endphp
+                  <td>{{ number_format($discount) . '  XAF' }}</td>
+                  @else
+                  <td>{{ '0' }}</td>
+              @endif
             </tr>
             <tr>
               <th>Balanced Owed:</th>
              @if ($data->student->is_boarding)
-                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $total_paid ) . '  XAF' }}</td>
+                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($total_paid  + $discount)) . '  XAF' }}</td>
              @else
-                <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+                <td>{{ number_format($data->student->class_room->payable_fee - ($total_paid + $discount) ) . '  XAF' }}</td>
              @endif
             </tr>
           </table>

@@ -134,21 +134,25 @@
                 <td tyle="font-weight: 400;">{{ number_format($data->payments_sum_amount) . '  XAF'}}</td>
              </tr>
              <tr>
+              @php
+                $discount = 0;
+              @endphp
               <th>Discount/Scholarship</th>
-              <td tyle="font-weight: 400;">
-                {{-- @php
-                  if($data->scholarship->scholarship_category->discount){
-                    $data->class_room->payable_fee * $data->scholarship->scholarship_category->discount
-                  }
-                @endphp --}}
-              </td>
+                @if ($data->scholarship->scholarship_category->discount ?? '')
+                  @php
+                    $discount = $data->class_room->payable_fee * ($data->scholarship->scholarship_category->discount / 100);
+                  @endphp
+                  <td>{{ number_format($discount) . '  XAF' }}</td>
+                  @else
+                  <td>{{ '0' }}</td>
+                @endif
              </tr>
             <tr>
               <th>Balanced Owed:</th>
                 @if ($data->is_boarding)
-                  <td>{{ number_format(($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $data->payments_sum_amount ) . '  XAF' }}</td>
+                  <td>{{ number_format(($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($data->payments_sum_amount + $discount) ) . '  XAF' }}</td>
                 @else
-                  <td>{{ number_format($data->class_room->payable_fee - $data->payments_sum_amount ) . '  XAF' }}</td>
+                  <td>{{ number_format($data->class_room->payable_fee - ($data->payments_sum_amount + $discount) ) . '  XAF' }}</td>
                 @endif
             </tr>
           </table>
