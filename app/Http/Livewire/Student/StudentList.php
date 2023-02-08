@@ -43,6 +43,7 @@ class StudentList extends Component
                         $query->where('user_status', '=', '1');
                        })
                      ->where('class_room_id', '=', $this->class_id)
+                     ->orderBy('full_name', 'asc')
                      ->paginate(10);
 
         return view('livewire.student.student-list', compact('class_rooms', 'students'));
@@ -65,6 +66,11 @@ class StudentList extends Component
         $this->date_of_birth = $student['date_of_birth'];
 
         $this->dispatchBrowserEvent('showEditStudentModal');
+    }
+
+    public function updatingClassId()
+    {
+        $this->gotoPage(1);
     }
 
     public function updateStudent()

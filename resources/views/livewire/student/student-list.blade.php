@@ -19,6 +19,7 @@
           </div>
         </div>
         <table class="table table-striped table-hover table-responsive-lg">
+          <caption class="mt-2" wire:ignore.self>{{ $students->links() }}</caption>
             <thead>
               <tr>
                 <th>SN</th>
@@ -58,11 +59,6 @@
               @endforelse
             </tbody>
          </table>
-    </div>
-    <div class="card-footer">
-        <div class="float-end">
-            {{ $students->links() }}
-        </div>
     </div>
 </div>
 <div class="modal fade" id="editStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" tabindex="-1" wire:ignore>
