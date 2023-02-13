@@ -17,6 +17,7 @@ use App\Http\Livewire\Scholarship\CreateScholarships;
 use App\Http\Livewire\Scholarship\ManageScholarships;
 use App\Http\Controllers\Staff\StaffRegistrationController;
 use App\Http\Controllers\Student\StudentRegistrationController;
+use App\Http\Livewire\Reports\FeeCollectedReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,8 @@ Route::group(['middleware' => 'auth', ], function ()
         //Fees Module
         Route::get('/extra-fees', ExtraFee::class)->name('extra_fee.create');
         Route::get('/manage-fee-payments', FeePayments::class)->name('fee_payments.manage');
+        Route::get('/fee-report', FeeCollectedReport::class)->name('fee.report');
+        Route::get('/print-fee-report/{from}/{to}', [FinanceController::class, 'printFeeReport'])->name('print.fee-report');
         Route::get('/manage-extra-fees', [FinanceController::class, 'managaeExtraFees'])->name('extra_fee.manage');
         Route::get('/school-fee-receipt/{id}', [FinanceController::class, 'printReceipt'])->name('fee.receipt');
         Route::get('/view-receipt/{id}', [FinanceController::class, 'viewReceipt'])->name('view.receipt');

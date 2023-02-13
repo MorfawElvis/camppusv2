@@ -22,7 +22,7 @@
       }
         @media print{
             @page {size: landscape}
-            body{
+            body {
               font: Georgia, "Times New Roman", Times, serif;
               font-size: 11pt;
             }
@@ -58,7 +58,8 @@
             </div> 
             </div>
             <div class="row">
-                <div class="col-md-4 fs-5 text-center">Fee Statement <span class="font-italic">For</span> <span class="fw-bold">{{ $selected_class->class_name }}</span></div>
+                <div class="col-md-4 fs-5 text-center">Fee Collected: <span class="fw-bold">
+                  {{ \Carbon\Carbon::parse($date_from)->format('d M Y') }} - {{ \Carbon\Carbon::parse($date_to)->format('d M Y') }}</span></div>
                 <div class="col-md-4 fs-5 text-center">{{ current_school_year()->year_name }} Academic Year</div>
             </div>
         </h2>
@@ -70,49 +71,34 @@
           <thead>
           <tr>
             <th>S/N</th>
-            <th>Name</th>
-            <th>Total Payable</th>
-            <th>Total Paid</th>
-            <th>Balance Owed</th>
+            <th>Student's Name</th>
+            <th>Class</th>
+            <th>Section</th>
+            <th class="text-center">Transaction Date</th> 
+            <th class="text-center">Amount Paid</th>
           </tr>
           </thead>
           <tbody>
             @php
-              $owed_boarding = 0;
-              $owed_regular = 0;
-              $owed_total = 0;
+              $total = 0;
             @endphp
-            @foreach ($data as $student )
-            <tr>
+           @foreach ($fee_payments as $fee_payment)
+              <tr>
                 <td>{{ $loop->index+1 }}</td>
-                <td>{{ $student->full_name }}</td>
-                <span class="text-right">
-                    @if ($student->is_boarding)
-                    <td style="font-weight: 600;">{{ number_format($student->class_room->payable_fee + $get_boarding_fee->boarding_fee)}}</td>
-                    @else
-                    <td style="font-weight: 600;">{{ number_format($student->class_room->payable_fee)}}</td>
-                    @endif
-                    <td>{{ $student->payments_sum_amount }}</td>
-                    @if ($student->is_boarding)
-                    <td>{{ number_format(($student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student->payments_sum_amount )}}</td>
-                    @else
-                    <td>{{ number_format($student->class_room->payable_fee - $student->payments_sum_amount )}}</td>
-                    @endif
-                </span>
-            </tr>
-            @php
-              if ($student->is_boarding) {
-                $owed_boarding += ($student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student->payments_sum_amount;
-              }else {
-                $owed_regular += $student->class_room->payable_fee - $student->payments_sum_amount;
-              }
-               $owed_total = $owed_boarding + $owed_regular;
-            @endphp
-            @endforeach
-            <tr>
-              <td class="text-center fw-bold" colspan="4">Total Owed</td>
-              <td class="text-center fw-bold">{{ number_format($owed_total) . ' XAF'}}</td>
-            </tr> 
+                <td>{{ $fee_payment->student->full_name ?? 'Student deleted or Dismissed' }}</td>
+                <td>{{ $fee_payment->student->class_room->class_name ?? '' }}</td>
+                <td>{{ $fee_payment->student->class_room->section->section_name ?? '' }}</td>
+                <td class="text-center">{{ $fee_payment->transaction_date }}</td>
+                <td class="text-center">{{ number_format($fee_payment->amount) . ' XAF'}}</td>
+              </tr>
+              @php
+                $total += $fee_payment->amount
+              @endphp
+           @endforeach
+                <tr>
+                  <td class="text-center fw-bold" colspan="5">Total Collected</td>
+                  <td class="text-center fw-bold">{{ number_format($total) . ' XAF'}}</td>
+                </tr> 
           </tbody>
         </table>
       </div>
@@ -123,7 +109,7 @@
   window.addEventListener("load", function(){
     window.print();
     window.onafterprint = function(event) {
-        window.location.href = '/view-payments'
+        window.location.href = '/fee-report'
     };
   });
 </script>

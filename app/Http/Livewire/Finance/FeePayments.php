@@ -23,7 +23,7 @@ class FeePayments extends Component
     public $amount_collected, $students, $section_id, $class_rooms, 
            $balance_owed, $class_id, $student_id, $transaction_date, $search, $deletedPayment;
 
-    public $buttonDisabled =  false;
+    public $buttonDisabled =  10;
 
     public function render()
     {

@@ -41,7 +41,7 @@ class HomeController extends Controller
             }     
             //Gender analyses chart
             $gender_chart = new GenderAnalyses;
-            $gender_chart->labels(['Males','Females']);
+            $gender_chart->labels(['Boys','Girls']);
             $gender_chart->dataset('Gender analyses', 'doughnut', [$enrollment_boys, $enrollment_girls])->backgroundColor(['blue','pink']);
            
         return view('dashboard', compact('enrollment_chart','gender_chart'));

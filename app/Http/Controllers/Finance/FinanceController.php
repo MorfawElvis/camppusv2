@@ -63,6 +63,18 @@ class FinanceController extends Controller
             return Student::where('class_room_id', $class_id)
                     ->with(['class_room.section','payments','class_room.academic_year'])
                     ->withSum('payments', 'amount')
+                    ->orderBy('full_name', 'asc')
                     ->get();
+    }
+
+    public function printFeeReport($date_from, $date_to)
+    {
+        $date_from = $date_from;
+        $date_to = $date_to;
+        $fee_payments = FeePayment::whereBetween('transaction_date', [$date_from, $date_to])
+                                    ->with('student.class_room.section')
+                                    ->orderBy(Student::select('full_name')->whereColumn('students.id', 'fee_payments.student_id'))
+                                    ->get();
+       return view('reports.fees.printable-fee-report', compact('fee_payments', 'date_from', 'date_to'));
     }
 }

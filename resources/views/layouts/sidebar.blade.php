@@ -118,13 +118,19 @@
                                         <p>Fee Payments</p>
                                     </a>
                                 </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('fee-report') ? 'active' : '' }}">
+                                    <a href="{{ route('fee.report') }}" class="nav-link">
+                                        <i class="fas fa-file"></i>
+                                        <p>Fee Collected Report</p>
+                                    </a>
+                                </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('view-payments') ? 'active' : '' }}">
                                     <a href="{{ route('view.payments') }}" class="nav-link">
                                         <i class="fas fa-receipt"></i>
                                         <p>View Payments</p>
                                     </a>
                                 </li>
-                                 <li class="nav-item nav-item-submenu {{ request()->is('extra-fees') ? 'active' : '' }}">
+                                 {{-- <li class="nav-item nav-item-submenu {{ request()->is('extra-fees') ? 'active' : '' }}">
                                     <a href="{{ route('extra_fee.create') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-coins"></i>
@@ -137,7 +143,7 @@
                                         <i class="fas fa-coins"></i>
                                         <p>Manage Extra Fees</p>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                         <li class="nav-item">

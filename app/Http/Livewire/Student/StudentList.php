@@ -45,14 +45,13 @@ class StudentList extends Component
                      ->where('class_room_id', '=', $this->class_id)
                      ->orderBy('full_name', 'asc')
                      ->paginate(10);
-
         return view('livewire.student.student-list', compact('class_rooms', 'students'));
     }
 
     public function deleteStudent($user_id)
     {
         $this->deletedStudent = $user_id;
-        $this->confirm('',[
+        $this->confirm('',[                                                                                                         
             'onConfirmed' => 'deleteConfirmed',
         ]);
     }
@@ -105,10 +104,5 @@ class StudentList extends Component
           Student::where('user_id', $this->deletedStudent)->delete();
           $this->alert('success' ,'Record has been deleted successfully');
     }
-    public function updateBoardingStatus($student_id)
-    {
-        //   Student::findorFail($student_id)->update([
-        //       'is_boarding'  => $this->isBoarding,
-        //   ]);
-    }
+
 }
