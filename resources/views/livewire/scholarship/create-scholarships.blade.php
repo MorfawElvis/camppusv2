@@ -66,7 +66,11 @@
                         </div>
                         <div class="form-floating mb-4">
                             <select class="form-select @error('scholarship_category') is-invalid @enderror" wire:model.lazy="scholarship_category">
-                                <option value="" selected>Open this select menu</option>
+                                 @if ($editMode)
+                                 <option value="{{ $scholarship_category }}" selected>{{ $scholarship_category }}</option>
+                                 @else
+                                  <option selected>Open this select menu</option>
+                                 @endif
                                 @foreach(\App\Models\ScholarshipCategory::SCHOLARSHIP_CATEGORIES as $key => $s_category)
                                     <option value="{{ $s_category }}">{{ $s_category }}</option>
                                 @endforeach
@@ -80,7 +84,11 @@
                         </div>
                         <div class="form-floating mb-4">
                             <select class="form-select @error('scholarship_coverage') is-invalid @enderror" wire:model.lazy="scholarship_coverage">
-                                <option value="" selected>Open this select menu</option>
+                                @if ($editMode)
+                                     <option value="{{ $scholarship_coverage }}" selected>{{ $scholarship_coverage }}</option>
+                                     @else
+                                     <option selected>Open this select menu</option>
+                                @endif
                                 @foreach(\App\Models\ScholarshipCategory::SCHOLARSHIP_COVERAGE as $key => $s_coverage)
                                     <option value="{{ $s_coverage }}">{{ $s_coverage }}</option>
                                 @endforeach
@@ -92,17 +100,17 @@
                             @enderror
                             <label class="required">Select Scholarship Coverage</label>
                         </div>
-                            @if ($scholarship_coverage == 'partial')
-                                <div class="form-floating mb-4">
-                                    <input type="number" wire:model.lazy="scholarship_discount" max="100" class="form-control  @error('scholarship_discount') is-invalid @enderror">
-                                    @error('scholarship_discount')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                    <label  class="required">% Discount</label>
+                        @if ($scholarship_coverage == 'partial' || $editMode == true)
+                            <div class="form-floating mb-4">
+                                <input type="number" wire:model.lazy="scholarship_discount" max="100" class="form-control  @error('scholarship_discount') is-invalid @enderror">
+                                @error('scholarship_discount')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
-                            @endif
+                                @enderror
+                                <label  class="required">% Discount</label>
+                            </div>
+                        @endif  
                         <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
                     </form>
                 </div>

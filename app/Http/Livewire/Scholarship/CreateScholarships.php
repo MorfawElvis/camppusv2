@@ -13,7 +13,8 @@ class CreateScholarships extends Component
     use LivewireAlert, WithPagination;
     public $editMode = false;
 
-    public $scholarship_name, $scholarship_category, $scholarship_coverage, $scholarship_discount, $deletedCategoryId;
+    public $scholarship_name, $scholarship_category, $scholarship_coverage, 
+    $scholarship_discount, $deletedCategoryId, $editedCategory;
 
     protected $listeners = [
         'deleteConfirmed'
@@ -46,6 +47,12 @@ class CreateScholarships extends Component
     {
         $this->reset();
         $this->editMode = true;
+        $this->editedCategory = $category['id'];
+        $this->scholarship_name = $category['scholarship_name'];
+        $this->scholarship_category= $category['scholarship_category'];
+        $this->scholarship_coverage = $category['scholarship_coverage'];
+        $this->scholarship_discount = $category['discount'];
+        $this->dispatchBrowserEvent('showScholarshipCategoryModal');
     }
 
     public function createCategory()
@@ -68,9 +75,23 @@ class CreateScholarships extends Component
 
     public function editCategory()
     {
-        
-    }
+        if($this->scholarship_coverage == 'partial'){
+            $this->validate([
+                'scholarship_discount' => 'required'
+            ]);
+        }
+        $this->validate();
+        ScholarshipCategory::findOrFail($this->editedCategory)->update([
+            'scholarship_name' => $this->scholarship_name,
+            'scholarship_category' => $this->scholarship_category,
+            'scholarship_coverage' => $this->scholarship_coverage,
+            'discount' => $this->scholarship_coverage == 'partial' ? $this->scholarship_discount : 100
+        ]);
 
+        $this->alert('success', 'Record has been updated successfully');
+        $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
+    }
+        
     public function deteleScholarshipCategory($category)
     {
         $this->deletedCategoryId = $category;
@@ -82,7 +103,7 @@ class CreateScholarships extends Component
     {
         ScholarshipCategory::find($this->deletedCategoryId)->delete();
         Scholarship::where('scholarship_category_id', $this->deletedCategoryId)->delete();
-        
+
         $this->alert('success', 'Record has been deleted successfully');
         $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
     }
