@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Scholarship;
 
+use App\Models\Scholarship;
 use App\Models\ScholarshipCategory;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -79,8 +80,9 @@ class CreateScholarships extends Component
     }
     public function deleteConfirmed()
     {
-        $category = ScholarshipCategory::find($this->deletedCategoryId);
-        $category->delete();
+        ScholarshipCategory::find($this->deletedCategoryId)->delete();
+        Scholarship::where('scholarship_category_id', $this->deletedCategoryId)->delete();
+        
         $this->alert('success', 'Record has been deleted successfully');
         $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
     }
