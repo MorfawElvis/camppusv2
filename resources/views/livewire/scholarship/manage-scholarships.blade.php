@@ -17,7 +17,8 @@
                     <th>Student's Name</th>
                     <th>Class</th>
                     <th>Schorlaship</th>
-                    <th>Coverage</th>                                   
+                    <th>Coverage</th> 
+                    <th>Actions</th>                                  
                 </tr>
                 </thead>
                 <tbody>
@@ -28,10 +29,13 @@
                         <td>{{ $student->student->class_room->class_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_coverage ?? '' }}</td>
+                        <td>
+                            <span><a  wire:click.prevent="deleteScholarship({{ $student->student->id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>  
+                        </td>
                      </tr>
                  @empty
                  <tr  class="text-center">
-                     <td colspan="6"><i class="fas fa-question-circle mr-2"></i>No record found</td>
+                     <td colspan="7"><i class="fas fa-question-circle mr-2"></i>No record found</td>
                  </tr>            
                  @endforelse
                 </tbody>

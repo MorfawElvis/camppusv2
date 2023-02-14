@@ -51,6 +51,11 @@ class ManageScholarships extends Component
         $this->alert('success' ,'Record has been added successfully');
     }
 
+    public function deleteScholarship($student_id)
+    {
+        Scholarship::where('student_id', $student_id)->delete();
+        $this->alert('success','Record has been deleted successfully');
+    }
     public function render()
     {
         $sections = Section::all();
