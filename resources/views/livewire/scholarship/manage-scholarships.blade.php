@@ -24,10 +24,10 @@
                  @forelse ($students_with_scholarships as $student)
                      <tr>
                         <td>{{ $loop->index+1 }}</td>
-                        <td>{{ $student->student->full_name }}</td>
-                        <td>{{ $student->student->class_room->class_name }}</td>
-                        <td>{{ $student->scholarship_category->scholarship_name }}</td>
-                        <td>{{ $student->scholarship_category->scholarship_coverage }}</td>
+                        <td>{{ $student->student->full_name ?? '' }}</td>
+                        <td>{{ $student->student->class_room->class_name ?? '' }}</td>
+                        <td>{{ $student->scholarship_category->scholarship_name ?? '' }}</td>
+                        <td>{{ $student->scholarship_category->scholarship_coverage ?? '' }}</td>
                      </tr>
                  @empty
                  <tr  class="text-center">
