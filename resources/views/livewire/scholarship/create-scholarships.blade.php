@@ -32,7 +32,7 @@
                     <td>{{ $category->discount }}</td>
                     <td class="text-center">
                         <span><a wire:click.prevent="editModal({{ $category }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>
-                        <span><a class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
+                        <span><a  wire:click.prevent="deteleScholarshipCategory({{ $category->id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
                     </td>
                 </tr>
                 @empty

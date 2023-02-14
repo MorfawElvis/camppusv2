@@ -12,7 +12,11 @@ class CreateScholarships extends Component
     use LivewireAlert, WithPagination;
     public $editMode = false;
 
-    public $scholarship_name, $scholarship_category, $scholarship_coverage, $scholarship_discount;
+    public $scholarship_name, $scholarship_category, $scholarship_coverage, $scholarship_discount, $deletedCategoryId;
+
+    protected $listeners = [
+        'deleteConfirmed'
+    ];
 
     protected $rules = [
            'scholarship_name'     => 'required',
@@ -65,4 +69,20 @@ class CreateScholarships extends Component
     {
         
     }
+
+    public function deteleScholarshipCategory($category)
+    {
+        $this->deletedCategoryId = $category;
+        $this->confirm('',[
+            'onConfirmed' => 'deleteConfirmed',
+        ]);
+    }
+    public function deleteConfirmed()
+    {
+        $category = ScholarshipCategory::find($this->deletedCategoryId);
+        $category->delete();
+        $this->alert('success', 'Record has been deleted successfully');
+        $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
+    }
+    
 }
