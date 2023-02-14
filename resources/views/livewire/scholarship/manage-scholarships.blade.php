@@ -25,12 +25,12 @@
                  @forelse ($students_with_scholarships as $student)
                      <tr>
                         <td>{{ $loop->index+1 }}</td>
-                        <td>{{ $student->student->full_name ?? '' }}</td>
+                        <td>{{ $student->student->full_name ?? '' }} {{ $student->student_id }}</td>
                         <td>{{ $student->student->class_room->class_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_coverage ?? '' }}</td>
                         <td>
-                            <span><a  wire:click.prevent="deleteScholarship({{ $student->student->id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>  
+                            <span><a  wire:click.prevent="deleteScholarship({{ $student->student_id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>  
                         </td>
                      </tr>
                  @empty
