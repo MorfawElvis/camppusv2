@@ -59,7 +59,12 @@
             </div>
             <div class="row">
                 <div class="col-md-4 fs-5 text-center">Fee Collected: <span class="fw-bold">
-                  {{ \Carbon\Carbon::parse($date_from)->format('d M Y') }} - {{ \Carbon\Carbon::parse($date_to)->format('d M Y') }}</span></div>
+                  @if ($date_from === $date_to)
+                      {{ \Carbon\Carbon::parse($date_to)->format('d M Y') }}
+                  @else
+                  {{ \Carbon\Carbon::parse($date_from)->format('d M Y') }} - {{ \Carbon\Carbon::parse($date_to)->format('d M Y') }}
+                  @endif
+                </span></div>
                 <div class="col-md-4 fs-5 text-center">{{ current_school_year()->year_name }} Academic Year</div>
             </div>
         </h2>
