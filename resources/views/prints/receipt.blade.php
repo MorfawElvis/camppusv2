@@ -135,6 +135,9 @@
               <td>{{ number_format($total_paid) . '  XAF' }}</td>
             </tr>
             <tr>
+              @php
+              $discount = 0;
+              @endphp
               <th>Discount/Scholarship</th>
               @if ($data->student->scholarship->scholarship_category->discount ?? '')
                   @php
@@ -148,9 +151,9 @@
             <tr>
               <th>Balanced Owed:</th>
              @if ($data->student->is_boarding)
-                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $total_paid ) . '  XAF' }}</td>
+                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($total_paid  + $discount)) . '  XAF' }}</td>
              @else
-                <td>{{ number_format($data->student->class_room->payable_fee - $total_paid ) . '  XAF' }}</td>
+                <td>{{ number_format($data->student->class_room->payable_fee - ($total_paid + $discount) ) . '  XAF' }}</td>
              @endif
             </tr>
           </table>
