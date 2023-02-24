@@ -6,15 +6,24 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>SABIBI | SCHOOL MANAGEMENT SYSTEMS</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+        }
+        .navbar-toggler{
+            display: none;
+        }   
+    </style>
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
             <a href="../../index3.html" class="navbar-brand">
-                <img src="{{ asset('images/sabibi.JPG') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="{{ asset('images/sabibi.png') }}" alt="Sabibi Logo" 
                      style="opacity: 1; width: 60px; height: 60px;">
-                <span class="brand-text font-weight-light text-white">SABIBI COMPREHENSIVE COLLEGE - TIKO</span>
+                <span class="text-white">SABIBI COMPREHENSIVE COLLEGE - TIKO</span>
             </a>
             <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -44,27 +53,27 @@
                     <div class="col-sm-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>ADMIN</h3>
+                                <span class="fs-2">ADMIN</span>
 
                                 <p>Manage Academics / Discipline </p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-user-graduate text-white"></i>
                             </div>
-                            <a href="https://sabibi.camppus.cc" class="small-box-footer" target="_blank">Click to login  <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="https://sabibi.camppus.cc" class="small-box-footer">Click to login  <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>BURSARY</h3>
+                                <span class="fs-2">BURSARY</span>
 
                                 <p>Manage Finances / School Fees</p>
                             </div>
                             <div class="icon">
                                 <i class="fas  fa-money-check-alt text-dark"></i>
                             </div>
-                            <a href="{{ route('login') }}" target="_blank" class="small-box-footer">Click to login <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('login') }}" class="small-box-footer">Click to login <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- /.col-md-6 -->
