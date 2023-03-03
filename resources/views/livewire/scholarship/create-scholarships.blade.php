@@ -100,17 +100,15 @@
                             @enderror
                             <label class="required">Select Scholarship Coverage</label>
                         </div>
-                        @if ($scholarship_coverage == 'partial' || $editMode == true)
-                            <div class="form-floating mb-4">
-                                <input type="text" wire:model.lazy="scholarship_discount"  class="form-control  number-separator  @error('scholarship_discount') is-invalid @enderror">
-                                @error('scholarship_discount')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                                <label  class="required">Amount</label>
+                        <div class="form-floating mb-4">
+                            <input type="text" wire:model.lazy="scholarship_discount"  class="form-control  number-separator  @error('scholarship_discount') is-invalid @enderror">
+                            @error('scholarship_discount')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
-                        @endif  
+                            @enderror
+                            <label  class="required">Amount</label>
+                        </div>
                         <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
                     </form>
                 </div>
