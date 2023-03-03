@@ -118,6 +118,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string $expense_item
  * @property-read \App\Models\ExpenseCategory|null $expense_category
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newQuery()
@@ -310,7 +311,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
  * @property-read int|null $scholarships_count
- * @property-write mixed $scholarship_amount
  * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newQuery()
  * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory onlyTrashed()

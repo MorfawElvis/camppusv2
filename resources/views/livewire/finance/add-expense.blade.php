@@ -5,16 +5,27 @@
             <i class="fas fa-arrow-alt-circle-down mr-2"></i>Add Expense
         </div>
         <div class="card-body">
-            <a wire:click.prevent="showAddExpenseModal" class="btn btn-outline-primary rounded-pill float-right mb-2">
-                <i class="fas fa-plus-circle mr-2"></i>Add Expense</a>
+            <div class="d-lg-flex justify-content-between align-items-center">
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <div>
+                        Create expense categories before adding new expenses!
+                    </div>
+                </div>
+                <div>
+                    <a wire:click.prevent="showAddExpenseModal" class="btn btn-outline-primary rounded-pill">
+                        <i class="fas fa-plus-circle mr-2"></i>Add Expense</a>
+                </div>
+            </div>
                 <table class="table table-striped table-hover table-responsive-lg">
                     <caption></caption>
                     <thead>
                     <tr>
                         <th>S/N</th>
-                        <th>Category</th>
+                        <th>Item</th>
                         <th>Amount</th>
                         <th>Entry Date</th>
+                        <th class="text-center">Remarks</th>
                         <th class="text-center">Actions</th>
                     </tr>
                     </thead>
@@ -22,9 +33,10 @@
                     @forelse($expenses as $expense)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $expense->expense_category->category_name ?? '' }}</td>
+                            <td>{{ $expense->expense_item }}</td>
                             <td>{{ number_format($expense->expense_amount)}} XAF</td>
                             <td>{{ \Carbon\Carbon::parse($expense->entry_date)->format('d M Y') }}</td>
+                            <td class="text-center">{{ $expense->expense_description ?? '--' }}</td>
                             <td class="text-center">
                                 <span><a class="btn btn-xs btn-primary" wire:click.prevent="editModal({{ $expense }})" ><i class="fas fa-edit mr-2"></i>Edit</a></span>
                                 <span><a class="btn btn-xs btn-danger " wire:click.prevent="deleteExpense({{ $expense->id }})" ><i class="fas fa-trash mr-1"></i>Delete</a></span>
@@ -32,7 +44,7 @@
                         </tr>
                     @empty
                         <tr  class="text-center">
-                            <td colspan="5"><i class="fas fa-question-circle mr-2"></i>No record found</td>
+                            <td colspan="6"><i class="fas fa-question-circle mr-2"></i>No record found</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -61,7 +73,17 @@
                                 {{ $message }}
                             </div>
                             @enderror
-                            <label for="floatingSelect">Expense Category</label>
+                            <label for="floatingSelect" class="required">Expense Category</label>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="text"  wire:model.lazy="expense_item" class="form-control @error('expense_item') is-invalid @enderror">
+                            @error('expense_item')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                            <label  class="required">Expense Item</label>
+                            <small>e.g Chalk</small>
                         </div>
                         <div class="form-floating mb-4">
                             <input type="text"  wire:model.lazy="expense_amount" class="form-control number-separator @error('expense_amount') is-invalid @enderror">
@@ -70,7 +92,7 @@
                                 {{ $message }}
                             </div>
                             @enderror
-                            <label  class="required">Expense Amount</label>
+                            <label  class="required">Amount</label>
                         </div>
                         <div class="form-floating mb-4">
                             <input type="date" wire:model.lazy='entry_date' class="form-control @error('entry_date') is-invalid @enderror">
@@ -84,7 +106,7 @@
                         </div>
                         <div class="form-floating mb-4">
                             <textarea wire:model.lazy="expense_description" class="form-control"  placeholder="Description" id="floatingTextarea"></textarea>
-                            <label for="floatingTextarea">Description</label>
+                            <label for="floatingTextarea">Remarks</label>
                         </div>
                         <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
                     </form>

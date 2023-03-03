@@ -44,8 +44,8 @@ class ScholarshipCategory extends Model
         return $this->attributes['scholarship_coverage'] =  ucwords($value);
     }
 
-    public function setScholarshipAmountAttribute($value)
+    public function setDiscountAttribute($value)
     {
-        $this->attributes['scholarship_amount'] = str_replace(',', '', $value);
+        $this->attributes['discount'] = str_replace(',', '', $value);
     }
 }

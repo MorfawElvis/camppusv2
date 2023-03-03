@@ -21,7 +21,7 @@
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
             <a href="../../index3.html" class="navbar-brand">
-                <img src="{{ asset('images/sabibi.png') }}" alt="Sabibi Logo" 
+                <img src="{{ asset('images/sabibi.JPG') }}" alt="Sabibi Logo" 
                      style="opacity: 1; width: 60px; height: 60px;">
                 <span class="text-white">SABIBI COMPREHENSIVE COLLEGE - TIKO</span>
             </a>

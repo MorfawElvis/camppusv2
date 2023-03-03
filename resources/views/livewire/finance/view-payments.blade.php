@@ -52,7 +52,7 @@
                             @php
                                 $discount = 0;
                                 if (isset($student_fee->scholarship->scholarship_category->discount)) {
-                                    $discount = $student_fee->class_room->payable_fee * ($student_fee->scholarship->scholarship_category->discount / 100);
+                                    $discount = $student_fee->scholarship->scholarship_category->discount;
                                 }
                             @endphp
                             <td>{{ $student_fees->firstItem() + $loop->index }}</td>

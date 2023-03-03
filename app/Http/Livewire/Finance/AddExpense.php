@@ -14,7 +14,7 @@ class AddExpense extends Component
 
     public $editMode = false;
     
-    public $expense_category_id, $expense_amount, $entry_date, $expense_description, $editedExpenseId, $deletedExpenseId;
+    public $expense_category_id, $expense_amount, $entry_date, $expense_description, $editedExpenseId, $deletedExpenseId, $expense_item;
 
     protected $listeners = [
          'deleteConfirmed'
@@ -23,11 +23,13 @@ class AddExpense extends Component
     protected $rules = [
         'expense_category_id' => 'required',
         'expense_amount'      => 'required',
+        'expense_item'      => 'required',
         'entry_date'          => 'required',
     ];
 
     protected $messages = [
         'expense_category_id.required' => 'The Exepense category is not selected',
+        'expense_item.required'        => 'The Expense item cannot be empty',
         'expense_amount.required'      => 'The Expense ammount cannot be empty',
         'entry_date'                   => 'The Entry date cannot be empty',
     ];
@@ -50,6 +52,7 @@ class AddExpense extends Component
          $this->validate();
          Expense::create([
             'expense_category_id'   => $this->expense_category_id,
+            'expense_item'          => $this->expense_item,
             'expense_amount'        => $this->expense_amount,
             'entry_date'            => $this->entry_date,
             'enteredBy_id'          => auth()->user()->id,
@@ -65,6 +68,7 @@ class AddExpense extends Component
         $this->editMode = true;
         $this->editedExpenseId =  $expense['id'];
         $this->expense_category_id = $expense['expense_category']['id'] ?? '';
+        $this->expense_item = $expense['expense_item'];
         $this->expense_amount = $expense['expense_amount'];
         $this->entry_date = $expense['entry_date'];
         $this->expense_description = $expense['expense_description'];
@@ -76,6 +80,7 @@ class AddExpense extends Component
         $this->validate();
         Expense::findOrFail($this->editedExpenseId)->update([
             'expense_category_id'   => $this->expense_category_id,
+            'expense_item'          => $this->expense_item,
             'expense_amount'        => $this->expense_amount,
             'entry_date'            => $this->entry_date,
             'enteredBy_id'          => auth()->user()->id,

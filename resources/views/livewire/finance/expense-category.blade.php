@@ -53,8 +53,8 @@
                             {{ $message }}
                         </div>
                         @enderror
-                        <small>For example Stationery</small>
                         <label class="required">Category Name</label>
+                        <small>e.g Stationery</small>
                     </div>
                     <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
                     </form>

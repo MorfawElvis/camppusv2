@@ -18,7 +18,7 @@
                     <th>Scholarship</th>
                     <th>Category</th>
                     <th>Coverage</th>
-                    <th>% Discount</th>
+                    <th>Discount</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -29,7 +29,7 @@
                     <td>{{ $category->scholarship_name }}</td>
                     <td>{{ $category->scholarship_category }}</td>
                     <td>{{ $category->scholarship_coverage }}</td>
-                    <td>{{ $category->discount }}</td>
+                    <td>{{ number_format($category->discount) }} <span class="ms-1">XAF</span></td>
                     <td class="text-center">
                         <span><a wire:click.prevent="editModal({{ $category }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>
                         <span><a  wire:click.prevent="deteleScholarshipCategory({{ $category->id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
@@ -102,13 +102,13 @@
                         </div>
                         @if ($scholarship_coverage == 'partial' || $editMode == true)
                             <div class="form-floating mb-4">
-                                <input type="number" wire:model.lazy="scholarship_discount" max="100" class="form-control  @error('scholarship_discount') is-invalid @enderror">
+                                <input type="text" wire:model.lazy="scholarship_discount"  class="form-control  number-separator  @error('scholarship_discount') is-invalid @enderror">
                                 @error('scholarship_discount')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
-                                <label  class="required">% Discount</label>
+                                <label  class="required">Amount</label>
                             </div>
                         @endif  
                         <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>

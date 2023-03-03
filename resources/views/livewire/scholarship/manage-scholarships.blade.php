@@ -96,7 +96,8 @@
                             <select class="form-select" id="floatingSelect" wire:model.lazy="scholarship_id" required>
                               <option selected>Open this select menu</option>
                               @foreach ($scholarships as $scholarship)
-                              <option value="{{ $scholarship->id }}">{{ $scholarship->scholarship_name }} | {{ $scholarship->scholarship_category }} | {{ $scholarship->scholarship_coverage }} | {{ $scholarship->discount . '%' }}</option>
+                              <option value="{{ $scholarship->id }}">{{ $scholarship->scholarship_name }} | {{ $scholarship->scholarship_category }} | <span style="font-weight: 
+                                800 !important;">{{ $scholarship->discount}} XAF</span></option>
                               @endforeach
                             </select>
                             <label for="floatingSelect">Schorlaship</label>
