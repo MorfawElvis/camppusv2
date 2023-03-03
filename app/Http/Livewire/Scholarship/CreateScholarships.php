@@ -24,12 +24,14 @@ class CreateScholarships extends Component
            'scholarship_name'     => 'required',
            'scholarship_category' => 'required',
            'scholarship_coverage' => 'required',
+           'scholarship_discount' => 'required',
     ];
 
     protected $messages = [
         'scholarship_name.required'     => 'Schorlaship name cannot be empty',
         'scholarship_category.required' => 'Scholarship category not selected',
         'scholarship_coverage.required' => 'Scholarship coverage not selected',
+        'scholarship_discount.required' => 'Scholarship discount not entered',
     ];
     public function render()
     {
@@ -57,17 +59,12 @@ class CreateScholarships extends Component
 
     public function createCategory()
     {
-        if($this->scholarship_coverage == 'partial'){
-            $this->validate([
-                'scholarship_discount' => 'required'
-            ]);
-        }
         $this->validate();
         ScholarshipCategory::create([
             'scholarship_name' => $this->scholarship_name,
             'scholarship_category' => $this->scholarship_category,
             'scholarship_coverage' => $this->scholarship_coverage,
-            'discount' => $this->scholarship_discount ?? 100
+            'discount' => $this->scholarship_discount
         ]);
         $this->alert('success', 'Record has been saved successfully');
         $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
@@ -75,17 +72,12 @@ class CreateScholarships extends Component
 
     public function editCategory()
     {
-        if($this->scholarship_coverage == 'partial'){
-            $this->validate([
-                'scholarship_discount' => 'required'
-            ]);
-        }
         $this->validate();
         ScholarshipCategory::findOrFail($this->editedCategory)->update([
             'scholarship_name' => $this->scholarship_name,
             'scholarship_category' => $this->scholarship_category,
             'scholarship_coverage' => $this->scholarship_coverage,
-            'discount' => $this->scholarship_coverage == 'partial' ? $this->scholarship_discount : 100
+            'discount' => $this->scholarship_discount
         ]);
 
         $this->alert('success', 'Record has been updated successfully');
