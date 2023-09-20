@@ -47,6 +47,7 @@ class FeePayments extends Component
         $sections = Section::all();
         $fee_payments = FeePayment::search($this->search)
             ->with('student.class_room.section')
+            ->where('school_year_id', current_school_year()->id)
             ->latest()
             ->paginate(10);
 

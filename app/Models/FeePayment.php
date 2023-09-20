@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Settings\AcademicYears;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class FeePayment extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes;
 
     protected $fillable = [
         'amount',
@@ -32,9 +33,14 @@ class FeePayment extends Model
         });
     }
 
-    public function student()
+    public function student() : BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function academic_year() : BelongsTo
+    {
+       return $this->belongsTo(SchoolYear::class);
     }
 
     public function setAmountAttribute($value)

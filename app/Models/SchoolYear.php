@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -29,24 +30,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SchoolYear extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'year_name', 'year_status',
     ];
 
-    public function class_rooms()
+    public function class_rooms() : HasMany
     {
         return $this->hasMany(ClassRoom::class);
     }
 
-    public function school_term(): Relation
+    public function school_term(): HasMany
     {
         return $this->hasMany(SchoolTerm::class);
     }
 
-    public function scholarships()
+    public function scholarships() : HasMany
     {
         return $this->hasMany(Scholarship::class);
+    }
+
+    public function fee_payments() : HasMany
+    {
+        return $this->hasMany(FeePayment::class);
     }
 }
