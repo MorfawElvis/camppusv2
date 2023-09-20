@@ -40,7 +40,7 @@ class CreateScholarships extends Component
     ];
 
     protected $messages = [
-        'scholarship_name.required' => 'Schorlaship name cannot be empty',
+        'scholarship_name.required' => 'Scholarship name cannot be empty',
         'scholarship_category.required' => 'Scholarship category not selected',
         'scholarship_coverage.required' => 'Scholarship coverage not selected',
         'scholarship_discount.required' => 'Scholarship discount not entered',
@@ -93,7 +93,6 @@ class CreateScholarships extends Component
             'scholarship_coverage' => $this->scholarship_coverage,
             'discount' => $this->scholarship_discount,
         ]);
-
         $this->alert('success', 'Record has been updated successfully');
         $this->dispatchBrowserEvent('hideScholarshipCategoryModal');
     }
