@@ -105,7 +105,7 @@
                                     <select class="form-select @error('role') is-invalid @enderror" aria-label="class" name="role">
                                         <option value="" selected>Open this select menu</option>
                                         @foreach($roles as $role)
-                                            <option {{ old('role' == $role ? 'selected' : '') }} value="{{$role->id}}">{{$role->role_name}}</option>
+                                            <option {{ old('role' == $role ? 'selected' : '') }} value="{{$role->id}}">{{$role->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror

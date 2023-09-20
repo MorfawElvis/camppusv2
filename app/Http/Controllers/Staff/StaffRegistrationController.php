@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\NewStaffRequest;
 use App\Models\Employee;
 use App\Models\GeneralSetting;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use App\Services\Employee\EmployeeService;
 use App\Services\UserRegistration;
 use Picqer\Barcode\BarcodeGeneratorPNG;
