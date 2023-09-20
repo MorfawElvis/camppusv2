@@ -2,14 +2,8 @@
 
 namespace App\Providers;
 
-
-use App\Models\SchoolTerm;
-use App\Models\GeneralSetting;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,15 +14,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot():void
+    public function boot(): void
     {
         Model::preventLazyLoading(! app()->isProduction());
     }

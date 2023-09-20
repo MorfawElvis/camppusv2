@@ -85,7 +85,7 @@
                             @enderror
                             <label for="floatingSelect" class="required">Select academic year</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

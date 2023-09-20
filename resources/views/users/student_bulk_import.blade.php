@@ -11,7 +11,7 @@
     <div class="card shadow-lg w-75 mx-auto">
         <div class="card-header bg-primary">
           <div class="d-flex justify-content-between">
-              <h6><i class=" fas fa-arrow-alt-circle-down me-1"></i>Student Bulk Upload - <span class="fw-bold">{{ $class_name->class_name }}</span></h6>
+              <h6><i class=" fas fa-arrow-alt-circle-down me-1"></i>Upload Students - <span class="fw-bold">{{ $class_name->class_name }}</span></h6>
               <a href="{{ route('admin.manage.classes') }}" class="text-white text-decoration-none"><i class="fas fa-arrow-alt-circle-left me-1"></i>Back</a>
           </div>
         </div>

@@ -3,11 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-
-
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,7 +18,7 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'role_id' => '1',
-            'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
+            'user_code' => (rand(100, 1000).Str::upper(Str::random(3))),
             'email' => 'admin@camppus.net',
             'password' => Hash::make('123456'), // password
             'remember_token' => Str::random(10),
@@ -36,7 +34,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'role_id' => '2',
-            'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
+            'user_code' => (rand(100, 1000).Str::upper(Str::random(3))),
             'email' => 'teacher@camppus.net',
             'password' => Hash::make('123456'), // password
             'remember_token' => Str::random(10),
@@ -44,7 +42,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'role_id' => '3',
-            'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
+            'user_code' => (rand(100, 1000).Str::upper(Str::random(3))),
             'email' => 'accountant@camppus.net',
             'password' => Hash::make('123456'), // password
             'remember_token' => Str::random(10),

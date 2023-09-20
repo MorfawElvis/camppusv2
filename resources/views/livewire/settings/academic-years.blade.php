@@ -69,7 +69,7 @@
                             <small>For example 2019-2020</small>
                             <label for="academicYear" class="required">Year Name</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

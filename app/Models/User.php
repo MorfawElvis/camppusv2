@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Cache;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
+
 
 /**
  * App\Models\User
@@ -39,12 +39,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperUser
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     const ACTIVE = 1;
+
     const INACTIVE = 0;
 
     /**
@@ -56,11 +58,11 @@ class User extends Authenticatable
         'user_code',
         'email',
         'user_status',
-        'role_id',
         'password',
-        'photo'
+        'photo',
     ];
 
+    protected function getDefaultGuardName(): string { return 'web'; }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -79,28 +81,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function role():Relation
+
+    public function student(): Relation
     {
-        return  $this->belongsTo(Role::class);
+        return $this->hasOne(Student::class);
     }
-    public function student():Relation
-    {
-        return  $this->hasOne(Student::class);
-    }
-    public function employee():Relation
+
+    public function employee(): Relation
     {
         return $this->hasOne(Employee::class);
     }
-    public function department():Relation
+
+    public function department(): Relation
     {
         return $this->hasOne(Department::class);
     }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
-    }
-    public function isOnline()
-    {
-        return Cache::has('user-is-online-'.$this->id);
     }
 }

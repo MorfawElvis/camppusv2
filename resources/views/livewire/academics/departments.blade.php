@@ -66,7 +66,7 @@
                             </select>
                             <label for="floatingSelect">Select Head of Department</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

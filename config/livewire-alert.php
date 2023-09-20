@@ -11,7 +11,7 @@ return [
         'toast' => true,
         'text' => null,
         'showCancelButton' => false,
-        'showConfirmButton' => false
+        'showConfirmButton' => false,
     ],
     'confirm' => [
         'icon' => 'warning',
@@ -23,9 +23,9 @@ return [
         'cancelButtonText' => 'No',
         'confirmButtonText' => 'Yes, Delete!',
         'title' => 'Are you sure you want to delete this record?',
-        'text' =>  'You may not be able to recover this record later!',
+        'text' => 'You may not be able to recover this record later!',
         'confirmButtonColor' => '#D50000',
         'cancelButtonColor' => '#0277BD',
-            'onCancelled' => 'cancelled',
-    ]
+        'onCancelled' => 'cancelled',
+    ],
 ];

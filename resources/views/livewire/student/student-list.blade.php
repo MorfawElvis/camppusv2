@@ -2,7 +2,7 @@
 @section('title', 'Student List')
 <div class="card shadow-lg">
     <div class="card-header bg-primary">
-        <i class=" fas fa-arrow-alt-circle-down mr-1"></i>Student List 
+        <i class=" fas fa-arrow-alt-circle-down mr-1"></i>Student List
     </div>
     <div class="card-body">
         <div class="row g-3 mb-3 justify-content-between">
@@ -48,8 +48,8 @@
                    />
                 </td>
                 <td class="text-center">
-                    <a wire:click.prevent="editStudentModal({{ $student }})" class="btn btn-xs btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
-                    <a wire:click.prevent="deleteStudent({{ $student->user->id }})" class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a>
+                    <a wire:click="editStudentModal({{ $student }},{{$students->currentPage()}})" class="btn btn-xs btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                    <a wire:click.prevent="deleteStudent({{ $student->user->id }})"  class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a>
                 </td>
               </tr>
               @empty
@@ -69,7 +69,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form wire:submit.prevent="updateStudent" class="form-floating">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-8">
@@ -99,12 +98,12 @@
             <div class="col-md-4 ms-auto">
               <div class="text-center">
                 @if ($profile_image)
-                <img class="profile-user-img img-fluid img-circle" 
+                <img class="profile-user-img img-fluid img-circle"
                 src="{{ asset('storage/public/students_photos/'.$profile_image) }}" alt="User profile picture">
                 @elseif ($photo)
                 <img src="{{ $photo->temporaryUrl() }}" class="profile-user-img img-fluid img-circle">
-                @else   
-                <img class="profile-user-img img-fluid img-circle" 
+                @else
+                <img class="profile-user-img img-fluid img-circle"
                 src="{{ asset('storage/images/user.svg') }}" alt="User profile picture">
                 @endif
               </div>
@@ -115,13 +114,12 @@
       <div class="modal-footer">
         <div class="float-right mt-3">
           <button type="reset" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" id="save-button"  class="btn btn-primary rounded-pill">
+          <button type="submit" id="save-button" wire:click.prevent="updateStudent" class="btn btn-primary rounded-pill">
               <i id="spinner" class="fa fa-spinner fa-spin hide mr-2"></i>
               <span class="button-text">Save Changes</span>
           </button>
         </div>
       </div>
-    </form>
     </div>
   </div>
 </div>

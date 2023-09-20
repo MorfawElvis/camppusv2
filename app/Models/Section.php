@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -25,26 +24,28 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Query\Builder|Section withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Section withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSection
  */
 class Section extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'section_name'
+        'section_name',
     ];
 
     public function class_rooms()
     {
         return $this->hasMany(ClassRoom::class);
     }
+
     public function students()
     {
         return $this->hasManyThrough(Student::class, ClassRoom::class);
     }
+
     public function setSectionNameAttribute($value)
     {
         $this->attributes['section_name'] = Str::upper($value);
     }
-
 }

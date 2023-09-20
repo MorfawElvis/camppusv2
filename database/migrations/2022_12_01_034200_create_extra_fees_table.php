@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('extra_fees', function (Blueprint $table) {
             $table->id();
-            $table->string('fee_type');
-            $table->integer('amount');
-            $table->timestamps();
+            $table->string('name');
             $table->softDeletes();
         });
     }

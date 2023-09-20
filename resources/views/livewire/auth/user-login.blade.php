@@ -1,7 +1,7 @@
 <div>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5 mt-5">
+        <div class="row d-flex justify-content-center min-vh-100 align-items-center">
+            <div class="col-md-6 col-lg-5">
                 <div class="login-wrap p-4 p-md-5">
                     <div class="icon d-flex align-items-center justify-content-center mb-5">
                         <img src="{{ asset('images/sabibi.JPG') }}" class="rounded-circle" alt="Camppus Logo" style="width: 60%;">
@@ -20,15 +20,15 @@
                     </div>
                     <form wire:submit.prevent="login">
                         <div class="form-floating mb-4">
-                            <input type="text" wire:model.lazy="form.user_code" class="form-control" id="floatingInput" placeholder="userCode"
+                            <input type="text" wire:model="form.user_code" class="form-control" id="user-code" placeholder="userCode"
                                    name="user_code" autofocus>
-                            <label for="floatingInput">{{ __('Usercode') }}</label>
+                            <label for="user-code">{{ __('User code') }}</label>
                         </div>
                         <div class="form-floating mb-4">
-                            <input id="password-field" wire:model.lazy="form.password" type="password" class="form-control" id="floatingInput" placeholder="Password"
+                            <input id="password-field" wire:model="form.password" type="password" class="form-control" id="password" placeholder="Password"
                                    name="password"  autofocus>
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                            <label for="floatingInput">{{ __('Password') }}</label>
+                            <label for="password">{{ __('Password') }}</label>
                         </div>
                         <div class="form-group d-md-flex">
                             <div class="w-50">

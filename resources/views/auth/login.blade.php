@@ -21,6 +21,5 @@
     </section>
     @livewireScripts
     <script src="{{ asset('js/jquery-3.min.js') }}"></script>
-    <script src="{{asset('js/app.js')}}"></script>
 	</body>
 </html>

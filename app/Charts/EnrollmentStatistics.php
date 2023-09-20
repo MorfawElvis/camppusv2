@@ -17,5 +17,4 @@ class EnrollmentStatistics extends Chart
 
         $this->displayLegend(false);
     }
-    
 }

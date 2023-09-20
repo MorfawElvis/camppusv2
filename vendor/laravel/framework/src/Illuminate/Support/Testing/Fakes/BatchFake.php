@@ -6,6 +6,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\UpdatedBatchJobCounts;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class BatchFake extends Batch
 {
@@ -79,7 +80,11 @@ class BatchFake extends Batch
      */
     public function add($jobs)
     {
-        $this->added[] = array_merge($this->added, $jobs);
+        $jobs = Collection::wrap($jobs);
+
+        foreach ($jobs as $job) {
+            $this->added[] = $job;
+        }
 
         return $this;
     }

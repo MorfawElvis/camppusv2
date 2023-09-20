@@ -3,14 +3,14 @@
 namespace App\Http\Requests\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
 
 class NewStudentRequest extends FormRequest
 {
-    public function authorize():bool
+    public function authorize(): bool
     {
         return true;
     }
+
     public function rules(): array
     {
         return [
@@ -22,16 +22,17 @@ class NewStudentRequest extends FormRequest
             'gender' => 'required',
             'section_id' => 'required',
             'class_id' => 'required',
-            'email'    => 'nullable|email',
-            'address'  => 'nullable|string',
+            'email' => 'nullable|email',
+            'address' => 'nullable|string',
             'nationality' => 'nullable|string',
             'phone_number' => 'nullable|numeric',
             'denomination' => 'nullable|string',
             'password' => 'nullable|confirmed|min:6',
-            'password_confirmed' => 'nullable|min:6'
+            'password_confirmed' => 'nullable|min:6',
         ];
     }
-    public function messages():array
+
+    public function messages(): array
     {
         return [
             'full_name.required' => "The Student's name is required",
@@ -41,7 +42,7 @@ class NewStudentRequest extends FormRequest
             'section_id.required' => "The Student's section is not selected",
             'level_id.required' => "The Student's level is not selected",
             'class_id.required' => "The Student's class is not selected",
-            'photo.max:2048'   => "The Student's photo should not be more than 2M"
+            'photo.max:2048' => "The Student's photo should not be more than 2M",
         ];
     }
 }

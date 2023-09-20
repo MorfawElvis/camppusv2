@@ -22,7 +22,7 @@ class PeopleFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(75,1036),
+            'user_id' => rand(75, 1036),
             'date_of_birth' => now(),
             'place_of_birth' => 'Buea',
             'gender' => 'male',
@@ -30,7 +30,7 @@ class PeopleFactory extends Factory
             'phone_number' => '677195500',
             'registration_date' => now(),
             'address' => 'P.O Box 215 - Sasse',
-            'created_at' => now()
+            'created_at' => now(),
         ];
     }
 }

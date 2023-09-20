@@ -9,12 +9,13 @@
     <link rel="icon" href="{{ url('favicon.ico') }}" type="image/x-icon">
     <!-- Styles -->
     @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
+    @livewireStyles
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('page-css')
-    @livewireStyles
 </head>
-    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}} layout-navbar-fixed">   
+    <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}} layout-navbar-fixed">
         <div class="wrapper" id="app">
             @include('layouts.header')
             @include('layouts.sidebar')
@@ -23,18 +24,10 @@
                     <div class="container-fluid">
                         <div class="content-header">
                             <div class="row">
-                                @php
-                                    $t = 0;
-                                @endphp
                                 <div class="col-sm-6">
-                                 @foreach (get_online_users() as $user )
-                                    @php
-                                      $t += $user->isOnline();
-                                    @endphp
-                                 @endforeach
-                                 @if (request()->is('dashboard'))
-                                    Online Users <span class="badge bg-primary">{{ $t }}</span>
-                                 @endif
+                                    <div wire:offline>
+                                        You are now offline.
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">
@@ -52,12 +45,12 @@
             @include('layouts.footer')
         </div>
         <!-- Scripts -->
+        @livewireScripts
         <script src="{{asset('js/jquery-3.min.js')}}"></script>
+        @stack('page-scripts')
         <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
         <script src="{{ asset('js/custom/bootstrap-switch.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-        @stack('page-scripts')
-    @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
         <x-livewire-alert::scripts />

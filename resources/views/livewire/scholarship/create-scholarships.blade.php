@@ -5,7 +5,7 @@
             <i class="fas fa-arrow-alt-circle-down mr-2"></i>Create Scholarships
         </div>
         <div class="card-body">
-            <a wire:click.prevent="showScholarshipCategoryModal"  class="btn btn-outline-primary rounded-pill float-right mb-2" 
+            <a wire:click.prevent="showScholarshipCategoryModal"  class="btn btn-outline-primary rounded-pill float-right mb-2"
             wire:ignore>
                 <i class="fas fa-plus-circle mr-2"></i>
                 Create Scholarship
@@ -53,7 +53,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="{{$editMode ? 'editCategory' : 'createCategory'}}" class="form-floating">
+                    <form wire:submit.prevent="{{$editMode ? 'editCategory' : 'createCategory'}}">
                         <div class="form-floating mb-3">
                             <input type="text" wire:model.lazy="scholarship_name" class="form-control text-capitalize @error('scholarship_name') is-invalid @enderror"
                                    placeholder="Enter Level">
@@ -72,7 +72,7 @@
                                   <option selected>Open this select menu</option>
                                  @endif
                                 @foreach(\App\Models\ScholarshipCategory::SCHOLARSHIP_CATEGORIES as $key => $s_category)
-                                    <option value="{{ $s_category }}">{{ $s_category }}</option>
+                                    <option value="{{ $key }}">{{ $s_category }}</option>
                                 @endforeach
                             </select>
                             @error('scholarship_category')
@@ -109,7 +109,7 @@
                             @enderror
                             <label  class="required">Amount</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

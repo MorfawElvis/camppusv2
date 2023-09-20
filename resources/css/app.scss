@@ -26,14 +26,9 @@ $danger: #D50000;
 $warning: #ffc800;
 $success: #00695C;
 $dark:black;
-
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Nunito");
-
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
-
 @import "admin-lte/dist/css/adminlte.css";
 //FontAwesome
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
@@ -41,7 +36,5 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "@fortawesome/fontawesome-free/scss/brands.scss";
 //Material-icons
 @import "material-design-icons/iconfont/material-icons.css";
-
-//Papper css
-// @import "paper-css/paper.min.css";
+@import "datepicker.css";
 

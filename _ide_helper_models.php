@@ -12,6 +12,30 @@
 
 namespace App\Models{
 /**
+ * App\Models\Allowance
+ *
+ * @method static create(array $validatedInput)
+ * @method static paginate(int $int)
+ * @method static find($deleted_allowance)
+ * @method static findOrFail($deleted_allowance)
+ * @property int $id
+ * @property string $allowance_name
+ * @property string $allowance_type
+ * @property int|null $percentage
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Employee> $employees
+ * @property-read int|null $employees_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Allowance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Allowance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Allowance query()
+ * @mixin \Eloquent
+ */
+	class IdeHelperAllowance {}
+}
+
+namespace App\Models{
+/**
  * App\Models\ClassRoom
  *
  * @property int $id
@@ -28,17 +52,40 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ClassRoom query()
  * @method static \Illuminate\Database\Query\Builder|ClassRoom withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ClassRoom withoutTrashed()
- * @mixin \Eloquent
  * @property int $section_id
  * @property int|null $payable_fee
  * @property-read \App\Models\SchoolYear|null $academic_year
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FeePayment> $payments
  * @property-read int|null $payments_count
  * @property-read \App\Models\Section|null $section
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
+ * @mixin \Eloquent
  */
-	class ClassRoom extends \Eloquent {}
+	class IdeHelperClassRoom {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Deduction
+ *
+ * @method static paginate(int $int)
+ * @method static findOrFail($deleted_allowance)
+ * @method static create(array $array)
+ * @property int $id
+ * @property string $deduction_name
+ * @property string $deduction_type
+ * @property int|null $percentage
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Employee> $employees
+ * @property-read int|null $employees_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Deduction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Deduction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Deduction query()
+ * @mixin \Eloquent
+ */
+	class IdeHelperDeduction {}
 }
 
 namespace App\Models{
@@ -62,7 +109,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Department withoutTrashed()
  * @mixin \Eloquent
  */
-	class Department extends \Eloquent {}
+	class IdeHelperDepartment {}
 }
 
 namespace App\Models{
@@ -96,11 +143,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee query()
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
- * @mixin \Eloquent
+ * @property int|null $basic_salary
  * @property string|null $profile_image
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Allowance> $allowances
+ * @property-read int|null $allowances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Deduction> $deductions
+ * @property-read int|null $deductions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payroll> $payrolls
+ * @property-read int|null $payrolls_count
  * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\EmployeeFactory factory($count = null, $state = [])
+ * @mixin \Eloquent
  */
-	class Employee extends \Eloquent {}
+	class IdeHelperEmployee {}
 }
 
 namespace App\Models{
@@ -122,12 +177,13 @@ namespace App\Models{
  * @property-read \App\Models\ExpenseCategory|null $expense_category
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newQuery()
- * @method static \Illuminate\Database\Query\Builder|Expense onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Expense query()
- * @method static \Illuminate\Database\Query\Builder|Expense withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Expense withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense withoutTrashed()
+ * @mixin \Eloquent
  */
-	class Expense extends \Eloquent {}
+	class IdeHelperExpense {}
 }
 
 namespace App\Models{
@@ -139,16 +195,17 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Expense> $expenses
  * @property-read int|null $expenses_count
  * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newQuery()
- * @method static \Illuminate\Database\Query\Builder|ExpenseCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory query()
- * @method static \Illuminate\Database\Query\Builder|ExpenseCategory withTrashed()
- * @method static \Illuminate\Database\Query\Builder|ExpenseCategory withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory withoutTrashed()
+ * @mixin \Eloquent
  */
-	class ExpenseCategory extends \Eloquent {}
+	class IdeHelperExpenseCategory {}
 }
 
 namespace App\Models{
@@ -161,16 +218,17 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee newQuery()
- * @method static \Illuminate\Database\Query\Builder|ExtraFee onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee query()
- * @method static \Illuminate\Database\Query\Builder|ExtraFee withTrashed()
- * @method static \Illuminate\Database\Query\Builder|ExtraFee withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraFee withoutTrashed()
+ * @mixin \Eloquent
  */
-	class ExtraFee extends \Eloquent {}
+	class IdeHelperExtraFee {}
 }
 
 namespace App\Models{
@@ -190,12 +248,13 @@ namespace App\Models{
  * @property-read \App\Models\Student|null $student
  * @method static \Illuminate\Database\Eloquent\Builder|FeePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FeePayment newQuery()
- * @method static \Illuminate\Database\Query\Builder|FeePayment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|FeePayment query()
- * @method static \Illuminate\Database\Query\Builder|FeePayment withTrashed()
- * @method static \Illuminate\Database\Query\Builder|FeePayment withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|FeePayment withoutTrashed()
+ * @mixin \Eloquent
  */
-	class FeePayment extends \Eloquent {}
+	class IdeHelperFeePayment {}
 }
 
 namespace App\Models{
@@ -217,10 +276,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting query()
- * @mixin \Eloquent
  * @property int|null $boarding_fee
+ * @mixin \Eloquent
  */
-	class GeneralSetting extends \Eloquent {}
+	class IdeHelperGeneralSetting {}
 }
 
 namespace App\Models{
@@ -245,7 +304,44 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Level withoutTrashed()
  * @mixin \Eloquent
  */
-	class Level extends \Eloquent {}
+	class IdeHelperLevel {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Payroll
+ *
+ * @property int $id
+ * @property string $month
+ * @property string $year
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Employee> $employees
+ * @property-read int|null $employees_count
+ * @method static \Database\Factories\PayrollFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payroll withoutTrashed()
+ * @mixin \Eloquent
+ */
+	class IdeHelperPayroll {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PayrollRecord
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|PayrollRecord newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayrollRecord newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayrollRecord query()
+ * @mixin \Eloquent
+ */
+	class IdeHelperPayrollRecord {}
 }
 
 namespace App\Models{
@@ -268,7 +364,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Role withoutTrashed()
  * @mixin \Eloquent
  */
-	class Role extends \Eloquent {}
+	class IdeHelperRole {}
 }
 
 namespace App\Models{
@@ -289,12 +385,13 @@ namespace App\Models{
  * @property-read \App\Models\Student|null $student
  * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newQuery()
- * @method static \Illuminate\Database\Query\Builder|Scholarship onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Scholarship query()
- * @method static \Illuminate\Database\Query\Builder|Scholarship withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Scholarship withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scholarship withoutTrashed()
+ * @mixin \Eloquent
  */
-	class Scholarship extends \Eloquent {}
+	class IdeHelperScholarship {}
 }
 
 namespace App\Models{
@@ -309,16 +406,17 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Scholarship> $scholarships
  * @property-read int|null $scholarships_count
  * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory newQuery()
- * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory query()
- * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory withTrashed()
- * @method static \Illuminate\Database\Query\Builder|ScholarshipCategory withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScholarshipCategory withoutTrashed()
+ * @mixin \Eloquent
  */
-	class ScholarshipCategory extends \Eloquent {}
+	class IdeHelperScholarshipCategory {}
 }
 
 namespace App\Models{
@@ -341,7 +439,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|SchoolTerm withoutTrashed()
  * @mixin \Eloquent
  */
-	class SchoolTerm extends \Eloquent {}
+	class IdeHelperSchoolTerm {}
 }
 
 namespace App\Models{
@@ -362,13 +460,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SchoolYear query()
  * @method static \Illuminate\Database\Query\Builder|SchoolYear withTrashed()
  * @method static \Illuminate\Database\Query\Builder|SchoolYear withoutTrashed()
- * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ClassRoom[] $class_rooms
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ClassRoom> $class_rooms
  * @property-read int|null $class_rooms_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Scholarship> $scholarships
  * @property-read int|null $scholarships_count
+ * @mixin \Eloquent
  */
-	class SchoolYear extends \Eloquent {}
+	class IdeHelperSchoolYear {}
 }
 
 namespace App\Models{
@@ -388,13 +486,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Section query()
  * @method static \Illuminate\Database\Query\Builder|Section withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Section withoutTrashed()
- * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ClassRoom[] $class_rooms
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ClassRoom> $class_rooms
  * @property-read int|null $class_rooms_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
+ * @mixin \Eloquent
  */
-	class Section extends \Eloquent {}
+	class IdeHelperSection {}
 }
 
 namespace App\Models{
@@ -426,18 +524,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
  * @method static \Illuminate\Database\Query\Builder|Student withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
- * @mixin \Eloquent
  * @property string|null $profile_image
  * @property int $is_boarding
  * @property-read \App\Models\ClassRoom|null $class_room
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExtraFee[] $extra_fees
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ExtraFee> $extra_fees
  * @property-read int|null $extra_fees_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FeePayment[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FeePayment> $payments
  * @property-read int|null $payments_count
  * @property-read \App\Models\Scholarship|null $scholarship
  * @property-read \App\Models\StudentCategory|null $student_category
+ * @mixin \Eloquent
  */
-	class Student extends \Eloquent {}
+	class IdeHelperStudent {}
 }
 
 namespace App\Models{
@@ -445,16 +543,17 @@ namespace App\Models{
  * App\Models\StudentCategory
  *
  * @property-write mixed $category_fee
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
  * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory newQuery()
- * @method static \Illuminate\Database\Query\Builder|StudentCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory query()
- * @method static \Illuminate\Database\Query\Builder|StudentCategory withTrashed()
- * @method static \Illuminate\Database\Query\Builder|StudentCategory withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentCategory withoutTrashed()
+ * @mixin \Eloquent
  */
-	class StudentCategory extends \Eloquent {}
+	class IdeHelperStudentCategory {}
 }
 
 namespace App\Models{
@@ -477,7 +576,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Subject withoutTrashed()
  * @mixin \Eloquent
  */
-	class Subject extends \Eloquent {}
+	class IdeHelperSubject {}
 }
 
 namespace App\Models{
@@ -511,6 +610,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	class IdeHelperUser {}
 }
 

@@ -2,67 +2,90 @@
 
 namespace App\Http\Livewire\Student;
 
-use App\Models\User;
+use App\Models\ClassRoom;
 use App\Models\Student;
-use App\Repositories\ClassRoomRepo;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\WithPagination;
-use Livewire\WithFileUploads;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class StudentList extends Component
 {
     use WithPagination,LivewireAlert, WithFileUploads;
 
-    public $deletedStudent, $search, $perPage, $full_name, $place_of_birth, 
-    $date_of_birth, $profile_image, $photo, $editedStudentId;
+    public $deletedStudent;
 
-    public int $isBoarding = 0; 
+    public $search;
 
-    public $class_id = null;
+    public $perPage;
+
+    public $full_name;
+
+    public $place_of_birth;
+
+    public $date_of_birth;
+
+    public $profile_image;
+
+    public $photo;
+
+    public $editedStudentId;
+
+    public int $isBoarding = 0;
+
+    public $class_id;
+
     protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
-           'deleteConfirmed'
+        'deleteConfirmed',
+    ];
+    protected $rules = [
+        'full_name' => 'required',
+        'date_of_birth' => 'required',
     ];
 
-    protected $rules = [
-        'full_name'          => 'required',
-        'date_of_birth'      => 'required',
-    ];
-    
     public function render()
-    {   
-        $class_rooms =  (new ClassRoomRepo)->get_all_class_rooms();
-        $students = Student::search($this->search)
-                     ->with('user', 'class_room.section', 'class_room')
-                     ->whereHas('user', function($query){
-                        $query->where('user_status', '=', '1');
-                       })
-                     ->where('class_room_id', '=', $this->class_id)
-                     ->orderBy('full_name', 'asc')
-                     ->paginate(10);
+    {
+        $class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id)->get();
+        $students = Student::with('user', 'class_room.section')
+            ->whereHas('user', function ($query) {
+                $query->where('user_status', '=', '1');
+            })
+            ->whereHas('class_room', function ($query) {
+                $query->where('academic_year_id', current_school_year()->id);
+                $query->withSum('feeItems', 'amount');
+            })
+            ->where('class_room_id', '=', $this->class_id)
+            ->orderBy('full_name', 'asc')
+            ->paginate(10);
+
+
         return view('livewire.student.student-list', compact('class_rooms', 'students'));
     }
 
     public function deleteStudent($user_id)
     {
         $this->deletedStudent = $user_id;
-        $this->confirm('',[                                                                                                         
+        $this->confirm('', [
             'onConfirmed' => 'deleteConfirmed',
         ]);
     }
-    public function editStudentModal($student)
+
+    public function editStudentModal($student, $current_page)
     {
         $this->reset();
+        $this->gotoPage($current_page);
         $this->editedStudentId = $student['id'];
         $this->full_name = $student['full_name'];
         $this->place_of_birth = $student['place_of_birth'];
         $this->profile_image = $student['profile_image'];
         $this->date_of_birth = $student['date_of_birth'];
+        $this->class_id = $student['class_room_id'];
 
         $this->dispatchBrowserEvent('showEditStudentModal');
     }
@@ -74,35 +97,38 @@ class StudentList extends Component
 
     public function updateStudent()
     {
-         $this->validate();
-        if ($this->photo){
+        $this->validate();
+        if ($this->photo) {
             Storage::disk('public')->delete('public/students_photos/'.$this->profile_image);
             $new_photo = $this->storeImage();
         }
         Student::findOrFail($this->editedStudentId)->update([
-            'full_name'  => $this->full_name,
+            'full_name' => $this->full_name,
             'place_of_birth' => $this->place_of_birth,
-            'date_of_birth'  => $this->date_of_birth,
-            'profile_image'  => $new_photo ?? $this->profile_image
+            'date_of_birth' => $this->date_of_birth,
+            'profile_image' => $new_photo ?? $this->profile_image,
         ]);
         $this->dispatchBrowserEvent('hideEditStudentModal');
         $this->alert('success', 'Record has been updated successfully');
 
     }
+
     protected function storeImage()
     {
-        if (!$this->photo) {
+        if (! $this->photo) {
             return null;
         }
-        $img   = ImageManagerStatic::make($this->photo)->resize(400, 400,)->sharpen(10)->encode('jpg');
-        $name  = Str::random() . '.jpg';
-        Storage::disk('public')->put('public/students_photos/'.$name,$img);
+        $img = ImageManagerStatic::make($this->photo)->resize(400, 400)->sharpen(10)->encode('jpg');
+        $name = Str::random().'.jpg';
+        Storage::disk('public')->put('public/students_photos/'.$name, $img);
+
         return $name;
-    }  
-    public function deleteConfirmed(){
-          User::destroy($this->deletedStudent);
-          Student::where('user_id', $this->deletedStudent)->delete();
-          $this->alert('success' ,'Record has been deleted successfully');
     }
 
+    public function deleteConfirmed()
+    {
+        User::destroy($this->deletedStudent);
+        Student::where('user_id', $this->deletedStudent)->delete();
+        $this->alert('success', 'Record has been deleted successfully');
+    }
 }

@@ -13,7 +13,7 @@
 @section('content')
     <div class="card shadow-lg">
         <div class="card-header bg-primary">
-            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>Student Registration
+            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>{{ __('Student Registration') }}
         </div>
         <div class="card-body ">
                 <x-forms.errors/>
@@ -21,7 +21,7 @@
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">General Information</legend>
+                        <legend  class="float-none w-auto">{{ __('Basic Information') }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
@@ -32,9 +32,10 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-floating">
-                                    <input type="date"  class="form-control @error('date_of_birth') is-invalid @enderror" name="date_of_birth" value="{{ old('date_of_birth') }}">
+                                    <input type="date"  class="form-control @error('date_of_birth') is-invalid @enderror" name="date_of_birth" value="{{ old('date_of_birth') }}"
+                                         id="datepicker">
                                     @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <label for="floatingInput" class="required">Date of Birth</label>
+                                    <label for="datepicker" class="required">Date of Birth</label>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +106,7 @@
                 </div>
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Parent's Address</legend>
+                        <legend  class="float-none w-auto">{{ __("Parent's Address") }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-4">
                                 <div class="form-floating mb-3">
@@ -137,7 +138,7 @@
                 </div>
                 <div class="row">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Student's Profile</legend>
+                        <legend  class="float-none w-auto">{{ __('Login Information') }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-3">
                                 <div class="form-floating mb-3">
@@ -182,10 +183,10 @@
         var  loader = $("#loader");
              section_id = $('select[name="section_id"]');
              class_id  = $('select[name="class_id"]');
-             
+
               loader.hide();
               class_id.attr('disabled', 'disabled');
-  
+
               class_id.change(function() {
                 var id = $(this).val();
                 if(!id){
@@ -213,8 +214,7 @@
                         }
                     })
                    }
-              }) 
-              
+              })
     });
 </script>
 @endpush

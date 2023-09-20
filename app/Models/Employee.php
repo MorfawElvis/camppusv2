@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Employee
@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperEmployee
  */
 class Employee extends Model
 {
@@ -59,18 +60,22 @@ class Employee extends Model
         'nationality',
         'denomination',
         'date_of_employment',
+        'basic_salary',
         'insurance_number',
         'phone_number',
         'address',
         'is_dismissed',
+        'is_retired',
         'is_on_leave',
-        'profile_image'
+        'profile_image',
     ];
 
     protected $casts = [
         'is_dismissed' => 'boolean',
         'is_on_leave' => 'boolean',
-    ]; 
+        'is_retired' => 'boolean'
+    ];
+
     protected function fullName(): Attribute
     {
         return Attribute::make(
@@ -78,27 +83,54 @@ class Employee extends Model
             set: fn ($value) => ucfirst($value),
         );
     }
-    public function user(){
+
+    public function user() : Relation
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function allowances():Relation
+    {
+       return $this->belongsToMany(Allowance::class, 'employee_allowance', 'employee_id', 'allowance_id')
+           ->withPivot(['amount','percentage'])
+           ->withTimestamps();
+    }
+    public function deductions():Relation
+    {
+       return $this->belongsToMany(Deduction::class, 'employee_deduction', 'employee_id', 'deduction_id')
+           ->withPivot(['amount','percentage'])
+           ->withTimestamps();
+    }
+    public function payrolls():Relation
+    {
+        return $this->belongsToMany(Payroll::class)
+            ->withPivot('status')
+            ->withTimestamps();
     }
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-           $model->matriculation =  IdGenerator::generate(['table' => 'employees', 'field' => 'matriculation', 'length' => 8, 'prefix' => 'EMP-']);
+            $model->matriculation = IdGenerator::generate(['table' => 'employees', 'field' => 'matriculation', 'length' => 8, 'prefix' => 'EMP-']);
         });
     }
-    protected function gender():Attribute {
-         return Attribute::make(
+
+    public function getDateOfEmploymentAttribute($value): string
+    {
+        return Carbon::parse($value)->format('d M, Y');
+    }
+
+    protected function gender(): Attribute
+    {
+        return Attribute::make(
             get: function ($value) {
                 if ($value === 'M') {
                     return 'Male';
-                }elseif ($value === 'F'){
+                } elseif ($value === 'F') {
                     return 'Female';
                 }
                 return $value;
             }
         );
-     }
-
+    }
 }

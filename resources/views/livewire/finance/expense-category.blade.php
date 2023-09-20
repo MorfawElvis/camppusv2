@@ -1,40 +1,27 @@
 <div>
     @section('title', 'Add Expense Category')
-    <div class="card mt-4 mx-auto shadow-lg">
-        <div class="card-header bg-primary">
-            <i class="fas fa-arrow-alt-circle-down mr-2"></i>Add Expense Category
-        </div>
-        <div class="card-body">
-            <a wire:click.prevent="showExpenseCategoryModal" class="btn btn-outline-primary rounded-pill float-right mb-2">
-                <i class="fas fa-plus-circle mr-2"></i>Create Category</a>
-                <table class="table table-striped table-hover table-responsive-lg">
-                    <thead>
+    <x-card.card>
+        <x-slot:header>Add Expense Category</x-slot:header>
+        <x-slot:body>
+            <x-table.table :headers="['S/N','Category Name','Actions']">
+                <x-card.button-create event="showExpenseCategoryModal">Create Category</x-card.button-create>
+                <x-slot:caption></x-slot:caption>
+                @forelse($expense_categories as $category)
                     <tr>
-                        <th>S/N</th>
-                        <th>Category Name</th>
-                        <th class="text-center">Actions</th>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $category->category_name }}</td>
+                        <td>
+                            <span><a class="btn btn-xs btn-primary" wire:click.prevent="editModal({{ $category }})" ><i class="fas fa-edit mr-2"></i>Edit</a></span>
+                            <span><a class="btn btn-xs btn-danger " wire:click.prevent="deleteCategory({{ $category->id }})" ><i class="fas fa-trash mr-1"></i>Delete</a></span>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($expense_categories as $category)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $category->category_name }}</td>
-                            <td class="text-center">
-                                <span><a class="btn btn-xs btn-primary" wire:click.prevent="editModal({{ $category }})" ><i class="fas fa-edit mr-2"></i>Edit</a></span>
-                                <span><a class="btn btn-xs btn-danger " wire:click.prevent="deleteCategory({{ $category->id }})" ><i class="fas fa-trash mr-1"></i>Delete</a></span>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr  class="text-center">
-                            <td colspan="5"><i class="fas fa-question-circle mr-2"></i>No record found</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            
-        </div>
-    </div>
+                @empty
+                    <x-table.record-not-found/>
+                @endforelse
+                <caption>{{ $expense_categories->links() }}</caption>
+            </x-table.table>
+        </x-slot:body>
+    </x-card.card>
     {{-- Subject Modal --}}
     <div class="modal fade" id="expenseCategoryModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
@@ -56,7 +43,7 @@
                         <label class="required">Category Name</label>
                         <small>e.g Stationery</small>
                     </div>
-                    <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                    <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

@@ -5,14 +5,13 @@
             <i class="fas fa-arrow-alt-circle-down mr-1"></i>Manage Classes
         </div>
         <div class="card-body">
-            <div class="callout callout-warning text-warning fw-bold">
-                <i class="fas fa-info-circle"></i> Recommended Actions
-                <ol>
-                    <li>Create and set the current school year first.</li>
-                    <li>Create a Level before creating a Class.</li>
-                </ol>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong><i class="fas fa-info-circle me-2"></i>Recommended Actions!</strong>
+                <p>You should create and set the current school year first.</p>
+                <p>You should create a Level before creating a Class.</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <a wire:click="showClassModal"  class="btn btn-outline-primary rounded-pill float-right mb-2 {{ $academic_year_id ? 'enabled' : 'disabled' }} " 
+            <a wire:click="showClassModal"  class="btn btn-outline-primary rounded-pill float-right mb-2 {{ current_school_year() ? 'enabled' : 'disabled' }} "
             wire:ignore>
                 <i class="fas fa-plus-circle mr-2"></i>
                 Create Class
@@ -24,7 +23,6 @@
                     <th>S/N</th>
                     <th>Level</th>
                     <th>Class Name</th>
-                    <th>Payable Fee</th>
                     <th>Section</th>
                     <th class="text-center">Enrollment</th>
                     <th class="text-center">Actions</th>
@@ -36,7 +34,6 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $class->level->level_name }}</td>
                     <td>{{ $class->class_name }}</td>
-                    <td>{{ number_format($class->payable_fee) }}</td>
                     <td>{{ $class->section->section_name }}</td>
                     <td class="text-center">{{ $class->students_count }}</td>
                     <td class="text-center">
@@ -108,17 +105,7 @@
                             @enderror
                             <label class="required">Select level</label>
                         </div>
-                      {{-- TODO: Something --}}
-                        <div class="form-floating mb-4">
-                            <input type="text" wire:model.lazy="payableFee" class="form-control number-separator @error('payableFee') is-invalid @enderror">
-                            @error('payableFee')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                            <label  class="required">Payable Fee</label>
-                        </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

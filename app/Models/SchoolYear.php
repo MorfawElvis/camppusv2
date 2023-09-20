@@ -25,23 +25,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|SchoolYear withTrashed()
  * @method static \Illuminate\Database\Query\Builder|SchoolYear withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSchoolYear
  */
 class SchoolYear extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $fillable = [
-        'year_name', 'year_status'
+        'year_name', 'year_status',
     ];
-    
+
     public function class_rooms()
     {
         return $this->hasMany(ClassRoom::class);
     }
-    public function school_term():Relation
+
+    public function school_term(): Relation
     {
         return $this->hasMany(SchoolTerm::class);
     }
-    
+
     public function scholarships()
     {
         return $this->hasMany(Scholarship::class);

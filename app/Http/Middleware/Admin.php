@@ -12,16 +12,14 @@ class Admin
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 1)
-        {
+        if (Auth::check() && Auth::user()->role_id == 1) {
             return $next($request);
         }
-        return  Redirect::route('login');
+
+        return Redirect::route('login');
     }
 }

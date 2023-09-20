@@ -2,41 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperExtraFee
+ */
 class ExtraFee extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
-    protected $fillable = [ 'fee_type', 'amount'];
+    public $timestamps = false;
 
-    public const EXTRA_FEE_TYPE = [
-        'book fee'         => 'book fee',
-        'destruction fee'  => 'destruction fee',
-        'medical fee'      => 'medical fee'
-    ];
+    protected $fillable = ['name'];
 
-    public const IS_MASS_ASSIGNABLE = [
-        'yes'     => 'yes',
-        'no'      => 'no',
-    ];
-
-    public function students()
+    public function students() : BelongsToMany
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsToMany(Student::class, 'student_extra_fee')->using(StudentExtraFee::class)
+            ->withPivot('amount');
     }
-
-    public function setAmountAttribute($value)
+    protected function Name(): Attribute
     {
-        $this->attributes['amount'] = str_replace(',', '', $value);
+        return Attribute::make(
+            get: fn ($value) => strtoupper($value),
+        );
     }
-
-    protected function getFeeTypeAttribute($value)
-    {
-        return $this->attributes['fee_type'] = strtoupper($value);
-    }
-   
-
 }

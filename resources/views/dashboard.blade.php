@@ -8,7 +8,7 @@
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ get_total_students() }}</h3>
-                              
+
                             <p>Students</p>
                         </div>
                         <div class="icon">
@@ -64,8 +64,8 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Expected Fees</span>
-                            <span class="info-box-number"> 
-                                {{ total_fees_expected() . ' XAF' }}
+                            <span class="info-box-number">
+{{--                                {{ total_fees_expected() . ' XAF' }}--}}
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -77,7 +77,7 @@
 
                        <div class="info-box-content">
                            <span class="info-box-text">Fees Collected Today</span>
-                           <span class="info-box-number">{{ get_total_fees_paid_today() .' XAF' }}</span>
+{{--                           <span class="info-box-number">{{ get_total_fees_paid_today() .' XAF' }}</span>--}}
                    </div>
                        <!-- /.info-box-content -->
                    </div>
@@ -88,7 +88,7 @@
 
                        <div class="info-box-content">
                            <span class="info-box-text">Total Fees Collected</span>
-                           <span class="info-box-number"> {{ get_total_fees_paid() .' XAF' }}</span>
+{{--                           <span class="info-box-number"> {{ get_total_fees_paid() .' XAF' }}</span>--}}
                        </div>
                        <!-- /.info-box-content -->
                    </div>

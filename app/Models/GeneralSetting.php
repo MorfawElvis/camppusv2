@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
 
 /**
  * App\Models\GeneralSetting
@@ -27,6 +25,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSetting query()
  * @mixin \Eloquent
+ * @mixin IdeHelperGeneralSetting
  */
 class GeneralSetting extends Model
 {
@@ -43,22 +42,25 @@ class GeneralSetting extends Model
         'principal_signature',
         'collapsed_sidebar',
         'fixed_header',
-        'boarding_fee'
+        'boarding_fee',
     ];
-//    protected $dateFormat = 'd/m/Y';
+
+    //    protected $dateFormat = 'd/m/Y';
     protected $casts = [
-        'collapsed_sidebar'  => 'boolean',
-        'fixed_header'       => 'boolean',
+        'collapsed_sidebar' => 'boolean',
+        'fixed_header' => 'boolean',
     ];
 
     public function getCreatedAtAttribute($timestamp)
     {
         return Carbon::parse($timestamp)->format('d M, Y');
     }
+
     public function getUpdatedAtAttribute($timestamp)
     {
         return Carbon::parse($timestamp)->format('d M, Y');
     }
+
     public function setBoardingFeeAttribute($value)
     {
         $this->attributes['boarding_fee'] = str_replace(',', '', $value);

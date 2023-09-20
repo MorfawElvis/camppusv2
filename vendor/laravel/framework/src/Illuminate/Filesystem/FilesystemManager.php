@@ -23,6 +23,7 @@ use League\Flysystem\Visibility;
 
 /**
  * @mixin \Illuminate\Contracts\Filesystem\Filesystem
+ * @mixin \Illuminate\Filesystem\FilesystemAdapter
  */
 class FilesystemManager implements FactoryContract
 {
@@ -85,7 +86,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Get a default cloud filesystem instance.
      *
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Cloud
      */
     public function cloud()
     {
@@ -262,10 +263,14 @@ class FilesystemManager implements FactoryContract
         $config += ['version' => 'latest'];
 
         if (! empty($config['key']) && ! empty($config['secret'])) {
-            $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
+            $config['credentials'] = Arr::only($config, ['key', 'secret']);
         }
 
-        return $config;
+        if (! empty($config['token'])) {
+            $config['credentials']['token'] = $config['token'];
+        }
+
+        return Arr::except($config, ['token']);
     }
 
     /**
@@ -283,8 +288,14 @@ class FilesystemManager implements FactoryContract
         }
 
         return $this->build(tap(
-            $this->getConfig($config['disk']),
-            fn (&$parent) => $parent['prefix'] = $config['prefix']
+            is_string($config['disk']) ? $this->getConfig($config['disk']) : $config['disk'],
+            function (&$parent) use ($config) {
+                $parent['prefix'] = $config['prefix'];
+
+                if (isset($config['visibility'])) {
+                    $parent['visibility'] = $config['visibility'];
+                }
+            }
         ));
     }
 

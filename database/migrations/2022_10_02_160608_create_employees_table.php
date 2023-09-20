@@ -36,12 +36,11 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down():void
+    public function down(): void
     {
         Schema::dropIfExists('employees');
     }

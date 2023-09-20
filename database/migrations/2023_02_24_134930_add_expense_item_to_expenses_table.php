@@ -12,6 +12,7 @@ return new class extends Migration
             $table->string('expense_item');
         });
     }
+
     public function down()
     {
         Schema::table('expenses', function (Blueprint $table) {

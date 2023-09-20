@@ -15,11 +15,19 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab" wire:ignore.self>
                     <table class="table table-striped table-hover table-responsive-lg">
-                        <div class="row mb-3 g-3">
-                            <div class="col-lg-8">
+                        <div class="row g-3 mb-3">
+                            <dib class="col-md-4">
+                                <select class="form-select" wire:model="class_id">
+                                    <option value="">Select class</option>
+                                    @foreach ($class_fees as $class_room)
+                                        <option value="{{ $class_room->id }}">{{ $class_room->class_name }}</option>
+                                    @endforeach
+                                </select>
+                            </dib>
+                            <div class="col-md-6">
                                 <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search name or matriculation number">
                             </div>
-                            <div class="ms-auto col-lg-2">
+                            <div class="col-md-2">
                                 <select class="form-select" wire:model="perPage">
                                     <option value="10" selected>10</option>
                                     <option value="15">15</option>
@@ -36,11 +44,11 @@
                             {{-- <th>Section</th> --}}
                             <th>Class</th>
                             <th class="text-center">Payable Fee</th>
-                            <th class="text-center">Amount Paid</th>                   
-                            <th class="text-center">Discount</th>                   
-                            <th class="text-center">Balance Owed</th> 
+                            <th class="text-center">Amount Paid</th>
+                            <th class="text-center">Discount</th>
+                            <th class="text-center">Balance Owed</th>
                             {{-- <th class="text-center">Status</th>                     --}}
-                            <th class="text-center">Actions</th>                    
+                            <th class="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,10 +68,12 @@
                             {{-- <td>{{ $student_fee->class_room->section->section_name }}</td> --}}
                             <td>{{ $student_fee->class_room->class_name }}</td>
                             @if ($student_fee->is_boarding)
-                             <td class="text-center">{{ number_format($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee ) }}</td>
+                             <td class="text-center">{{ number_format($student_fee->class_room->feeItems->payable_fee + $get_boarding_fee->boarding_fee ) }}</td>
                              @else
-                             <td class="text-center">{{ number_format($student_fee->class_room->payable_fee)}}</td>
-                            @endif 
+                                @foreach($student_fee->class_room->feeItems as $fee_item)
+                                    <td class="text-center">{{ number_format($fee_item->payable_fee) }}</td>
+                                @endforeach
+                            @endif
                             <td class="text-center">{{ number_format($student_fee->payments_sum_amount) }}</td>
                             <td class="text-center">{{ number_format($discount) }}</td>
                             @if ($student_fee->is_boarding)
@@ -83,10 +93,10 @@
                         @empty
                         <tr  class="text-center">
                             <td colspan="9"><i class="fas fa-question-circle mr-2"></i>No record found</td>
-                        </tr>            
+                        </tr>
                         @endforelse
                         </tbody>
-                    </table>   
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="class" role="tabpanel" aria-labelledby="class-tab" wire:ignore.self>
                     <table class="table table-striped table-hover table-responsive-lg">
@@ -97,10 +107,10 @@
                             <th>Class</th>
                             <th class="text-center">Enrollment</th>
                             <th class="text-center">Payable Fee</th>
-                            <th class="text-center">Total Expected Collected</th>
-                            <th class="text-center">Total Fee Collected</th>                   
-                            <th class="text-center">% Fee Collected</th>                   
-                            <th class="text-center">Actions</th>                   
+                            <th class="text-center">Total Expected Fee</th>
+                            <th class="text-center">Total Fee Collected</th>
+                            <th class="text-center">% Fee Collected</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -109,28 +119,28 @@
                             <td>{{ $class_fees->firstItem() + $loop->index }}</td>
                             <td>{{ $class_fee->class_name }}</td>
                             <td class="text-center">{{ $class_fee->students_count }}</td>
-                            <td class="text-center">{{ number_format($class_fee->payable_fee) }}</td>
-                            <td class="text-center">{{ number_format($class_fee->students_count * $class_fee->payable_fee) }}</td>
+                            <td class="text-center">{{ number_format($class_fee->fee_items_sum_amount) }}</td>
+                            <td class="text-center">{{ number_format($class_fee->students_count * $class_fee->fee_items_sum_amount) }}</td>
                             <td class="text-center">{{ number_format($class_fee->payments_sum_amount) }}</td>
                             @if ($class_fee->payments_sum_amount != 0)
                             <td class="text-center"><span class="badge bg-success">
                                 {{ round(($class_fee->payments_sum_amount/($class_fee->students_count * $class_fee->payable_fee))*100, 2) . '%' }}</span></td>
                                 @else
                                 <td class="text-center"><span class="badge bg-danger">0.00%</span></td>
-                            @endif     
+                            @endif
                             <td class="text-center">
                                 <span><a href="{{ url('/bulk-fee-statement', [$class_fee->id]) }}" class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Statements</a></span>
                                 <span><a href="{{ url('/class-fee-summary',  [$class_fee->id]) }}" class="btn btn-xs btn-primary"><i class="fas fa-print mr-2"></i>Summary</a></span>
                             </td>
-                        </tr>   
+                        </tr>
                          @empty
                              <tr  class="text-center">
                                 <td colspan="8"><i class="fas fa-question-circle mr-2"></i>No record found</td>
-                             </tr>            
-                         @endforelse 
+                             </tr>
+                         @endforelse
                         </tbody>
                     </table>
-                </div>    
+                </div>
             </div>
         </div>
     </div>
@@ -161,7 +171,7 @@
                                 @error('transaction_date')
                                 <div class="invalid-feedback">
                                     {{ $message }}
-                                </div>  
+                                </div>
                                 @enderror
                                 <label class="required" for="floatingInput">Transaction Date</label>
                             </div>
@@ -170,7 +180,7 @@
                                     <button type="button" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit"  class="btn btn-primary rounded-pill" {{ $buttonDisabled ? 'disabled' : 'enabled' }}>
                                         <div wire:loading.delay wire:target="submit" class="spinner-border spinner-border-sm text-white"></div>
-                                        Save 
+                                        Save
                                     </button>
                                 </div>
                             </div>
@@ -188,5 +198,5 @@
     window.addEventListener('hideFeePaymentModal', event => {
         $('#FeePaymentModal').modal('hide');
     });
-</script>  
+</script>
 @endpush

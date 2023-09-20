@@ -2,90 +2,75 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Employee;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Models\GeneralSetting;
-use App\Services\UserRegistration;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
-use Picqer\Barcode\BarcodeGeneratorPNG;
-use Intervention\Image\ImageManagerStatic;
 use App\Http\Requests\Staff\NewStaffRequest;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
+use App\Models\Employee;
+use App\Models\GeneralSetting;
+use App\Models\Role;
+use App\Services\Employee\EmployeeService;
+use App\Services\UserRegistration;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class StaffRegistrationController extends Controller
 {
+    protected array $countries;
 
-    protected array $countries,$genders,$denominations;
-    
-    public function __construct(UserRegistration $userRegistration)
+    protected array $genders;
+
+    protected array $denominations;
+
+    public function __construct(
+        UserRegistration $userRegistration,
+        protected EmployeeService $employee_service,
+    )
+
     {
         $this->countries = $userRegistration->setCountry();
         $this->genders = $userRegistration->setGender();
         $this->denominations = $userRegistration->setDenomination();
     }
+
     public function create()
     {
         $countries = $this->countries;
         $genders = $this->genders;
         $denominations = $this->denominations;
         $roles = Role::all();
+
         return view('staffRegistration.create', compact('countries', 'genders', 'denominations', 'roles'));
     }
     public function store(NewStaffRequest $request)
     {
-        DB::transaction(function () use ($request){
-            if($request->hasFile('photo')){
-                $profile_image = $this->storeImage($request->file('photo'));
-              } 
-            $user = User::create([
-                'role_id' => $request->input('role'),
-                'user_code' => (rand(100,1000) . Str::upper(Str::random(3))),
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-           ]);
-           Employee::create([
-                'full_name' => $request->input('full_name'),
-                'user_id' => $user->id,
-                'date_of_birth' => $request->input('date_of_birth'),
-                'place_of_birth' => $request->input('place_of_birth'),
-                'gender' => $request->input('gender'),
-                'highest_qualification' => $request->input('highest_qualification'),
-                'position' => $request->input('position'),
-                'marital_status' => $request->input('marital_status'),
-                'nationality' => $request->input('nationality'),
-                'denomination' => $request->input('denomination'),
-                'date_of_employment' => $request->input('employment_date'),
-                'address' => $request->input('address'),
-                'phone_number' => $request->input('phone_number'),
-                'insurance_number' => $request->input('insurance_number'),
-                'profile_image' => $profile_image ?? Null
-            ]);
-
-       });
-       return back()->with('alert-success','New record created successfully!');
+       $this->employee_service->createEmployee($request);
+        return back()->with('alert-success', 'Record has been successfully created');
     }
-    protected function storeImage($file)
+    public function edit($staff_id, int $current_page)
     {
-        $img   = ImageManagerStatic::make($file)->resize(400, 400,)->sharpen(10)->encode('jpg');
-        $name  = Str::random() . '.jpg';
-        Storage::disk('public')->put('public/employees_photos/'.$name,$img);
-        return $name;
+        $countries = $this->countries;
+        $genders = $this->genders;
+        $denominations = $this->denominations;
+        $roles = Role::all();
+        $employee = Employee::where('user_id', $staff_id)->first();
+        return view('staffRegistration.edit',  compact('countries', 'genders', 'denominations', 'roles', 'employee','current_page'));
     }
+
+    public function update(NewStaffRequest $request, $id)
+    {
+        $this->employee_service->updateEmployee($request,$id);
+        return redirect('staff-list?page='.$request->input('current_page'))->with('alert-success', 'Record has been updated successfully');
+    }
+
     public function employeeCards()
     {
         return view('cards.employee_cards');
     }
+
     public function generateEmployeeCards()
     {
-        $employees =  Employee::all();
-        $generator = new BarcodeGeneratorPNG();;
+        $employees = Employee::all();
+        $generator = new BarcodeGeneratorPNG();
         $setting = GeneralSetting::first();
+
         return view('prints.employee_id_cards', compact('employees', 'generator', 'setting'));
     }
 }

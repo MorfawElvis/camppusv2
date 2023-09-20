@@ -17,7 +17,7 @@ class schoolYearSeeder extends Seeder
         DB::table('school_years')->insert([
             'year_name' => '2020 - 2021',
             'year_status' => 'closed',
-            'created_at' => now()
+            'created_at' => now(),
         ]);
     }
 }

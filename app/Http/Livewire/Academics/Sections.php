@@ -9,28 +9,37 @@ use Livewire\Component;
 class Sections extends Component
 {
     use LivewireAlert;
-    public $sectionName, $sectionDeleted, $sectionEditedId;
+
+    public $sectionName;
+
+    public $sectionDeleted;
+
+    public $sectionEditedId;
+
     public $editMode = false;
 
     protected $listeners = [
-        'deleteSection'
+        'deleteSection',
     ];
+
     public function showSectionModal()
     {
         $this->reset();
         $this->dispatchBrowserEvent('showSectionModal');
     }
+
     public function createSection()
     {
         $this->validate([
-            'sectionName' => 'required|string|unique:sections,section_name'
+            'sectionName' => 'required|string|unique:sections,section_name',
         ]);
         Section::create([
-            'section_name' => $this->sectionName
+            'section_name' => $this->sectionName,
         ]);
         $this->dispatchBrowserEvent('hideSectionModal');
         $this->alert('success', 'Record has been added successfully');
     }
+
     public function editModal($section)
     {
         $this->reset();
@@ -39,34 +48,39 @@ class Sections extends Component
         $this->editMode = true;
         $this->dispatchBrowserEvent('showSectionModal');
     }
+
     public function editSection()
     {
         $this->validate([
-            'sectionName' => 'required|string|unique:sections,section_name,'.$this->sectionEditedId
+            'sectionName' => 'required|string|unique:sections,section_name,'.$this->sectionEditedId,
         ]);
         Section::findOrFail($this->sectionEditedId)->update([
-            'section_name' => $this->sectionName
+            'section_name' => $this->sectionName,
         ]);
         $this->dispatchBrowserEvent('hideSectionModal');
         $this->alert('success', 'Record has been updated successfully');
     }
+
     public function confirmDelete($section_id)
     {
-        $this->sectionDeleted =  $section_id;
-        $this->confirm('Are you sure you want to delete this record?',[
-            'onConfirmed' => 'deleteSection'
+        $this->sectionDeleted = $section_id;
+        $this->confirm('Are you sure you want to delete this record?', [
+            'onConfirmed' => 'deleteSection',
         ]);
     }
+
     public function deleteSection()
     {
         Section::destroy($this->sectionDeleted);
         $this->alert('success', 'Record has been deleted successfully');
     }
+
     public function render()
     {
-       $sections = Section::all();
+        $sections = Section::all();
+
         return view('livewire.academics.sections', [
-            'sections' => $sections
+            'sections' => $sections,
         ]);
     }
 }

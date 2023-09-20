@@ -17,20 +17,20 @@ class schoolTermSeeder extends Seeder
         DB::table('school_terms')->insert([
             'term_name' => 'First Term',
             'school_year_id' => '1',
-            'term_status'=> 'closed',
-            'created_at'=> now()
+            'term_status' => 'closed',
+            'created_at' => now(),
         ]);
         DB::table('school_terms')->insert([
             'term_name' => 'Second Term',
             'school_year_id' => '1',
-            'term_status'=> 'closed',
-            'created_at'=> now()
+            'term_status' => 'closed',
+            'created_at' => now(),
         ]);
         DB::table('school_terms')->insert([
             'term_name' => 'Third Term',
             'school_year_id' => '1',
-            'term_status'=> 'closed',
-            'created_at'=> now()
+            'term_status' => 'closed',
+            'created_at' => now(),
         ]);
     }
 }

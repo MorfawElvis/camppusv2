@@ -14,7 +14,7 @@ class PersonsSeeder extends Seeder
     public function run()
     {
         \DB::table('people')->insert([
-            'user_id' => rand(61,1036),
+            'user_id' => rand(61, 1036),
             'date_of_birth' => now(),
             'place_of_birth' => 'Buea',
             'gender' => 'male',
@@ -22,7 +22,7 @@ class PersonsSeeder extends Seeder
             'phone_number' => '677195500',
             'registration_date' => now(),
             'address' => 'P.O Box 215 - Sasse',
-            'created_at' => now()
+            'created_at' => now(),
         ]);
     }
 }

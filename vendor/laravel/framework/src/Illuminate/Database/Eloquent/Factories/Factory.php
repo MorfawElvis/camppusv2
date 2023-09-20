@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\ForwardsCalls;
@@ -103,7 +104,7 @@ abstract class Factory
      *
      * @var string
      */
-    protected static $namespace = 'Database\\Factories\\';
+    public static $namespace = 'Database\\Factories\\';
 
     /**
      * The default model name resolver.
@@ -184,7 +185,7 @@ abstract class Factory
     /**
      * Configure the factory.
      *
-     * @return $this
+     * @return static
      */
     public function configure()
     {
@@ -234,11 +235,19 @@ abstract class Factory
     /**
      * Create a collection of models and persist them to the database.
      *
-     * @param  iterable<int, array<string, mixed>>  $records
+     * @param  int|null|iterable<int, array<string, mixed>>  $records
      * @return \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model|TModel>
      */
-    public function createMany(iterable $records)
+    public function createMany(int|iterable|null $records = null)
     {
+        if (is_null($records)) {
+            $records = $this->count ?? 1;
+        }
+
+        if (is_numeric($records)) {
+            $records = array_fill(0, $records, []);
+        }
+
         return new EloquentCollection(
             collect($records)->map(function ($record) {
                 return $this->state($record)->create();
@@ -249,10 +258,10 @@ abstract class Factory
     /**
      * Create a collection of models and persist them to the database without dispatching any model events.
      *
-     * @param  iterable<int, array<string, mixed>>  $records
+     * @param  int|null|iterable<int, array<string, mixed>>  $records
      * @return \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model|TModel>
      */
-    public function createManyQuietly(iterable $records)
+    public function createManyQuietly(int|iterable|null $records = null)
     {
         return Model::withoutEvents(function () use ($records) {
             return $this->createMany($records);
@@ -327,6 +336,12 @@ abstract class Factory
             }
 
             $model->save();
+
+            foreach ($model->getRelations() as $name => $items) {
+                if ($items instanceof Enumerable && $items->isEmpty()) {
+                    $model->unsetRelation($name);
+                }
+            }
 
             $this->createChildren($model);
         });
@@ -464,7 +479,7 @@ abstract class Factory
         return collect($definition)
             ->map($evaluateRelations = function ($attribute) {
                 if ($attribute instanceof self) {
-                    $attribute = $this->getRandomRecycledModel($attribute->modelName())
+                    $attribute = $this->getRandomRecycledModel($attribute->modelName())?->getKey()
                         ?? $attribute->recycle($this->recycle)->create()->getKey();
                 } elseif ($attribute instanceof Model) {
                     $attribute = $attribute->getKey();
@@ -518,7 +533,7 @@ abstract class Factory
     /**
      * Add a new sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
+     * @param  mixed  ...$sequence
      * @return static
      */
     public function sequence(...$sequence)
@@ -529,7 +544,7 @@ abstract class Factory
     /**
      * Add a new sequenced state transformation to the model definition and update the pending creation count to the size of the sequence.
      *
-     * @param  array  $sequence
+     * @param  array  ...$sequence
      * @return static
      */
     public function forEachSequence(...$sequence)
@@ -540,7 +555,7 @@ abstract class Factory
     /**
      * Add a new cross joined sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
+     * @param  array  ...$sequence
      * @return static
      */
     public function crossJoinSequence(...$sequence)
@@ -867,7 +882,7 @@ abstract class Factory
             return Container::getInstance()
                             ->make(Application::class)
                             ->getNamespace();
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return 'App\\';
         }
     }

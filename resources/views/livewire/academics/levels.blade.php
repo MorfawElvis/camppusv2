@@ -75,7 +75,7 @@
                             <label class="required">Level Rank</label>
                             <small>For example Rank 1, for Form one</small>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import './bootstrap';
+import './datepicker';
 
 var url = window.location;
 $("ul.nav-treeview  a")
@@ -74,3 +75,10 @@ const loader = document.querySelector('.loader');
             }, 2000);
         }
 init();
+// $(function (){
+//     $("#datepicker").datepicker({
+//         dateFormat: "dd-mm-yy",
+//         changeYear: true,
+//         changeMonth: true,
+//     });
+// });

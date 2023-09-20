@@ -12,16 +12,14 @@ class Teacher
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 2)
-        {
+        if (Auth::check() && Auth::user()->role_id == 2) {
             return $next($request);
         }
-        return  Redirect::route('user.login');
+
+        return Redirect::route('user.login');
     }
 }

@@ -4,12 +4,9 @@ namespace App\Http;
 
 use App\Http\Middleware\Accountant;
 use App\Http\Middleware\Admin;
-use App\Http\Middleware\Dormitory;
-use App\Http\Middleware\Library;
 use App\Http\Middleware\Student;
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\Teacher;
-use App\Http\Middleware\UserActivity;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -24,7 +21,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Fruitcake\Cors\HandleCors::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
@@ -45,7 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\UserActivity::class
+            \App\Http\Middleware\UserActivity::class,
         ],
 
         'api' => [
@@ -75,8 +72,13 @@ class Kernel extends HttpKernel
         'teacher' => Teacher::class,
         'accountant' => Accountant::class,
         'superAdmin' => SuperAdmin::class,
-        'library' => Library::class,
-        'dormitory' => Dormitory::class,
         'student' => Student::class,
+    ];
+
+    protected $middlewareAliases = [
+        // ...
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

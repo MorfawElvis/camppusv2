@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\SQLiteConnection;
 use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\Arr;
@@ -14,6 +15,8 @@ use Illuminate\Support\Composer;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
+
+use function Laravel\Prompts\confirm;
 
 abstract class DatabaseInspectionCommand extends Command
 {
@@ -151,11 +154,15 @@ abstract class DatabaseInspectionCommand extends Command
      */
     protected function getSqliteTableSize(ConnectionInterface $connection, string $table)
     {
-        $result = $connection->selectOne('SELECT SUM(pgsize) AS size FROM dbstat WHERE name=?', [
-            $table,
-        ]);
+        try {
+            $result = $connection->selectOne('SELECT SUM(pgsize) AS size FROM dbstat WHERE name=?', [
+                $table,
+            ]);
 
-        return Arr::wrap((array) $result)['size'];
+            return Arr::wrap((array) $result)['size'];
+        } catch (QueryException) {
+            return null;
+        }
     }
 
     /**
@@ -201,7 +208,7 @@ abstract class DatabaseInspectionCommand extends Command
     protected function ensureDependenciesExist()
     {
         return tap(interface_exists('Doctrine\DBAL\Driver'), function ($dependenciesExist) {
-            if (! $dependenciesExist && $this->components->confirm('Inspecting database information requires the Doctrine DBAL (doctrine/dbal) package. Would you like to install it?')) {
+            if (! $dependenciesExist && confirm('Inspecting database information requires the Doctrine DBAL (doctrine/dbal) package. Would you like to install it?', default: false)) {
                 $this->installDependencies();
             }
         });

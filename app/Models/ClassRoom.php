@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -26,13 +29,14 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Query\Builder|ClassRoom withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ClassRoom withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperClassRoom
  */
 class ClassRoom extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes;
 
     protected $fillable = [
-        'class_name', 'level_id', 'academic_year_id', 'section_id', 'payable_fee'
+        'class_name', 'level_id', 'academic_year_id', 'section_id',
     ];
 
     public function level(): BelongsTo
@@ -40,32 +44,38 @@ class ClassRoom extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function section()
+    public function section() : BelongsTo
     {
         return $this->belongsTo(Section::class);
     }
 
-    public function academic_year()
+    public function academic_year() : BelongsTo
     {
         return $this->belongsTo(SchoolYear::class);
     }
 
-    public function students()
+    public function students() : HasMany
     {
         return $this->hasMany(Student::class);
     }
- 
-    public function payments()
+
+    public function class_enrollment() : BelongsTo
     {
-        return $this->hasManyThrough(FeePayment::class,  Student::class);
+        return $this->belongsTo(ClassEnrollment::class);
+    }
+
+    public function feeItems() : HasMany
+    {
+        return $this->hasMany(FeeItem::class);
+    }
+
+    public function payments() : HasManyThrough
+    {
+        return $this->hasManyThrough(FeePayment::class, Student::class);
     }
 
     public function setClassNameAttribute($value)
     {
         $this->attributes['class_name'] = Str::upper($value);
-    }
-    public function setPayableFeeAttribute($value)
-    {
-        $this->attributes['payable_fee'] = str_replace(',', '', $value);
     }
 }

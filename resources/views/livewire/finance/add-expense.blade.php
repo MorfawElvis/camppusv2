@@ -108,7 +108,7 @@
                             <textarea wire:model.lazy="expense_description" class="form-control"  placeholder="Description" id="floatingTextarea"></textarea>
                             <label for="floatingTextarea">Remarks</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>
@@ -126,5 +126,5 @@
         $(".date").datepicker({
         format: "dd-mm-yyyy",
         });
-    </script>  
+    </script>
 @endpush

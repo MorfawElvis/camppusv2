@@ -138,49 +138,49 @@ return [
             'rule-name' => 'custom-message',
         ],
         'form.user_code' => [
-            'required' => 'Please enter your user code',
+            'required' => 'Please enter your passcode',
         ],
         'yearName' => [
             'required' => 'Please provide the name of the academic year',
-            'regex'    => 'Incorrect format, hint: 2019-2020',
-            'unique'   => 'Academic year already exist, create a new one'
+            'regex' => 'Incorrect format, hint: 2019-2020',
+            'unique' => 'Academic year already exist, create a new one',
         ],
         'form.password' => [
             'required' => 'Please enter your password',
         ],
         'termName' => [
-            'required' => 'Please enter the name of the term'
+            'required' => 'Please enter the name of the term',
         ],
         'academicYear' => [
-            'required' => 'Please select an academic year'
+            'required' => 'Please select an academic year',
         ],
-        "form.user_code.exists" => 'This account has been deactivated or does not exist',
+        'form.user_code.exists' => 'This account has been deactivated or does not exist',
         'form.school_name' => [
-            'required' => 'Please enter the name of your school'
+            'required' => 'Please enter the name of your school',
         ],
         'form.school_address' => [
             'required' => 'Please enter the address of your school',
-            'max'      => 'Address should more be more than 30 characters'
+            'max' => 'Address should more be more than 30 characters',
         ],
         'form.school_email' => [
             'required' => 'Please enter the email address of your school',
-            'email'      => 'Please enter a valid email'
+            'email' => 'Please enter a valid email',
         ],
         'form.school_phone_number' => [
-            'required'         => 'Please enter contact number of your school',
-            'digits_between'   => 'Invalid phone number,enter a 9 digit number'
+            'required' => 'Please enter contact number of your school',
+            'digits_between' => 'Invalid phone number,enter a 9 digit number',
         ],
         'form.departmentName' => [
             'required' => 'Please enter name of the department',
-            'unique'   => 'The department name you entered already exist',
-            'string'   => 'Incorrect name format',
-            'max'      => 'Department name should not be more than 30 characters long'
+            'unique' => 'The department name you entered already exist',
+            'string' => 'Incorrect name format',
+            'max' => 'Department name should not be more than 30 characters long',
         ],
         'subjectName' => [
             'required' => 'Please enter name of the subject',
-            'unique'   => 'The subject name you entered already exist',
-            'string'   => 'Incorrect name format',
-          ]
+            'unique' => 'The subject name you entered already exist',
+            'string' => 'Incorrect name format',
+        ],
     ],
 
     /*

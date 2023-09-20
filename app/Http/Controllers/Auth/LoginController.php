@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-
 
 class LoginController extends Controller
 {
@@ -45,6 +43,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     /**
      * Get the login username to be used by the controller.
      *
@@ -54,64 +53,41 @@ class LoginController extends Controller
     {
         return 'user_code';
     }
+
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            'user_code' => "required|exists:users,user_code,user_status," . User::ACTIVE,
+            'user_code' => 'required|exists:users,user_code,user_status,'.User::ACTIVE,
             'password' => 'required',
         ]);
 
     }
+
     protected function authenticated(Request $request, $user)
     {
         if ($user->user_status == 0) {
             $this->logout($request);
         }
     }
+
     protected function sendFailedLoginResponse(Request $request)
     {
         $errors = [$this->username() => trans('auth.failed')];
         $user = User::where($this->username(), $request->{$this->username()})->first();
-        if ($user && !\Hash::check($request->password, $user->password)) {
+        if ($user && ! \Hash::check($request->password, $user->password)) {
             $errors = ['password' => 'Wrong password'];
         }
         if ($request->expectsJson()) {
             return response()->json($errors, 422);
         }
+
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);
     }
-
-//    public function login(Request $request)
-//    {
-//        $this->validate($request, [
-//            'userCode'    => 'required',
-//            'password' => 'required',
-//        ]);
-//
-//        $login_type = filter_var($request->input('userCode'), FILTER_VALIDATE_EMAIL )
-//            ? 'email'
-//            : 'user_code';
-//
-//        $request->merge([
-//            $login_type => $request->input('userCode')
-//        ]);
-////        $user = User::ACTIVE;
-//        if (Auth::attempt($request->only($login_type, 'password'))){
-//            return redirect()->intended($this->redirectPath());
-//        }
-//        return redirect()->back()
-//            ->withInput()
-//            ->withErrors([
-//                'userCode' => 'These credentials do not exist in our database.',
-//            ]);
-//
-//    }
 }

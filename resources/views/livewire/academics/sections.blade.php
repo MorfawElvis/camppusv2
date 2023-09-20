@@ -56,7 +56,7 @@
                             <small>For example Commercial</small>
                             <label class="required">Section Name</label>
                         </div>
-                        <x-modal-buttons>{{$editMode ? 'Save Changes' : 'Save Record'}}</x-modal-buttons>
+                        <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>
                     </form>
                 </div>
             </div>

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use phpDocumentor\Reflection\Types\ClassString;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\SchoolTerm
@@ -27,6 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Query\Builder|SchoolTerm withTrashed()
  * @method static \Illuminate\Database\Query\Builder|SchoolTerm withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSchoolTerm
  */
 class SchoolTerm extends Model
 {
@@ -35,7 +35,7 @@ class SchoolTerm extends Model
     protected $fillable = [
         'term_name',
         'term_status',
-        'school_year_id'
+        'school_year_id',
     ];
 
     public function school_year(): Relation
@@ -48,5 +48,3 @@ class SchoolTerm extends Model
         return Str::upper($value);
     }
 }
-
-

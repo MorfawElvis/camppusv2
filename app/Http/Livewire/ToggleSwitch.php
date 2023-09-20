@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
 
 class ToggleSwitch extends Component
 {
     public Model $model;
+
     public string $field;
 
     public bool $isBoarding;

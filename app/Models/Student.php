@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Student
@@ -39,10 +42,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Student withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperStudent
  */
 class Student extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes;
 
     protected $fillable = [
         'full_name',
@@ -58,48 +62,58 @@ class Student extends Model
         'address',
         'is_dismissed',
         'is_graduated',
-        'profile_image'
-        ];
-    protected $casts = [
-        'is_dismissed' => 'boolean',
-        'is_graduated' => 'boolean'
+        'profile_image',
     ];
 
-    public function user():Relation
+    protected $casts = [
+        'is_dismissed' => 'boolean',
+        'is_graduated' => 'boolean',
+    ];
+
+    public function user(): Relation
     {
         return $this->belongsTo(User::class);
     }
-    
-    public function class_room()
+
+    public function class_room() : Relation
     {
         return $this->belongsTo(ClassRoom::class);
     }
-    public function payments()
+
+    public function payments() : Relation
     {
         return $this->hasMany(FeePayment::class);
     }
-    
-    public function scholarship()
+
+    public function scholarship() : Relation
     {
         return $this->hasOne(Scholarship::class);
     }
 
-    public function extra_fees()
+    public function class_enrollment() : Relation
     {
-        return $this->hasMany(ExtraFee::class);
+        return $this->belongsTo(ClassEnrollment::class);
+
     }
-    
-    public function student_category()
+    public function student_category() : Relation
     {
         return $this->belongsTo(StudentCategory::class);
     }
+
+    public function extra_fees() : BelongsToMany
+    {
+        return $this->belongsToMany(ExtraFee::class, 'student_extra_fee')->using(StudentExtraFee::class)
+            ->withPivot('amount');
+    }
+
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-           $model->matriculation =  IdGenerator::generate(['table' => 'students', 'field' => 'matriculation', 'length' => 14, 'prefix' => Carbon::now()->year.'-'.date('m').'-']);
+            $model->matriculation = IdGenerator::generate(['table' => 'students', 'field' => 'matriculation', 'length' => 14, 'prefix' => Carbon::now()->year.'-'.date('m').'-']);
         });
     }
+
     protected function fullName(): Attribute
     {
         return Attribute::make(
@@ -114,18 +128,20 @@ class Student extends Model
             get: fn ($value) => strtoupper($value),
         );
     }
-    protected function gender():Attribute {
+
+    protected function gender(): Attribute
+    {
         return Attribute::make(
             get: function ($value) {
-                return  $value == 'F' ? 'Female' : 'Male';
+                return $value == 'F' ? 'Female' : 'Male';
             }
         );
     }
 
-    public static function search($search)
+    public static function search($search) : \Illuminate\Database\Eloquent\Builder
     {
         return empty($search) ? static::query()
                       : static::where('full_name', 'like', '%'.$search.'%')
-                      ->orWhere('matriculation', 'like', '%'.$search.'%');
+                          ->orWhere('matriculation', 'like', '%'.$search.'%');
     }
 }

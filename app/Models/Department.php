@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Query\Builder|Department withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Department withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperDepartment
  */
 class Department extends Model
 {
@@ -33,13 +34,14 @@ class Department extends Model
 
     protected $fillable = [
         'department_name',
-        'user_id'
+        'user_id',
     ];
 
     public function getDepartmentNameAttribute($value)
     {
         return Str::upper($value);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

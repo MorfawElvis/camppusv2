@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -29,19 +28,22 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Query\Builder|Level withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Level withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperLevel
  */
 class Level extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-      'level_name', 'level_rank'
+        'level_name', 'level_rank',
     ];
+
     public function setLevelNameAttribute($value)
     {
         $this->attributes['level_name'] = Str::upper($value);
     }
-    public function class_rooms():HasMany
+
+    public function class_rooms(): HasMany
     {
         return $this->hasMany(ClassRoom::class);
     }

@@ -8,9 +8,9 @@ trait DataFetch
     {
         return $model::all();
     }
+
     public function getFirstData($model)
     {
         return $model::first();
     }
 }
-

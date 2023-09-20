@@ -3,15 +3,15 @@
 @section('content')
     <div class="card shadow-lg">
         <div class="card-header bg-primary">
-            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>Staff Registration
+            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>{{ __('Staff Registration') }}
         </div>
         <div class="card-body ">
-           <x-forms.errors></x-forms.errors>
+           <x-alerts/>
             <form action="{{ route('admin.staff-registration.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Staff's Details</legend>
+                        <legend  class="float-none w-auto">{{ __('Basic Information') }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
@@ -80,7 +80,7 @@
                                             <option value="FSLC">First School</option>
                                         </select>
                                         @error('highest_qualification')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                        <label for="floatingSelect">Highest Qualification</label>
+                                        <label for="floatingSelect" class="required">Highest Qualification</label>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                         @endforeach
                                     </select>
                                     @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <label for="floatingSelect">Role</label>
+                                    <label for="floatingSelect" class="required">Role</label>
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -129,7 +129,6 @@
                             <div class="col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control text-capitalize" name="address" placeholder="Address">
-                                    <description>For example Kumba</description>
                                     <label for="floatingInput">Address</label>
                                 </div>
                             </div>
@@ -160,7 +159,7 @@
                 </div>
                 <div class="row">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">Staff's Profile</legend>
+                        <legend  class="float-none w-auto">{{ __('Login Information') }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-3">
                                 <div class="form-floating mb-3">

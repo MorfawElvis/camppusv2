@@ -19,9 +19,10 @@ class CreateSchoolTermsTable extends Migration
             $table->unsignedInteger('school_year_id');
             $table->string('term_status')->default('closed');
             $table->softDeletes();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -30,6 +31,6 @@ class CreateSchoolTermsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('school_terms');
-        
+
     }
 }

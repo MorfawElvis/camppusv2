@@ -7,29 +7,30 @@
     "require": {
         "php": "^8.1",
         "consoletvs/charts": "6.*",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "haruncpi/laravel-id-generator": "^1.1",
         "intervention/image": "^2.5",
         "jantinnerezo/livewire-alert": "^2.1",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.2",
+        "laravel/ui": "^4.2",
         "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^3.1",
         "picqer/php-barcode-generator": "^2.2",
         "psr/simple-cache": "^2.0",
-        "yoeunes/toastr": "^1.2"
+        "spatie/laravel-permission": "^5.11",
+        "yajra/laravel-datatables-oracle": "^10.3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.10",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.3.3",
-        "spatie/laravel-ignition": "^1.0",
+        "spatie/laravel-ignition": "^2.0",
         "sven/artisan-view": "^3.4"
     },
     "autoload": {
@@ -69,6 +70,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

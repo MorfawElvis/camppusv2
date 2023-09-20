@@ -25,6 +25,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Query\Builder|Subject withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Subject withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSubject
  */
 class Subject extends Model
 {
@@ -33,16 +34,19 @@ class Subject extends Model
     protected $fillable = [
         'subject_name',
         'subject_code',
-        'department_id'
+        'department_id',
     ];
+
     public function getSubjectNameAttribute($value)
     {
         return Str::upper($value);
     }
+
     public function setSubjectCodeAttribute($value)
     {
         $this->attributes['subject_code'] = Str::upper($value);
     }
+
     public function department()
     {
         return $this->belongsTo(Department::class);
