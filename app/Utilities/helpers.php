@@ -114,7 +114,7 @@ if (! function_exists('get_total_fees_paid')) {
         $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
 
         if ($current_school_year){
-            $total_fees_paid = Classroom::whereHas('academicYear', function ($query) use ($current_school_year) {
+            $total_fees_paid = Classroom::whereHas('academic_year', function ($query) use ($current_school_year) {
                 $query->where('id', $current_school_year);
             })
                 ->with('students.payments') // Load students and their fee payments
@@ -144,6 +144,7 @@ if (! function_exists('total_fees_expected')) {
     function total_fees_expected() : int
     {
         $total_expected = 0;
+
         $total_boarding_students = Student::where('is_boarding', 1)->count();
         $boarding_fee = GeneralSetting::select('boarding_fee')->first();
         $total_expected_boarding_fee = $total_boarding_students * ($boarding_fee->boarding_fee ?? 0);
@@ -151,7 +152,7 @@ if (! function_exists('total_fees_expected')) {
         foreach ($class_rooms as $class_room) {
             $total_expected += $class_room->students_count * $class_room->payable_fee;
         }
-
+            dd($total_expected + $total_expected_boarding_fee);
         return number_format($total_expected + $total_expected_boarding_fee);
     }
 }
