@@ -15,10 +15,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        $enrollment_boys = Student::where('gender', 'M')->count();
-        $enrollment_girls = Student::where('gender', 'F')->count();
-
-        $class_rooms = ClassRoom::withCount('students')->get()->toArray();
+        $class_rooms = ClassRoom::withCount('students')
+            ->where('academic_year_id', current_school_year()->id)
+            ->get()->toArray();
         $array_size = count($class_rooms);
 
         for ($i = 0; $i < $array_size; $i++) {
@@ -39,7 +38,7 @@ class HomeController extends Controller
         //Gender analyses chart
         $gender_chart = new GenderAnalyses;
         $gender_chart->labels(['Boys', 'Girls']);
-        $gender_chart->dataset('Gender analyses', 'doughnut', [$enrollment_boys, $enrollment_girls])->backgroundColor(['blue', 'pink']);
+        $gender_chart->dataset('Gender analyses', 'doughnut', [get_total_boys(), get_total_girls()])->backgroundColor(['blue', 'pink']);
 
         return view('dashboard', compact('enrollment_chart', 'gender_chart'));
     }

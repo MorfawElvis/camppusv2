@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic;
+use phpDocumentor\Reflection\Types\Null_;
+use phpDocumentor\Reflection\Types\Void_;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class StudentRegistrationController extends Controller
@@ -43,17 +45,16 @@ class StudentRegistrationController extends Controller
         return view('studentRegistration.create', compact('countries', 'genders', 'denominations', 'sections'));
     }
 
-    //Get the class rooms based on filtered section
+    //Get the classrooms based on filtered section
     public function get_class_rooms(Request $request)
     {
         if ($request->has('section_id')) {
-            return DB::table('class_rooms')->where('section_id', $request->input('section_id'))->get();
+            return DB::table('class_rooms')
+                ->where('academic_year_id', current_school_year()->id)
+                ->where('section_id', $request->input('section_id'))->get();
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     public function store(NewStudentRequest $request)
     {
         DB::transaction(function () use ($request) {

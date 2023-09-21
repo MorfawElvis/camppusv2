@@ -38,7 +38,7 @@ class SchoolYear extends Model
 
     public function class_rooms() : HasMany
     {
-        return $this->hasMany(ClassRoom::class);
+        return $this->hasMany(ClassRoom::class, 'academic_year_id');
     }
 
     public function school_term(): HasMany

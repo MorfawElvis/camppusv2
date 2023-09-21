@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Student;
 
 use App\Models\ClassRoom;
+use App\Models\SchoolYear;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
@@ -57,13 +58,11 @@ class StudentList extends Component
                 $query->where('user_status', '=', '1');
             })
             ->whereHas('class_room', function ($query) {
-                $query->where('academic_year_id', current_school_year()->id);
                 $query->withSum('feeItems', 'amount');
             })
             ->where('class_room_id', '=', $this->class_id)
             ->orderBy('full_name', 'asc')
             ->paginate(10);
-
 
         return view('livewire.student.student-list', compact('class_rooms', 'students'));
     }

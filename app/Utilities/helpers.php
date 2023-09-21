@@ -29,11 +29,62 @@ if (! function_exists('current_school_term')) {
 if (! function_exists('get_total_students')) {
     function get_total_students() : int
     {
+        $totalActiveStudentsInAcademicYear = 0 ;
         $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
-        return Student::whereHas('class_room', function ($query) use ($current_school_year) {
-            $query->where('class_rooms.academic_year_id',  $current_school_year );
-        })
-        ->where('is_dismissed', false)->where('is_graduated', false)->count();
+
+        if ($current_school_year){
+            $academicYear = SchoolYear::findOrFail($current_school_year);
+            $totalActiveStudentsInAcademicYear = $academicYear->class_rooms()
+                ->withCount(['students as active_student_count' => function ($query) {
+                    $query->where('is_dismissed', false); // Add a condition for active students
+                }])
+                ->get()
+                ->sum('active_student_count');
+
+        }
+        return $totalActiveStudentsInAcademicYear;
+    }
+
+}
+
+if (! function_exists('get_total_boys')) {
+    function get_total_boys() : int
+    {
+        $totalBoys = 0 ;
+        $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
+
+        if ($current_school_year){
+            $academicYear = SchoolYear::findOrFail($current_school_year);
+            $totalBoys = $academicYear->class_rooms()
+                ->withCount(['students as total_boys_count' => function ($query) {
+                    $query->where('gender', 'M');
+                }])
+                ->get()
+                ->sum('total_boys_count');
+
+        }
+        return $totalBoys;
+    }
+
+}
+
+if (! function_exists('get_total_girls')) {
+    function get_total_girls() : int
+    {
+        $totalGirls = 0 ;
+        $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
+
+        if ($current_school_year){
+            $academicYear = SchoolYear::findOrFail($current_school_year);
+            $totalGirls = $academicYear->class_rooms()
+                ->withCount(['students as total_girls_count' => function ($query) {
+                    $query->where('gender', 'F');
+                }])
+                ->get()
+                ->sum('total_girls_count');
+
+        }
+        return $totalGirls;
     }
 
 }
@@ -59,9 +110,24 @@ if (! function_exists('get_total_classes')) {
 if (! function_exists('get_total_fees_paid')) {
     function get_total_fees_paid() : int
     {
-        $total_fee = FeePayment::sum('amount');
+        $total_fees_paid = 0 ;
+        $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
 
-        return number_format($total_fee);
+        if ($current_school_year){
+            $total_fees_paid = Classroom::whereHas('academicYear', function ($query) use ($current_school_year) {
+                $query->where('id', $current_school_year);
+            })
+                ->with('students.payments') // Load students and their fee payments
+                ->get()
+                ->flatMap(function ($classroom) {
+                    return $classroom->students->flatMap(function ($student) {
+                        return $student->payments;
+                    });
+                })
+                ->sum('amount');
+        }
+
+        return number_format($total_fees_paid);
     }
 }
 

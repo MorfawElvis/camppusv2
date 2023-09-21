@@ -62,7 +62,9 @@ class FeePayments extends Component
 
     public function updatedSectionId($section_id)
     {
-        $this->class_rooms = ClassRoom::where('section_id', $section_id)->get();
+        $this->class_rooms = ClassRoom::where('section_id', $section_id)
+                              ->where('academic_year_id', current_school_year()->id)
+                              ->get();
     }
 
     public function updatedClassId($class_id)

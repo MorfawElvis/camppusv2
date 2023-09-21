@@ -77,7 +77,7 @@
 
                        <div class="info-box-content">
                            <span class="info-box-text">Fees Collected Today</span>
-{{--                           <span class="info-box-number">{{ get_total_fees_paid_today() .' XAF' }}</span>--}}
+                           <span class="info-box-number">{{ get_total_fees_paid_today() .' XAF' }}</span>
                    </div>
                        <!-- /.info-box-content -->
                    </div>

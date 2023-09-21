@@ -51,7 +51,7 @@ class ClassRoom extends Model
 
     public function academic_year() : BelongsTo
     {
-        return $this->belongsTo(SchoolYear::class);
+        return $this->belongsTo(SchoolYear::class, 'academic_year_id');
     }
 
     public function students() : HasMany
