@@ -34,6 +34,8 @@ class ManageScholarships extends Component
 
     public $selectAll = false;
 
+    protected $paginationTheme = 'bootstrap';
+
     public function mount()
     {
         $this->records = Scholarship::with('student.class_room', 'scholarship_category')->get();

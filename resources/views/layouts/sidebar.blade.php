@@ -407,36 +407,36 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <span style="font-size: 16px; color:rgb(5, 145, 63);"><i class="nav-icon fas fa-folder-plus"></i></span>
-                                <p>
-                                    Extras
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.student.cards') }}" class="nav-link">
-                                        <i class="fas fa-id-card"></i>
-                                        <p>Student Cards</p>
-                                    </a>
-                                </li>
-                                {{-- <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.employee.cards') }}" class="nav-link">
-                                        <i class="fas fa-id-card"></i>
-                                        <p>Employee Cards</p>
-                                    </a>
-                                </li>
-                                 <li class="nav-item nav-item-submenu {{ request()->is('student-category') ? 'active' : '' }} ">
-                                    <a href="{{ route('admin.student.category') }}" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-plus-square"></i>
-                                        <p>Student Category</p>
-                                    </a>
-                                 </li> --}}
-                            </ul>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="#" class="nav-link">--}}
+{{--                                <span style="font-size: 16px; color:rgb(5, 145, 63);"><i class="nav-icon fas fa-folder-plus"></i></span>--}}
+{{--                                <p>--}}
+{{--                                    Extras--}}
+{{--                                    <i class="right fas fa-angle-left"></i>--}}
+{{--                                </p>--}}
+{{--                            </a>--}}
+{{--                            <ul class="nav nav-treeview">--}}
+{{--                                <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">--}}
+{{--                                    <a href="{{ route('admin.student.cards') }}" class="nav-link">--}}
+{{--                                        <i class="fas fa-id-card"></i>--}}
+{{--                                        <p>Student Cards</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                --}}{{-- <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">--}}
+{{--                                    <a href="{{ route('admin.employee.cards') }}" class="nav-link">--}}
+{{--                                        <i class="fas fa-id-card"></i>--}}
+{{--                                        <p>Employee Cards</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                 <li class="nav-item nav-item-submenu {{ request()->is('student-category') ? 'active' : '' }} ">--}}
+{{--                                    <a href="{{ route('admin.student.category') }}" class="nav-link">--}}
+{{--                                        <span class="orange"></span>--}}
+{{--                                        <i class="fas fa-plus-square"></i>--}}
+{{--                                        <p>Student Category</p>--}}
+{{--                                    </a>--}}
+{{--                                 </li> --}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
                     </ul>
                 </nav>
             </div>
