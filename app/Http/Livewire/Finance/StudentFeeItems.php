@@ -38,7 +38,8 @@ class StudentFeeItems extends Component
 
     public function mount()
     {
-        $this->class_rooms = ClassRoom::all();
+        $this->class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id)
+            ->get();
     }
 
     public function loadClassList()

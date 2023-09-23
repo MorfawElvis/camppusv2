@@ -11,47 +11,41 @@ class FinanceController extends Controller
 {
     public function printReceipt(int $payment_id)
     {
-        $get_boarding_fee = get_boarding_fee();
         $data = $this->get_payment_detail_per_student($payment_id);
 
-        return view('prints.receipt', compact('data', 'get_boarding_fee'));
+        return view('prints.receipt', compact('data', ));
     }
 
     public function viewReceipt(int $payment_id)
     {
-        $get_boarding_fee = get_boarding_fee();
         $data = $this->get_payment_detail_per_student($payment_id);
 
-        return view('prints.view_receipt', compact('data', 'get_boarding_fee'));
+        return view('prints.view_receipt', compact('data'));
     }
 
     public function printFeeStatement(int $student_id)
     {
-
-        $get_boarding_fee = get_boarding_fee();
         $data = Student::where('id', $student_id)
             ->with(['class_room.section', 'payments', 'class_room.academic_year', 'scholarship.scholarship_category'])
             ->withSum('payments', 'amount')
             ->first();
 
-        return view('prints.fee_statement', compact('data', 'get_boarding_fee'));
+        return view('prints.fee_statement', compact('data'));
     }
 
     public function printBulkFeeStatement($class_id)
     {
-        $get_boarding_fee = get_boarding_fee();
         $data = $this->get_class_fee_payment($class_id);
 
-        return view('prints.bulk_fee_statement', compact('data', 'get_boarding_fee'));
+        return view('prints.bulk_fee_statement', compact('data'));
     }
 
     public function classFeeSummary($class_id)
     {
-        $get_boarding_fee = get_boarding_fee();
         $selected_class = ClassRoom::where('id', $class_id)->first();
         $data = $this->get_class_fee_payment($class_id);
 
-        return view('prints.class_fee_summary', compact('get_boarding_fee', 'data', 'selected_class'));
+        return view('prints.class_fee_summary', compact( 'data', 'selected_class'));
     }
 
     public function get_payment_detail_per_student($payment_id)
@@ -70,12 +64,12 @@ class FinanceController extends Controller
             ->get();
     }
 
-    public function printFeeReport($date_from, $date_to)
+    public function printFeeReport($from, $to)
     {
-        $date_from = $date_from;
-        $date_to = $date_to;
-        $fee_payments = FeePayment::whereBetween('transaction_date', [$date_from, $date_to])
-            ->with('student.class_room.section')
+        $date_from = $from;
+        $date_to = $to;
+        $fee_payments = FeePayment::with('student.class_room.section')
+            ->whereBetween('transaction_date', [$date_from, $date_to])
             ->orderBy(Student::select('full_name')->whereColumn('students.id', 'fee_payments.student_id'))
             ->get();
 

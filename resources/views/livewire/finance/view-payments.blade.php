@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
             <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab" wire:ignore.self>
+                <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab">
                     <table class="table table-striped table-hover table-responsive-lg">
                         <div class="row g-3 mb-3">
                             <dib class="col-md-4">
@@ -65,29 +65,19 @@
                             @endphp
                             <td>{{ $student_fees->firstItem() + $loop->index }}</td>
                             <td>{{ $student_fee->full_name }}</td>
-                            {{-- <td>{{ $student_fee->class_room->section->section_name }}</td> --}}
                             <td>{{ $student_fee->class_room->class_name }}</td>
-                            @if ($student_fee->is_boarding)
-                             <td class="text-center">{{ number_format($student_fee->class_room->feeItems->payable_fee + $get_boarding_fee->boarding_fee ) }}</td>
-                             @else
                                 @foreach($student_fee->class_room->feeItems as $fee_item)
-                                    <td class="text-center">{{ number_format($fee_item->payable_fee) }}</td>
+                                    <td class="text-center">{{ number_format($fee_item->payable_fee + $student_fee->extra_fees->sum('pivot.amount')) }}</td>
                                 @endforeach
-                            @endif
                             <td class="text-center">{{ number_format($student_fee->payments_sum_amount) }}</td>
                             <td class="text-center">{{ number_format($discount) }}</td>
-                            @if ($student_fee->is_boarding)
-                              <td class="text-center">{{ number_format(($student_fee->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($student_fee->payments_sum_amount + $discount)) }}</td>
-                             @else
-                              <td class="text-center">{{ number_format($student_fee->class_room->payable_fee - ($student_fee->payments_sum_amount + $discount)) }}</td>
-                            @endif
-                            {{-- <td class="text-center"><span class="badge {{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'bg-success' : 'bg-warning'}}
-                                ">{{ ($student_fee->class_room->payable_fee - $student_fee->payments_sum_amount) == 0 && $student_fee->payments_sum_amount > 0 ? 'Completed' : 'Incomplete'}}
-                            </span>
-                            </td> --}}
+                            @foreach($student_fee->class_room->feeItems as $fee_item)
+                                <td class="text-center">{{ number_format(($fee_item->payable_fee + $student_fee->extra_fees->sum('pivot.amount'))
+                                              - ($student_fee->payments_sum_amount + $discount)) }}</td>
+                            @endforeach
                             <td class="text-center">
                                 <span><a href="{{ url('/school-fee-statement', [$student_fee->id]) }}" class="btn btn-xs btn-success"><i class="fas fa-print mr-2"></i>Statement</a></span>
-                                <span><a wire:click.prevent="showFeePaymentModal({{ $student_fee->id }})" class="btn btn-xs btn-success"><i class="fas fa-hand-holding-usd mr-2"></i>Collect Fee</a></span>
+                                <span><a wire:click="showFeePaymentModal({{ $student_fee->id }}, {{$student_fees->currentPage()}})" class="btn btn-xs btn-success"><i class="fas fa-hand-holding-usd mr-2"></i>Collect Fee</a></span>
                             </td>
                         </tr>
                         @empty
@@ -98,7 +88,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="class" role="tabpanel" aria-labelledby="class-tab" wire:ignore.self>
+                <div class="tab-pane fade" id="class" role="tabpanel" aria-labelledby="class-tab">
                     <table class="table table-striped table-hover table-responsive-lg">
                         <caption>{{ $class_fees->links() }}</caption>
                         <thead>
@@ -124,7 +114,7 @@
                             <td class="text-center">{{ number_format($class_fee->payments_sum_amount) }}</td>
                             @if ($class_fee->payments_sum_amount != 0)
                             <td class="text-center"><span class="badge bg-success">
-                                {{ round(($class_fee->payments_sum_amount/($class_fee->students_count * $class_fee->payable_fee))*100, 2) . '%' }}</span></td>
+                                {{ round(($class_fee->payments_sum_amount/($class_fee->students_count * $class_fee->fee_items_sum_amount))*100, 2) . '%' }}</span></td>
                                 @else
                                 <td class="text-center"><span class="badge bg-danger">0.00%</span></td>
                             @endif

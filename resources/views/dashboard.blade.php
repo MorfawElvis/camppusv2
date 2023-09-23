@@ -65,7 +65,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Total Expected Fees</span>
                             <span class="info-box-number">
-{{--                                {{ total_fees_expected() . ' XAF' }}--}}
+                                {{ total_fees_expected() . ' XAF' }}
                             </span>
                         </div>
                         <!-- /.info-box-content -->

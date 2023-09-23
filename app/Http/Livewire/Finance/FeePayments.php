@@ -76,18 +76,14 @@ class FeePayments extends Component
     {
         //TODO: Make a service class to query balance owed by a student - same query in viewpayment component
         $student = Student::where('id', $student_id)
-            ->with('class_room')
+            ->with('class_room', 'extra_fees')
             ->withSum('payments', 'amount')
             ->first();
+
         if (isset($student->scholarship->scholarship_category->discount)) {
             $discount = $student->scholarship->scholarship_category->discount;
         }
-        if ($student->is_boarding) {
-            $payable_fee = $student->class_room->payable_fee + get_boarding_fee()->boarding_fee;
-        } else {
-            $payable_fee = $student->class_room->payable_fee;
-        }
-
+        $payable_fee = $student->class_room->feeItems->sum('amount') + $student->extra_fees->sum('pivot.amount');
         $amount_paid = $student->payments_sum_amount;
 
         $this->balance_owed = $payable_fee - ($amount_paid + ($discount ?? 0));
@@ -117,6 +113,7 @@ class FeePayments extends Component
             'amount' => $this->amount_collected,
             'payment_mode' => 'Cash',
             'user_id' => auth()->user()->id,
+            'school_year_id' => current_school_year()->id
         ]);
 
         return \Redirect::route('fee.receipt', $payment->id);

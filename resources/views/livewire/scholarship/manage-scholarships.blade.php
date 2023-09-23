@@ -1,3 +1,4 @@
+
 <div>
     @section('title', 'Manage Scholarships')
     <div class="card mt-4 mx-auto shadow-lg">
@@ -5,44 +6,58 @@
             <i class="fas fa-arrow-alt-circle-down mr-2"></i>Manage Scholarships
         </div>
         <div class="card-body">
-            <div class="mb-3">
-                    <a wire:click.prevent="showScholarshipModal" class="btn btn-outline-primary rounded-pill float-end" id="add-button">
-                        <i class="fas fa-plus-circle mr-2"></i>Award Scholarship</a>
+             <div class="mb-3">
+                 <div class="d-flex align-middle ms-4">
+                     <label>Select All</label>
+                     <input type="checkbox" class="form-check-input me-2" wire:model="selectAll" id="select-all" @if($selectAll) checked @endif>
+                     <div class="ms-2">
+                        @if($selectAll)
+                             <button wire:click="deleteSelected" type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete selected"><i class="fas fa-trash-alt"></i></button>
+                        @endif
+                     </div>
+                 </div>
+                       <a wire:click.prevent="showScholarshipModal" class="btn btn-outline-primary rounded-pill float-end" id="add-button">
+                           <i class="fas fa-plus-circle mr-2"></i>Award Scholarship</a>
               </div>
             <table class="table table-striped table-hover table-responsive-lg">
-                <caption class="mt-2"></caption>
+                <caption class="mt-2">{{ $students_with_scholarships->links() }}</caption>
                 <thead>
                 <tr>
                     <th>S/N</th>
                     <th>Student's Name</th>
                     <th>Class</th>
-                    <th>Schorlaship</th>
-                    <th>Coverage</th> 
-                    <th>Actions</th>                                  
+                    <th>Scholarship</th>
+                    <th>Coverage</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                  @forelse ($students_with_scholarships as $student)
                      <tr>
                         <td>{{ $loop->index+1 }}</td>
-                        <td>{{ $student->student->full_name ?? 'Student does not exist' }}</td>
+                        <td>
+                            @if($selectAll)
+                                <input type="checkbox" class="form-check-input me-3" wire:model="selected" value="{{ $student->id }}">
+                            @endif
+                            {{ $student->student->full_name ?? 'Student does not exist' }}
+                        </td>
                         <td>{{ $student->student->class_room->class_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_name ?? '' }}</td>
                         <td>{{ $student->scholarship_category->scholarship_coverage ?? '' }}</td>
                         <td>
-                            <span><a  wire:click.prevent="deleteScholarship({{ $student->student_id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>  
+                            <span><a  wire:click.prevent="deleteScholarship({{ $student->student_id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
                         </td>
                      </tr>
                  @empty
                  <tr  class="text-center">
                      <td colspan="7"><i class="fas fa-question-circle mr-2"></i>No record found</td>
-                 </tr>            
+                 </tr>
                  @endforelse
                 </tbody>
             </table>
         </div>
         <div class="card-footer">
-           
+
         </div>
     </div>
     {{-- Subject Modal --}}
@@ -96,7 +111,7 @@
                             <select class="form-select" id="floatingSelect" wire:model.lazy="scholarship_id" required>
                               <option selected>Open this select menu</option>
                               @foreach ($scholarships as $scholarship)
-                              <option value="{{ $scholarship->id }}">{{ $scholarship->scholarship_name }} | {{ $scholarship->scholarship_category }} | <span style="font-weight: 
+                              <option value="{{ $scholarship->id }}">{{ $scholarship->scholarship_name }} | {{ $scholarship->scholarship_category }} | <span style="font-weight:
                                 800 !important;">{{ $scholarship->discount}} XAF</span></option>
                               @endforeach
                             </select>
@@ -112,7 +127,7 @@
                                 <button type="button" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit"  class="btn btn-primary rounded-pill">
                                     <div wire:loading.delay wire:target="submit" class="spinner-border spinner-border-sm text-white"></div>
-                                    Save 
+                                    Save
                                 </button>
                                 @endif
                             </div>

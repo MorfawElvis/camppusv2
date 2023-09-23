@@ -2818,6 +2818,7 @@ class Builder implements BuilderContract
         return $this->paginateUsingCursor($perPage, $columns, $cursorName, $cursor);
     }
 
+
     /**
      * Ensure the proper order by required for cursor pagination.
      *

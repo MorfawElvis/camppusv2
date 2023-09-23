@@ -18,6 +18,8 @@ class ManageScholarships extends Component
 
     public $students;
 
+    public $records;
+
     public $section_id;
 
     public $class_rooms;
@@ -27,6 +29,32 @@ class ManageScholarships extends Component
     public $student_id;
 
     public $scholarship_id;
+
+    public $selected = [];
+
+    public $selectAll = false;
+
+    public function mount()
+    {
+        $this->records = Scholarship::with('student.class_room', 'scholarship_category')->get();
+    }
+
+    public function updatedSelectAll()
+    {
+        if ($this->selectAll) {
+            $this->selected = $this->records->pluck('id')->map(function ($id) {
+                return (string) $id;
+            });
+        } else {
+            $this->selected = [];
+        }
+    }
+    public function deleteSelected()
+    {
+        Scholarship::whereIn('id', $this->selected)->delete();
+        $this->selected = [];
+        $this->selectAll = false;
+    }
 
     public function showScholarshipModal()
     {
@@ -66,6 +94,7 @@ class ManageScholarships extends Component
 
     public function deleteScholarship($student_id)
     {
+        $this->selectAll = false;
         Scholarship::where('student_id', $student_id)->delete();
         $this->alert('success', 'Record has been deleted successfully');
     }
@@ -74,7 +103,7 @@ class ManageScholarships extends Component
     {
         $sections = Section::all();
         $scholarships = ScholarshipCategory::all();
-        $students_with_scholarships = Scholarship::with('student.class_room', 'scholarship_category')->get();
+        $students_with_scholarships = Scholarship::with('student.class_room', 'scholarship_category')->paginate(10);
 
         return view('livewire.scholarship.manage-scholarships', compact('sections', 'scholarships', 'students_with_scholarships'));
     }

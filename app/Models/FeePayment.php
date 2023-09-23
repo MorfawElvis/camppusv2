@@ -23,6 +23,7 @@ class FeePayment extends Model
         'user_id',
         'receipt_number',
         'payment_mode',
+        'school_year_id'
     ];
 
     public static function boot()

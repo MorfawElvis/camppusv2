@@ -141,20 +141,63 @@ if (! function_exists('get_total_fees_paid_today')) {
 }
 
 if (! function_exists('total_fees_expected')) {
-    function total_fees_expected() : int
+    function total_fees_expected() : int|string
     {
-        $total_expected = 0;
+        $totalStudentExpectedFees = 0;
 
-        $total_boarding_students = Student::where('is_boarding', 1)->count();
-        $boarding_fee = GeneralSetting::select('boarding_fee')->first();
-        $total_expected_boarding_fee = $total_boarding_students * ($boarding_fee->boarding_fee ?? 0);
-        $class_rooms = ClassRoom::withCount('students')->get();
-        foreach ($class_rooms as $class_room) {
-            $total_expected += $class_room->students_count * $class_room->payable_fee;
+        $totalClassExpectedFees = 0;
+
+        $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
+
+        if ($current_school_year){
+             $totalStudentExpectedFees = Classroom::whereHas('academic_year', function ($query) use ($current_school_year) {
+                $query->where('id', $current_school_year);
+            })
+                ->with('students.extra_fees') // Load necessary relationships
+                ->get()
+                ->flatMap(function ($classroom) {
+                    return $classroom->students->map(function ($student) {
+                        return $student->extra_fees->sum(function ($studentExtraFee) {
+                            return $studentExtraFee->pivot->amount;
+                        });
+                    });
+                })
+                ->sum();
+
+            $totalClassExpectedFees = Classroom::where('academic_year_id', $current_school_year)
+                ->with(['feeItems', 'students']) // Eager load fee items and students for efficiency
+                ->get()
+                ->sum(function ($classroom) {
+                    $classroomFeeTotal = $classroom->feeItems->sum('amount');
+                    $enrollmentCount = $classroom->students->count();
+
+                    return $classroomFeeTotal * $enrollmentCount;
+                });
         }
-            dd($total_expected + $total_expected_boarding_fee);
-        return number_format($total_expected + $total_expected_boarding_fee);
+
+        return number_format($totalStudentExpectedFees + $totalClassExpectedFees);
     }
+
+
+
+
+
+
+
+
+
+//        $total_expected = 0;
+//
+//        $total_boarding_students = Student::where('is_boarding', 1)->count();
+//        $boarding_fee = GeneralSetting::select('boarding_fee')->first();
+//        $total_expected_boarding_fee = $total_boarding_students * ($boarding_fee->boarding_fee ?? 0);
+//        $class_rooms = ClassRoom::withCount('students')->get();
+//        foreach ($class_rooms as $class_room) {
+//            $total_expected += $class_room->students_count * $class_room->payable_fee;
+//        }
+//
+//        return number_format($total_expected + $total_expected_boarding_fee);
+
 }
 
 if (! function_exists('get_online_users')) {

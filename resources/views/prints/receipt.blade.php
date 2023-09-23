@@ -50,7 +50,7 @@
                     Telephone: (237) 6 73 36 77 68
                 </h2>
                 <img class="me-4" src="{{ asset('images/sabibi.JPG') }}" style="width:100px; height:100px;">
-            </div> 
+            </div>
             </div>
           <div class="center my-4">
             SCHOOL FEE RECEIPT<br>
@@ -72,7 +72,6 @@
       </div>
       <div class="col-sm-4 invoice-col">
         <h4><b>Receipt No: {{ $data->receipt_number }} </b><br></h4>
-        <h4><b>Dormitory: {{ $data->student->is_boarding ? 'YES' : 'NO' }} </b></h4>
       </div>
       <!-- /.col -->
     </div>
@@ -116,16 +115,12 @@
           <table class="table table-bordered">
             <tr>
               <th style="width:50%">Total Payable Fee</th>
-              @if ($data->student->is_boarding)
-              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
-              @else
-              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee) . '  XAF'}}</td>
-              @endif
+                <td style="font-weight: 600;">{{ number_format($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) . '  XAF'}}</td>
             </tr>
             @php
                 $total_paid = 0;
             @endphp
-            @foreach ($data->student->payments as $payment) 
+            @foreach ($data->student->payments as $payment)
               @php
                   $total_paid += $payment->amount
               @endphp
@@ -141,7 +136,8 @@
               <th>Discount/Scholarship</th>
               @if ($data->student->scholarship->scholarship_category->discount ?? '')
                   @php
-                    $discount = $data->student->class_room->payable_fee * ($data->student->scholarship->scholarship_category->discount / 100);
+                    $discount = ($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount'))
+                                * ($data->student->scholarship->scholarship_category->discount / 100);
                   @endphp
                   <td>{{ number_format($discount) . '  XAF' }}</td>
                   @else
@@ -150,11 +146,7 @@
             </tr>
             <tr>
               <th>Balanced Owed:</th>
-             @if ($data->student->is_boarding)
-                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($total_paid  + $discount)) . '  XAF' }}</td>
-             @else
-                <td>{{ number_format($data->student->class_room->payable_fee - ($total_paid + $discount) ) . '  XAF' }}</td>
-             @endif
+                <td>{{ number_format(($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) - ($total_paid + $discount) ) . '  XAF' }}</td>
             </tr>
           </table>
         </div>
@@ -175,7 +167,7 @@
                     Telephone: (237) 6 73 36 77 68
                 </h2>
                 <img class="me-4" src="{{ asset('images/sabibi.JPG') }}" style="width:100px; height:100px;">
-            </div> 
+            </div>
             </div>
           <div class="center my-4">
             SCHOOL FEE RECEIPT<br>
@@ -197,7 +189,6 @@
       </div>
       <div class="col-sm-4 invoice-col">
         <h4><b>Receipt No: {{ $data->receipt_number }} </b><br></h4>
-        <h4><b>Dormitory: {{ $data->student->is_boarding ? 'YES' : 'NO' }} </b></h4>
       </div>
       <!-- /.col -->
     </div>
@@ -237,56 +228,45 @@
       <div class="col-6">
         <p class="lead"><h5>Payment Summary</h5></p>
 
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <tr>
-              <th style="width:50%">Total Payable Fee</th>
-              @if ($data->student->is_boarding)
-              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
-              @else
-              <td style="font-weight: 600;">{{ number_format($data->student->class_room->payable_fee) . '  XAF'}}</td>
-              @endif
-            </tr>
-            @php
-                $total_paid = 0;
-            @endphp
-            @foreach ($data->student->payments as $payment) 
-             {{-- <tr>
-                <th>{{ $payment->transaction_date }}</th>
-                <td tyle="font-weight: 400;">{{ number_format($payment->amount) . '  XAF'}}</td>
-              </tr> --}}
-              @php
-                  $total_paid += $payment->amount
-              @endphp
-            @endforeach
-            <tr>
-              <th>Total Amount Paid</th>
-              <td>{{ number_format($total_paid) . '  XAF' }}</td>
-            </tr>
-            <tr>
-              @php
-              $discount = 0;
-              @endphp
-              <th>Discount/Scholarship</th>
-              @if ($data->student->scholarship->scholarship_category->discount ?? '')
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <tr>
+                      <th style="width:50%">Total Payable Fee</th>
+                      <td style="font-weight: 600;">{{ number_format($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) . '  XAF'}}</td>
+                  </tr>
                   @php
-                    $discount = $data->student->class_room->payable_fee * ($data->student->scholarship->scholarship_category->discount / 100);
+                      $total_paid = 0;
                   @endphp
-                  <td>{{ number_format($discount) . '  XAF' }}</td>
-                  @else
-                  <td>{{ '0' }}</td>
-              @endif
-            </tr>
-            <tr>
-              <th>Balanced Owed:</th>
-             @if ($data->student->is_boarding)
-                <td>{{ number_format(($data->student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($total_paid  + $discount)) . '  XAF' }}</td>
-             @else
-                <td>{{ number_format($data->student->class_room->payable_fee - ($total_paid + $discount) ) . '  XAF' }}</td>
-             @endif
-            </tr>
-          </table>
-        </div>
+                  @foreach ($data->student->payments as $payment)
+                      @php
+                          $total_paid += $payment->amount
+                      @endphp
+                  @endforeach
+                  <tr>
+                      <th>Total Amount Paid</th>
+                      <td>{{ number_format($total_paid) . '  XAF' }}</td>
+                  </tr>
+                  <tr>
+                      @php
+                          $discount = 0;
+                      @endphp
+                      <th>Discount/Scholarship</th>
+                      @if ($data->student->scholarship->scholarship_category->discount ?? '')
+                          @php
+                              $discount = ($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount'))
+                                          * ($data->student->scholarship->scholarship_category->discount / 100);
+                          @endphp
+                          <td>{{ number_format($discount) . '  XAF' }}</td>
+                      @else
+                          <td>{{ '0' }}</td>
+                      @endif
+                  </tr>
+                  <tr>
+                      <th>Balanced Owed:</th>
+                      <td>{{ number_format(($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) - ($total_paid + $discount) ) . '  XAF' }}</td>
+                  </tr>
+              </table>
+          </div>
       </div>
       <!-- /.col -->
     </div>
@@ -294,11 +274,11 @@
   </section>
   <!-- /.content -->
 </div>
-<script type="text/javascript"> 
+<script type="text/javascript">
   window.addEventListener("load", function(){
     window.print();
     window.onafterprint = function(event) {
-        window.location.href = '/manage-fee-payments'   
+        window.location.href = '/manage-fee-payments'
      };
   });
 </script>

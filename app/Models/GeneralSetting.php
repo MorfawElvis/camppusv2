@@ -42,7 +42,6 @@ class GeneralSetting extends Model
         'principal_signature',
         'collapsed_sidebar',
         'fixed_header',
-        'boarding_fee',
     ];
 
     //    protected $dateFormat = 'd/m/Y';

@@ -89,7 +89,10 @@ class SchoolFeeItems extends Component
 
     public function render()
     {
-        $class_rooms = ClassRoom::with('feeItems')->withSum('feeItems', 'amount')->paginate(10);
+        $class_rooms = ClassRoom::with('feeItems')
+            ->where('academic_year_id', current_school_year()->id)
+            ->withSum('feeItems', 'amount')
+            ->paginate(10);
 
         return view('livewire.finance.school-fee-items', compact('class_rooms'));
     }

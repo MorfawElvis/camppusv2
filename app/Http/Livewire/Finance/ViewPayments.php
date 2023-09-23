@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Finance;
 use App\Models\ClassRoom;
 use App\Models\FeePayment;
 use App\Models\Student;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -33,7 +34,6 @@ class ViewPayments extends Component
 
     public function render()
     {
-        $get_boarding_fee = get_boarding_fee();
         $class_fees = ClassRoom::with('students', 'students.payments')
             ->withCount('students')
             ->where('academic_year_id', current_school_year()->id)
@@ -47,37 +47,34 @@ class ViewPayments extends Component
             ->with(['class_room.feeItems' => function ($query) {
                 $query->select('class_room_id', DB::raw('sum(amount) as payable_fee'))->groupBy('class_room_id');
             }])
-            ->with(['class_room.section', 'scholarship'])
+            ->with(['class_room.section', 'scholarship', 'extra_fees'])
             ->whereHas('class_room', function ($query){
                 $query->where('academic_year_id', current_school_year()->id);
                 $query->where('id', $this->class_id);
             })
             ->paginate($this->perPage);
-//           dd($student_fees);
-        return view('livewire.finance.view-payments', compact('student_fees', 'class_fees', 'get_boarding_fee'));
+
+        return view('livewire.finance.view-payments', compact('student_fees', 'class_fees'));
     }
 
-    public function showFeePaymentModal($student_id)
+    public function showFeePaymentModal($student_id, $current_page)
     {
         //TODO: Make a service class to query balance owed by a student - same query in feepayment component
         $this->reset();
+        $this->gotoPage($current_page);
         $this->student_id = $student_id;
         $student = Student::where('id', $student_id)
-            ->with('class_room', 'scholarship')
+            ->with('class_room', 'scholarship', 'extra_fees')
             ->withSum('payments', 'amount')
             ->first();
         if (isset($student->scholarship->scholarship_category->discount)) {
             $discount = $student->scholarship->scholarship_category->discount;
         }
-        if ($student->is_boarding) {
-            $payable_fee = $student->class_room->payable_fee + get_boarding_fee()->boarding_fee;
-        } else {
-            $payable_fee = $student->class_room->payable_fee;
-        }
-
+        $payable_fee = $student->class_room->feeItems->sum('amount') + $student->extra_fees->sum('pivot.amount');
         $amount_paid = $student->payments_sum_amount;
 
         $this->balance_owed = $payable_fee - ($amount_paid + ($discount ?? 0));
+
         $this->dispatchBrowserEvent('showFeePaymentModal');
 
     }
@@ -90,6 +87,11 @@ class ViewPayments extends Component
         } else {
             $this->buttonDisabled = false;
         }
+    }
+
+    public function updatingClassId()
+    {
+        $this->gotoPage(1);
     }
 
     public function newFeePayment()
@@ -108,6 +110,7 @@ class ViewPayments extends Component
             'amount' => $this->amount_collected,
             'payment_mode' => 'Cash',
             'user_id' => auth()->user()->id,
+            'school_year_id' => current_school_year()->id
         ]);
 
         return \Redirect::route('view.receipt', $payment->id);
