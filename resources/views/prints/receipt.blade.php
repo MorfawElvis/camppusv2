@@ -8,6 +8,14 @@
   @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <style>
+      * {
+          margin: 0;
+          padding: 1px;
+          box-sizing: border-box;
+      }
+      @page {
+          size: 8.5cm 5.5cm;  /* width height */
+      }
     .center {
         margin: auto;
         width: 80%;

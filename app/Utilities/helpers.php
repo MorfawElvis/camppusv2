@@ -108,7 +108,7 @@ if (! function_exists('get_total_classes')) {
 }
 
 if (! function_exists('get_total_fees_paid')) {
-    function get_total_fees_paid() : int
+    function get_total_fees_paid() : int|string
     {
         $total_fees_paid = 0 ;
         $current_school_year = SchoolYear::where('year_status', 'opened')->pluck('id')->first();
