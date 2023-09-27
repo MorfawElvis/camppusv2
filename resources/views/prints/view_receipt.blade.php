@@ -8,6 +8,37 @@
     @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            page-break-inside: avoid; /* Prevent tables from breaking across pages */
+        }
+        .table1, .table2 {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        @media print{
+            .table1 th, .table2 th {
+                text-align: left;
+                border: 1px solid black !important;
+                padding: 8px;
+            }
+
+            .table1 td, .table2 td {
+                border: 1px solid black !important;
+                padding: 8px;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        @page {
+            size: A4 portrait;
+            margin: 2mm 2mm;
+        }
         .center {
             margin: auto;
             width: 80%;
@@ -20,22 +51,10 @@
             text-align: center;
             padding: 5px;
         }
-        @media print{
-            .table thead tr th,.table tbody tr td, .table tr th{
-                border-width: 1px !important;
-                border-style: solid !important;
-                border-color: black !important;
-                font-size: 28px;
-                -webkit-print-color-adjust:exact ;
-            }
-            .table tr td{
-                text-align: right;
-            }
-        }
     </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper page">
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
@@ -66,7 +85,7 @@
                     <h4>Student's Name: <strong>{{ $data->student->full_name }}</strong><br>
                         Section: {{ $data->student->class_room->section->section_name }}<br>
                         Class: {{ $data->student->class_room->class_name }}<br>
-                        Admission No: {{ $data->student->matriculation }}
+                        {{--          Admission No: {{ $data->student->matriculation }}--}}
                     </h4>
                 </address>
             </div>
@@ -77,7 +96,7 @@
         </div>
         <div class="row">
             <div class="col-12 table-responsive">
-                <table class="table table-bordered" style="border-width:4px !important;">
+                <table class="table table-bordered table1" style="border-width:4px !important;">
                     <thead>
                     <tr>
                         <th>S/N</th>
@@ -112,7 +131,7 @@
                 <p class="lead"><h5>Payment Summary</h5></p>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table2">
                         <tr>
                             <th style="width:50%">Total Payable Fee</th>
                             <td style="font-weight: 600;">{{ number_format($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) . '  XAF'}}</td>
@@ -183,7 +202,7 @@
                     <h4>Student's Name: <strong>{{ $data->student->full_name }}</strong><br>
                         Section: {{ $data->student->class_room->section->section_name }}<br>
                         Class: {{ $data->student->class_room->class_name }}<br>
-                        Admission No: {{ $data->student->matriculation }}
+                        {{--          Admission No: {{ $data->student->matriculation }}--}}
                     </h4>
                 </address>
             </div>
@@ -194,7 +213,7 @@
         </div>
         <div class="row">
             <div class="col-12 table-responsive">
-                <table class="table table-bordered" style="border-width:4px !important;">
+                <table class="table table-bordered table1" style="border-width:4px !important;">
                     <thead>
                     <tr>
                         <th>S/N</th>
@@ -229,7 +248,7 @@
                 <p class="lead"><h5>Payment Summary</h5></p>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table2">
                         <tr>
                             <th style="width:50%">Total Payable Fee</th>
                             <td style="font-weight: 600;">{{ number_format($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) . '  XAF'}}</td>

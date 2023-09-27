@@ -50,7 +50,7 @@
                     Telephone: (237) 6 73 36 77 68
                 </h2>
                 <img class="me-4" src="{{ asset('images/sabibi.JPG') }}" style="width:100px; height:100px;">
-            </div> 
+            </div>
             </div>
           <div class="center my-4">
             SCHOOL FEE STATEMENT<br>
@@ -66,41 +66,58 @@
           <h4>Student's Name: <strong>{{ $data->full_name }}</strong><br>
           Section: {{ $data->class_room->section->section_name }}<br>
           Class: {{ $data->class_room->class_name }}<br>
-          Admission No: {{ $data->matriculation }}
+{{--          Admission No: {{ $data->matriculation }}--}}
         </h4>
         </address>
       </div>
       <div class="col-sm-4 invoice-col">
         <h4><b>Printed:</b> {{ date("d/m/Y") }} <br></h4>
-        <h4><b>Dormitory: {{ $data->is_boarding ? 'YES' : 'NO' }} </b></h4>
+{{--        <h4><b>Dormitory: {{ $data->is_boarding ? 'YES' : 'NO' }} </b></h4>--}}
       </div>
       </div>
       <!-- /.col -->
     </div>
     <div class="row">
+        <div class="col-12 table-responsive">
+            <h5 class="fw-bolder fs-4">Fee Items</h5>
+            <table class="table table-bordered" style="border-width:4px !important;">
+                <thead>
+                <tr>
+                    <th class="text-left">Fee Item</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $totalClassFee = 0;
+                    $totalExtraFee = 0;
+                @endphp
+                @foreach( $data->class_room->feeItems as $feeItem )
+                    <tr>
+                        <td class="text-left">{{ $feeItem->name }}</td>
+                        <td>{{ number_format($feeItem->amount)}}</td>
+                    </tr>
+                    @php
+                        $totalClassFee += $feeItem->amount
+                    @endphp
+                @endforeach
+                @foreach($data->extra_fees as $extraFee)
+                    <tr>
+                        <td class="text-left">{{ $extraFee->name }}</td>
+                        <td>{{ number_format($extraFee->pivot->amount) }}</td>
+                    </tr>
+                    @php
+                        $totalExtraFee += $extraFee->pivot->amount
+                    @endphp
+                @endforeach
+                </tbody>
+                <tr>
+                    <th class="text-center">Total Payable Fee</th>
+                    <th class="text-right">{{ number_format($totalExtraFee + $totalClassFee) }}</th>
+                </tr>
+            </table>
+        </div>
       <div class="col-12 table-responsive">
-        <table class="table table-bordered" style="border-width:4px !important;">
-          <thead>
-          <tr>
-            <th class="text-right">S/N</th>
-            <th class="text-right">Transaction Date</th>
-            <th class="text-right">Amount Paid</th>
-          </tr>
-          </thead>
-          <tbody>
-            @forelse ( $data->payments as $payment )
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $payment->transaction_date }}</td>
-              <td>{{ number_format($payment->amount) . '  XAF'}}</td>
-            </tr>
-            @empty
-              <tr>
-                <td colspan="3" class="text-center">No payment history available for this student</td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
       </div>
       <!-- /.col -->
     </div>
@@ -117,18 +134,9 @@
       </div>
       <!-- /.col -->
       <div class="col-6">
-        <p class="lead"><h5>Summary</h5></p>
-
+        <h5 class="font-weight-bolder fs-4">Payment Summary</h5>
         <div class="table-responsive">
           <table class="table table-bordered">
-            <tr>
-              <th style="width:50%">Total Payable Fee</th>
-              @if ($data->is_boarding)
-              <td style="font-weight: 600;">{{ number_format($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) . '  XAF'}}</td>
-              @else
-              <td style="font-weight: 600;">{{ number_format($data->class_room->payable_fee) . '  XAF'}}</td>
-              @endif
-            </tr>
              <tr>
                 <th>Total Amount Paid</th>
                 <td tyle="font-weight: 400;">{{ number_format($data->payments_sum_amount) . '  XAF'}}</td>
@@ -149,11 +157,7 @@
              </tr>
             <tr>
               <th>Balanced Owed:</th>
-                @if ($data->is_boarding)
-                  <td>{{ number_format(($data->class_room->payable_fee + $get_boarding_fee->boarding_fee) - ($data->payments_sum_amount + $discount) ) . '  XAF' }}</td>
-                @else
-                  <td>{{ number_format($data->class_room->payable_fee - ($data->payments_sum_amount + $discount) ) . '  XAF' }}</td>
-                @endif
+                  <td>{{ number_format(($totalClassFee + $totalExtraFee) - $data->payments_sum_amount) . '  XAF' }}</td>
             </tr>
           </table>
         </div>
@@ -163,7 +167,7 @@
     <!-- /.row -->
   </section>
   </div>
-<script type="text/javascript"> 
+<script type="text/javascript">
   window.addEventListener("load", function(){
     window.print();
     window.onafterprint = function(event) {

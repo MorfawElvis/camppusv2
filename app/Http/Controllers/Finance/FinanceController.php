@@ -26,7 +26,7 @@ class FinanceController extends Controller
     public function printFeeStatement(int $student_id)
     {
         $data = Student::where('id', $student_id)
-            ->with(['class_room.section', 'payments', 'class_room.academic_year', 'scholarship.scholarship_category'])
+            ->with(['class_room.section', 'payments', 'class_room.academic_year', 'scholarship.scholarship_category', 'extra_fees'])
             ->withSum('payments', 'amount')
             ->first();
 

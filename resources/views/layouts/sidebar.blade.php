@@ -150,7 +150,7 @@
                                 <li class="nav-item nav-item-submenu {{ request()->is('view-payments') ? 'active' : '' }}">
                                     <a href="{{ route('view.payments') }}" class="nav-link">
                                         <i class="fas fa-receipt"></i>
-                                        <p>View Payments/Invoices</p>
+                                        <p>Payments/Statements</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('fee-report') ? 'active' : '' }}">
