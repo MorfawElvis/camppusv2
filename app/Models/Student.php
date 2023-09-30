@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\Student
@@ -43,6 +44,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  * @mixin \Eloquent
  * @mixin IdeHelperStudent
+ * @method ClassRooms
  */
 class Student extends Model
 {
@@ -138,10 +140,25 @@ class Student extends Model
         );
     }
 
-    public static function search($search) : \Illuminate\Database\Eloquent\Builder
+    public function scopeClassRooms($query, $academicYearId, $classId,)
     {
-        return empty($search) ? static::query()
-                      : static::where('full_name', 'like', '%'.$search.'%')
-                          ->orWhere('matriculation', 'like', '%'.$search.'%');
+        return $query->select(['full_name', 'matriculation', 'gender', 'class_room_id', 'id', 'is_boarding'])
+            ->withSum('payments', 'amount')
+            ->with(['class_room.feeItems' => function ($query) {
+                $query->select('class_room_id', DB::raw('sum(amount) as payable_fee'))->groupBy('class_room_id');
+            }])
+            ->with(['class_room.section', 'scholarship.scholarship_category', 'extra_fees'])
+            ->whereHas('class_room', function ($query) use ($academicYearId, $classId) {
+                $query->where('academic_year_id', $academicYearId);
+                $query->where('id', $classId);
+            });
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            return $query->where('full_name', 'like', '%' . $search . '%')
+                ->orWhere('matriculation', 'like', '%'.$search.'%');
+        }
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Scholarship extends Model
 {
-    use HasFactory, SoftDeletes;
+   use SoftDeletes;
 
     protected $fillable = [
         'student_id', 'school_year_id', 'scholarship_category_id', 'renewable', 'is_approved',

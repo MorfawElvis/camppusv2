@@ -34,25 +34,11 @@ class ViewPayments extends Component
 
     public function render()
     {
-        $class_fees = ClassRoom::with('students', 'students.payments')
-            ->withCount('students')
-            ->where('academic_year_id', current_school_year()->id)
-            ->withSum('payments', 'amount')
-            ->withSum('feeItems' ,'amount')
-            ->paginate(8);
+        $classRoom = new ClassRoom();
+        $class_fees = $classRoom->classFees();
 
-        $student_fees = Student::search($this->search)
-            ->select(['full_name', 'matriculation', 'gender', 'class_room_id', 'id', 'is_boarding'])
-            ->withSum('payments', 'amount')
-            ->with(['class_room.feeItems' => function ($query) {
-                $query->select('class_room_id', DB::raw('sum(amount) as payable_fee'))->groupBy('class_room_id');
-            }])
-            ->with(['class_room.section', 'scholarship', 'extra_fees'])
-            ->whereHas('class_room', function ($query){
-                $query->where('academic_year_id', current_school_year()->id);
-                $query->where('id', $this->class_id);
-            })
-            ->paginate($this->perPage);
+        $student_fees = Student::classrooms(current_school_year()->id, $this->class_id)
+            ->search($this->search)->paginate($this->perPage);
 
         return view('livewire.finance.view-payments', compact('student_fees', 'class_fees'));
     }

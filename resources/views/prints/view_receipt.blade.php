@@ -150,18 +150,10 @@
                         </tr>
                         <tr>
                             @php
-                                $discount = 0;
+                                $discount = $data->student->scholarship->scholarship_category->discount ?? '0';
                             @endphp
                             <th>Discount/Scholarship</th>
-                            @if ($data->student->scholarship->scholarship_category->discount ?? '')
-                                @php
-                                    $discount = ($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount'))
-                                                * ($data->student->scholarship->scholarship_category->discount / 100);
-                                @endphp
-                                <td>{{ number_format($discount) . '  XAF' }}</td>
-                            @else
-                                <td>{{ '0' }}</td>
-                            @endif
+                            <td>{{ number_format($discount) . ' XAF' }}</td>
                         </tr>
                         <tr>
                             <th>Balanced Owed:</th>
@@ -267,22 +259,15 @@
                         </tr>
                         <tr>
                             @php
-                                $discount = 0;
+                                $discount = $data->student->scholarship->scholarship_category->discount ?? '0';
                             @endphp
                             <th>Discount/Scholarship</th>
-                            @if ($data->student->scholarship->scholarship_category->discount ?? '')
-                                @php
-                                    $discount = ($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount'))
-                                                * ($data->student->scholarship->scholarship_category->discount / 100);
-                                @endphp
-                                <td>{{ number_format($discount) . '  XAF' }}</td>
-                            @else
-                                <td>{{ '0' }}</td>
-                            @endif
+                            <td>{{ number_format($discount) . ' XAF' }}</td>
                         </tr>
                         <tr>
                             <th>Balanced Owed:</th>
-                            <td>{{ number_format(($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) - ($total_paid + $discount) ) . '  XAF' }}</td>
+                            <td>{{ number_format(($data->student->class_room->feeItems->sum('amount') + $data->student->extra_fees->sum('pivot.amount')) -
+                      ($total_paid + $discount) ) . '  XAF' }}</td>
                         </tr>
                     </table>
                 </div>

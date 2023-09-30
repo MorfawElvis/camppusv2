@@ -78,4 +78,14 @@ class ClassRoom extends Model
     {
         $this->attributes['class_name'] = Str::upper($value);
     }
+
+    public function classFees()
+    {
+        return $this->with('students', 'students.payments')
+            ->withCount('students')
+            ->where('academic_year_id', current_school_year()->id)
+            ->withSum('payments', 'amount')
+            ->withSum('feeItems' ,'amount')
+            ->paginate(8);
+    }
 }
