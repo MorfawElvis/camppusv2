@@ -4,6 +4,7 @@
         <x-slot:header>Manage Fee Items</x-slot:header>
         <x-slot:body>
             <x-table.table :headers="['S/N','Class','Fee Items','Total Fee', '']">
+                <caption>{{ $class_rooms->links() }}</caption>
                @forelse($class_rooms as $index => $class_room)
                     <tr>
                         <td>{{ $loop->index +1 }}</td>
