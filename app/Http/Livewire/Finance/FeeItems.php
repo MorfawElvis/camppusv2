@@ -19,6 +19,8 @@ class FeeItems extends Component
 
     public $class_fee_items = [];
 
+    protected $paginationTheme = 'bootstrap';
+
     protected $rules = [
         'amount' => 'required',
         'name'   => 'required'
