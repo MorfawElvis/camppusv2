@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $class_rooms = ClassRoom::withCount('students')
-            ->where('academic_year_id', current_school_year()->id)
+            ->where('academic_year_id', current_school_year()->id ?? '')
             ->get()->toArray();
         $array_size = count($class_rooms);
 

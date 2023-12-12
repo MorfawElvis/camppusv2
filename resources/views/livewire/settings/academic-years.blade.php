@@ -20,7 +20,7 @@
                 <tbody>
                 @forelse ($academic_years as $academic_year)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $academic_years->firstItem() + $loop->index }}</td>
                         <td>{{ $academic_year->year_name }}</td>
                         <td>
                             <div class="form-check form-switch">

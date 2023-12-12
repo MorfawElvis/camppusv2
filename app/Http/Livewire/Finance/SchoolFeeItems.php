@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Finance;
 use App\Models\ClassRoom;
 use App\Models\FeeItem;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SchoolFeeItems extends Component
 {
+    use WithPagination;
+
     public $class_name;
 
     public $class_fee;
@@ -23,6 +26,8 @@ class SchoolFeeItems extends Component
     public $class_fee_items = [];
 
     public $editMode = false;
+
+    protected $paginationTheme = 'bootstrap';
 
     protected $rules = [
         'amount' => 'required',

@@ -18,7 +18,7 @@
                 <tbody>
                 @forelse($levels as $level)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $levels->firstItem() + $loop->index }}</td>
                         <td>{{ $level->level_name }}</td>
                         <td class="text-center">
                             <span><a wire:click.prevent="editModal({{ $level }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>

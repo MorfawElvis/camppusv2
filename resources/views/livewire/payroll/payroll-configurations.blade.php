@@ -23,15 +23,15 @@
                     <x-card.card>
                         <x-slot:header>Add Allowances</x-slot:header>
                         <x-slot:body>
-                            <x-table.table :headers="['S/N','Allowance','Type','Percentage','Actions']">
+                            <x-table.table :headers="['S/N','Allowance','Rate','','Actions']">
                                 <captions>{{ $allowances->links() }}</captions>
                                 <x-card.button-create event="showAllowanceModal">Create Allowance</x-card.button-create>
                                  @forelse($allowances as $index=>$allowance)
                                      <tr>
-                                         <td>{{ $loop->iteration }}</td>
+                                         <td>{{ $allowances->firstItem() + $loop->index }}</td>
                                          <td>{{ $allowance->allowance_name }}</td>
                                          <td class="text-capitalize">{{ $allowance->allowance_type }}</td>
-                                         <td>{{ $allowance->percentage ?? 'N/A' }}</td>
+                                         <td>{{ $allowance->percentage.'%' ?? 'N/A' }}</td>
                                          <td>
                                              <span><a wire:click.prevent="editAllowanceModal({{ $allowance }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>
                                              <span><a  wire:click.prevent="deleteAllowanceModal({{ $allowance->id }})"class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
@@ -48,15 +48,15 @@
                         <x-card.card>
                             <x-slot:header>Add Deductions</x-slot:header>
                             <x-slot:body>
-                                <x-table.table :headers="['S/N','Deduction','Type','Percentage','Actions']">
+                                <x-table.table :headers="['S/N','Deduction','Rate','','Actions']">
                                     <captions>{{ $deductions->links() }}</captions>
                                     <x-card.button-create event="showDeductionModal">Create Deduction</x-card.button-create>
                                     @forelse($deductions as $index=>$deduction)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $deductions->firstItem() + $loop->index }}</td>
                                             <td>{{ $deduction->deduction_name }}</td>
                                             <td class="text-capitalize">{{ $deduction->deduction_type }}</td>
-                                            <td>{{ $deduction->percentage ?? 'N/A' }}</td>
+                                            <td>{{ $deduction->percentage.'%' ?? 'N/A' }}</td>
                                             <td>
                                                 <span><a wire:click.prevent="editDeductionModal({{ $deduction }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>
                                                 <span><a  wire:click.prevent="deleteDeductionModal({{ $deduction->id }})" class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
@@ -86,7 +86,17 @@
                         <div wire:loading.delay>
                             Please wait....
                         </div>
-                        <x-forms.input field-name="allowance_percentage"  field-type="number" field-label="Percentage"></x-forms.input>
+                        <div class="form-floating mb-3">
+                            <input id="allowance" type="number" step="any" wire:model.defer="allowance_percentage"
+                                   class="form-control text-capitalize @error('allowance_percentage') is-invalid @enderror"
+                                   autofocus>
+                            @error($allowance_percentage)
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                            <label for="allowance" class="required">Percentage</label>
+                        </div>
                     </div>
                 @endif
                 <x-modal-buttons :edit-mode="$editMode" action="createAllowance"></x-modal-buttons>
@@ -106,7 +116,17 @@
                         <div wire:loading.delay>
                             Please wait....
                         </div>
-                        <x-forms.input field-name="deduction_percentage"  field-type="number" field-label="Percentage"></x-forms.input>
+                        <div class="form-floating mb-3">
+                            <input id="deduction" type="number" step="any" wire:model.defer="deduction_percentage"
+                                   class="form-control text-capitalize @error('deduction_percentage') is-invalid @enderror"
+                                   autofocus>
+                            @error($deduction_percentage)
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                            <label for="deduction" class="required">Percentage</label>
+                        </div>
                     </div>
                 @endif
                 <x-modal-buttons :edit-mode="$editMode"></x-modal-buttons>

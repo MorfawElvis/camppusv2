@@ -21,7 +21,7 @@
                 <tbody>
                 @forelse ($academic_terms as $academic_term)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $academic_terms->firstItem() + $loop->index }}</td>
                         <td>{{ $academic_term->term_name}}</td>
                         <td>
                             <div class="form-check form-switch">

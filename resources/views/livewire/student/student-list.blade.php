@@ -70,54 +70,68 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-8">
-                <div class="form-floating mb-3">
-                  <input type="text" wire:model.lazy="full_name" class="form-control text-capitalize @error('full_name') is-invalid @enderror">
-                  @error('full_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                  <label  class="required">Full Name</label>
+            <form wire:submit.prevent="{{ 'updateStudent' }}">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-floating mb-3">
+                            <input type="text" wire:model.lazy="full_name" class="form-control text-capitalize @error('full_name') is-invalid @enderror">
+                            @error('full_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <label  class="required">Full Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" wire:model.lazy="place_of_birth" class="form-control" wire:model.lazy="place_of_birth">
+                            <label for="floatingPassword">Place of Birth</label>
+                            @error('place_of_birth') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" wire:model.lazy="date_of_birth"  class="form-control @error('date_of_birth') is-invalid @enderror">
+                            <small>Format: mm/dd/yyyy</small>
+                            @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <label for="floatingInput" class="required">Date of Birth</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select @error('class_id') is-invalid @enderror"  id="class_id" wire:model.lady="class_id">
+                                @if ($editMode)
+                                    <option value="{{ $class_id }}" selected>{{ $editedClass }}</option>
+                                @else
+                                    <option value="" selected>Open this select menu</option>
+                                @endif
+                                @foreach($class_rooms as $class_room)
+                                    <option value="{{ $class_room->id }}">{{ $class_room->class_name }}</option>
+                                @endforeach
+                            </select>
+                            @error('class_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <label for="class_id" class="required">Change Class?</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Profile Image</label>
+                            <input wire:model.lazy="photo" class="form-control @error('photo') is-invalid @enderror" type="file">
+                            <small>Passport size photo not more than 2M</small>
+                            @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 ms-auto">
+                        <div class="text-center">
+                            @if ($profile_image)
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="{{ asset('storage/public/students_photos/'.$profile_image) }}" alt="User profile picture">
+                            @elseif ($photo)
+                                <img src="{{ $photo->temporaryUrl() }}" class="profile-user-img img-fluid img-circle">
+                            @else
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="{{ asset('storage/images/user.svg') }}" alt="User profile picture">
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                  <input type="text" wire:model.lazy="place_of_birth" class="form-control" wire:model.lazy="place_of_birth">
-                  <label for="floatingPassword">Place of Birth</label>
-                  @error('place_of_birth') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                <div class="float-right mt-3">
+                    <button type="reset" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" id="save-button" class="btn btn-primary rounded-pill">
+                        <i id="spinner" class="fa fa-spinner fa-spin hide mr-2"></i>
+                        <span class="button-text">Save Changes</span>
+                    </button>
                 </div>
-                <div class="form-floating mb-3">
-                  <input type="date" wire:model.lazy="date_of_birth"  class="form-control @error('date_of_birth') is-invalid @enderror">
-                  <small>Format: mm/dd/yyyy</small>
-                  @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                  <label for="floatingInput" class="required">Date of Birth</label>
-                </div>
-                <div class="mb-3">
-                  <label for="formFile" class="form-label">Profile Image</label>
-                  <input wire:model.lazy="photo" class="form-control @error('photo') is-invalid @enderror" type="file">
-                  <small>Passport size photo not more than 2M</small>
-                  @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
-              </div>
-            </div>
-            <div class="col-md-4 ms-auto">
-              <div class="text-center">
-                @if ($profile_image)
-                <img class="profile-user-img img-fluid img-circle"
-                src="{{ asset('storage/public/students_photos/'.$profile_image) }}" alt="User profile picture">
-                @elseif ($photo)
-                <img src="{{ $photo->temporaryUrl() }}" class="profile-user-img img-fluid img-circle">
-                @else
-                <img class="profile-user-img img-fluid img-circle"
-                src="{{ asset('storage/images/user.svg') }}" alt="User profile picture">
-                @endif
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="float-right mt-3">
-          <button type="reset" class="btn btn-warning rounded-pill mr-2" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" id="save-button" wire:click.prevent="updateStudent" class="btn btn-primary rounded-pill">
-              <i id="spinner" class="fa fa-spinner fa-spin hide mr-2"></i>
-              <span class="button-text">Save Changes</span>
-          </button>
+            </form>
         </div>
       </div>
     </div>

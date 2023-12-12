@@ -18,6 +18,8 @@ class StudentList extends Component
 {
     use WithPagination,LivewireAlert, WithFileUploads;
 
+    public $editMode = false;
+
     public $deletedStudent;
 
     public $search;
@@ -40,6 +42,11 @@ class StudentList extends Component
 
     public $class_id;
 
+    public $class_name;
+
+    public $editedClass;
+
+
     protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
@@ -49,10 +56,9 @@ class StudentList extends Component
         'full_name' => 'required',
         'date_of_birth' => 'required',
     ];
-
     public function render()
     {
-        $class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id)->get();
+        $class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id)->orderBy('class_name', 'asc')->get();
         $students = Student::with('user', 'class_room.section')
             ->whereHas('user', function ($query) {
                 $query->where('user_status', '=', '1');
@@ -79,12 +85,16 @@ class StudentList extends Component
     {
         $this->reset();
         $this->gotoPage($current_page);
+
         $this->editedStudentId = $student['id'];
         $this->full_name = $student['full_name'];
         $this->place_of_birth = $student['place_of_birth'];
         $this->profile_image = $student['profile_image'];
         $this->date_of_birth = $student['date_of_birth'];
         $this->class_id = $student['class_room_id'];
+        $this->editedClass = $student['class_room']['class_name'];
+
+        $this->editMode = true;
 
         $this->dispatchBrowserEvent('showEditStudentModal');
     }
@@ -105,6 +115,7 @@ class StudentList extends Component
             'full_name' => $this->full_name,
             'place_of_birth' => $this->place_of_birth,
             'date_of_birth' => $this->date_of_birth,
+            'class_room_id' => $this->class_id,
             'profile_image' => $new_photo ?? $this->profile_image,
         ]);
         $this->dispatchBrowserEvent('hideEditStudentModal');

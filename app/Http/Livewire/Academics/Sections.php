@@ -77,7 +77,7 @@ class Sections extends Component
 
     public function render()
     {
-        $sections = Section::all();
+        $sections = Section::paginate(10);
 
         return view('livewire.academics.sections', [
             'sections' => $sections,

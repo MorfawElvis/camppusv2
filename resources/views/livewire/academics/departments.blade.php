@@ -19,7 +19,7 @@
                 <tbody>
                 @forelse($departments as $department)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $departments->firstItem() + $loop->index }}</td>
                         <td>{{ $department->department_name }}</td>
                         <td class="text-center">{{ $department->user->name ?? '--' }}</td>
                         <td class="text-center">

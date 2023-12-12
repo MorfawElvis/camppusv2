@@ -52,10 +52,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                   <tr>
+                                       <td colspan="4"  class="text-center">
+                                           <div  wire:loading.delay wire:target="loadClassList">
+                                               <span>Loading....</span>
+                                           </div>
+                                       </td>
+                                   </tr>
                                  @if($students)
                                      @forelse($students as $student)
                                          <tr>
-                                             <td>{{ $loop->index + 1 }}</td>
+                                             <td>{{  $loop->iteration }}</td>
                                              <td>{{ $student->full_name }}</td>
                                              <td>{{ $student->class_room->class_name }}</td>
                                              <td class="text-center">
@@ -104,7 +111,7 @@
                                         @if($student_withXFees)
                                             @forelse($student_withXFees as $extra_fee)
                                                 <tr>
-                                                    <td>{{ $loop->index + 1}}</td>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $extra_fee->name }}</td>
                                                     <td>{{ number_format($extra_fee->pivot->amount ?? $extra_fee_amount) }}</td>
                                                     <td>

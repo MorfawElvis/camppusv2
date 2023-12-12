@@ -175,6 +175,31 @@
                                </li> --}}
                             </ul>
                         </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="#" class="nav-link">--}}
+{{--                            <span style="font-size: 16px; color:deepskyblue;">--}}
+{{--                            <i class="nav-icon fas fa-book"></i>--}}
+{{--                            </span>--}}
+{{--                                <p>--}}
+{{--                                    BOOKS--}}
+{{--                                    <i class="right fas fa-angle-left"></i>--}}
+{{--                                </p>--}}
+{{--                            </a>--}}
+{{--                            <ul class="nav nav-treeview">--}}
+{{--                                <li class="nav-item nav-item-submenu {{ request()->is('book-registration') ? 'active' : '' }}">--}}
+{{--                                    <a href="{{ route('books.book-registration') }}" class="nav-link">--}}
+{{--                                        <i class="fas fa-list"></i>--}}
+{{--                                        <p>Manage BookList</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li class="nav-item nav-item-submenu {{ request()->is('book-selection') ? 'active' : '' }}">--}}
+{{--                                    <a href="{{ route('books.book-selection') }}" class="nav-link">--}}
+{{--                                        <i class="fas fa-book-reader"></i>--}}
+{{--                                        <p>Book Selection</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:coral;">

@@ -58,7 +58,7 @@ class FinanceController extends Controller
     private function get_class_fee_payment(int $class_id)
     {
         return Student::where('class_room_id', $class_id)
-            ->with(['class_room.section', 'payments', 'class_room.academic_year'])
+            ->with(['class_room.section', 'payments', 'class_room.academic_year', 'class_room.feeItems', 'extra_fees'])
             ->withSum('payments', 'amount')
             ->orderBy('full_name', 'asc')
             ->get();

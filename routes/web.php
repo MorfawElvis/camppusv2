@@ -98,6 +98,9 @@ Route::middleware(['role:Admin'])->group(function () {
     Route::get('/employee-list', \App\Http\Livewire\Payroll\EmployeeList::class)->name('payroll.employee-list');
     Route::get('/payroll-list', \App\Http\Livewire\Payroll\PayrollList::class)->name('payroll-list');
 
+    //Book Fee Module
+    Route::get('books/book-registration', \App\Http\Livewire\Books\BookRegistration::class)->name('books.book-registration');
+    Route::get('books/book-selection', \App\Http\Livewire\Books\BookSelection::class)->name('books.book-selection');
 });
 
 

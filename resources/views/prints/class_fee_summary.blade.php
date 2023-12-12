@@ -55,7 +55,7 @@
                     <hr>
                 </h5>
                 <img class="ms-3" src="{{ asset('images/sabibi.JPG') }}" style="width:100px; height:100px;">
-            </div> 
+            </div>
             </div>
             <div class="row">
                 <div class="col-md-4 fs-5 text-center">Fee Statement <span class="font-italic">For</span> <span class="fw-bold">{{ $selected_class->class_name }}</span></div>
@@ -87,39 +87,26 @@
                 <td>{{ $loop->index+1 }}</td>
                 <td>{{ $student->full_name }}</td>
                 <span class="text-right">
-                    @if ($student->is_boarding)
-                    <td style="font-weight: 600;">{{ number_format($student->class_room->payable_fee + $get_boarding_fee->boarding_fee)}}</td>
-                    @else
-                    <td style="font-weight: 600;">{{ number_format($student->class_room->payable_fee)}}</td>
-                    @endif
-                    <td>{{ $student->payments_sum_amount }}</td>
-                    @if ($student->is_boarding)
-                    <td>{{ number_format(($student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student->payments_sum_amount )}}</td>
-                    @else
-                    <td>{{ number_format($student->class_room->payable_fee - $student->payments_sum_amount )}}</td>
-                    @endif
+                    <td>{{ number_format($student->class_room->feeItems->sum('amount') + $student->extra_fees->sum('pivot.amount'))}}</td>
+                    <td>{{ $student->payments_sum_amount ?? '0' }}</td>
+                    <td>{{ number_format(($student->class_room->feeItems->sum('amount') + $student->extra_fees->sum('pivot.amount')) - $student->payments_sum_amount )}}</td>
                 </span>
             </tr>
             @php
-              if ($student->is_boarding) {
-                $owed_boarding += ($student->class_room->payable_fee + $get_boarding_fee->boarding_fee) - $student->payments_sum_amount;
-              }else {
-                $owed_regular += $student->class_room->payable_fee - $student->payments_sum_amount;
-              }
-               $owed_total = $owed_boarding + $owed_regular;
+                $owed_total += $student->class_room->feeItems->sum('amount') - $student->payments_sum_amount;
             @endphp
             @endforeach
             <tr>
               <td class="text-center fw-bold" colspan="4">Total Owed</td>
               <td class="text-center fw-bold">{{ number_format($owed_total) . ' XAF'}}</td>
-            </tr> 
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
   </div>
-<script type="text/javascript"> 
+<script type="text/javascript">
   window.addEventListener("load", function(){
     window.print();
     window.onafterprint = function(event) {

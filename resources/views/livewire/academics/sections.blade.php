@@ -18,7 +18,7 @@
                 <tbody>
                 @forelse($sections as $section)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $sections->firstItem() + $loop->index }}</td>
                         <td>{{ $section->section_name }}</td>
                         <td class="text-center">
                             <a  class="btn btn-xs btn-outline-primary"><i class="fas fa-info-circle mr-1"></i>View</a>

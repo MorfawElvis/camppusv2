@@ -40,7 +40,7 @@ class PayrollConfigurations extends Component
         Allowance::create([
             'allowance_name' => $this->allowance_name,
             'allowance_type' => $this->allowance_type,
-            'percentage'     => $this->allowance_percentage
+            'percentage'     => $this->allowance_type == 'percentage' ? $this->allowance_percentage : Null,
         ]);
         $this->dispatchBrowserEvent("hideAllowanceModal");
         $this->alert('success', 'Record has been saved successfully');
@@ -62,7 +62,7 @@ class PayrollConfigurations extends Component
         Allowance::findOrFail($this->edited_allowance)->update([
             'allowance_name' => $this->allowance_name,
             'allowance_type' => $this->allowance_type,
-            'percentage'     => $this->allowance_percentage
+            'percentage'     => $this->allowance_type == 'percentage' ? $this->allowance_percentage : Null,
         ]);
         $this->alert('success', 'Record has been updated successfully');
         $this->dispatchBrowserEvent('hideAllowanceModal');
@@ -94,7 +94,7 @@ class PayrollConfigurations extends Component
         Deduction::create([
             'deduction_name' => $this->deduction_name,
             'deduction_type' => $this->deduction_type,
-            'percentage'     => $this->deduction_percentage
+            'percentage'     => $this->deduction_type == 'percentage' ? $this->deduction_percentage : Null,
         ]);
         $this->alert('success', 'Record has been saved successfully');
         $this->dispatchBrowserEvent('hideDeductionModal');
@@ -116,7 +116,7 @@ class PayrollConfigurations extends Component
         Deduction::findOrFail($this->edited_deduction)->update([
             'deduction_name' => $this->deduction_name,
             'deduction_type' => $this->deduction_type,
-            'percentage'     => $this->deduction_percentage
+            'percentage'     => $this->deduction_type == 'percentage' ? $this->deduction_percentage : Null,
         ]);
         $this->alert('success', 'Record has been updated successfully');
         $this->dispatchBrowserEvent('hideDeductionModal');
