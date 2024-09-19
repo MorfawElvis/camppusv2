@@ -109,12 +109,34 @@ class Student extends Model
             ->withPivot('amount');
     }
 
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(StudentAttendance::class);
+    }
+
+    public function calculateBookBill()
+    {
+        return $this->textbooks()->sum('price');
+    }
+
+    public function textbooks()
+    {
+        return $this->belongsToMany(Textbook::class, 'student_textbooks')->withTimestamps();
+    }
+
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
             $model->matriculation = IdGenerator::generate(['table' => 'students', 'field' => 'matriculation', 'length' => 14, 'prefix' => Carbon::now()->year.'-'.date('m').'-']);
         });
+    }
+
+    public function dormitories(): BelongsToMany
+    {
+        return $this->belongsToMany(Dormitory::class, 'dormitory_student')
+            ->withPivot('is_captain')
+            ->withTimestamps();
     }
 
     protected function fullName(): Attribute

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -47,8 +49,17 @@ class Subject extends Model
         $this->attributes['subject_code'] = Str::upper($value);
     }
 
-    public function department()
+    public function department() : BelongsTo
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function employee(): BelongsToMany
+    {
+        return $this->belongsToMany(Employee::class, 'employee_subjects');
+    }
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class, 'subject_id');
     }
 }

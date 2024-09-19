@@ -3,28 +3,33 @@
 @section('content')
     <div class="card shadow-lg">
         <div class="card-header bg-primary">
-            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>{{ __('Staff Registration') }}
+            <i class=" fas fa-arrow-alt-circle-down mr-1"></i>{{ __('messages.staff_registration') }}
         </div>
         <div class="card-body ">
            <x-alerts/>
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <form action="{{ route('admin.staff-registration.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">
-                        <legend  class="float-none w-auto">{{ __('Basic Information') }}</legend>
+                        <legend  class="float-none w-auto">{{ __('messages.basic_info') }}</legend>
                         <div class="row g-3">
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control text-capitalize @error('full_name') is-invalid @enderror" name="full_name" placeholder="Full name">
                                     @error('full_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <label for="floatingInput" class="required">Full Name</label>
+                                    <label for="floatingInput" class="required">{{ __('messages.full_name') }}</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-floating">
                                     <input type="date"  class="form-control @error('date_of_birth') is-invalid @enderror" name="date_of_birth">
                                     @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <label for="floatingInput" class="required">Date of Birth</label>
+                                    <label for="floatingInput" class="required">{{ __('messages.date_of_birth') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +37,7 @@
                             <div class="col-lg-3">
                                 <div class="form-floating mb-3">
                                     <select class="form-select " aria-label="nationality" name="nationality">
-                                        <option value="">Select country</option>
+                                        <option value="">{{ __('messages.select_country') }}</option>
                                         @foreach($countries as $country)
                                             <option {{ old('$country') == $country ? 'selected' : '' }} value="{{$country}}">{{$country}}</option>
                                         @endforeach
@@ -43,7 +48,7 @@
                                 <div class="form-floating">
                                     <input type="text"  class="form-control text-capitalize @error('place_of_birth') is-invalid @enderror" name="place_of_birth" placeholder="Place of birth">
                                     @error('place_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <label for="floatingInput" class="required">Place of Birth</label>
+                                    <label for="floatingInput" class="required">{{ __('messages.place_of_birth') }}</label>
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -86,7 +91,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-floating">
-                                    <select class="form-select @error('position') is-invalid @enderror" aria-label="level" name="position">
+                                    <select class="form-select @error('position') is-invalid @enderror" aria-label="level" name="position" disabled>
                                         <option value="" selected>Open this select menu</option>
                                         <option value="Principal">Principal</option>
                                         <option value="Vice Principal">Vice Principal</option>

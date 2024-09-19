@@ -1,14 +1,15 @@
+
 // Body
 $body-bg: #f8fafc;
 
-// Typography
-$font-family-sans-serif: 'Nunito', Roboto;
-$font-size-base: 1.0rem;
-$line-height-base:1.6;
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
 
 // Colors
 $blue: #006064;
-$indigo: #1A237E;
+//$indigo: #1A237E;
 $purple: #4A148C;
 $pink: #880E4F;
 $red:#B71C1C;
@@ -18,7 +19,7 @@ $green: #2E7D32;
 $teal: #00796B;
 $cyan: #00838F;
 $black: black;
-
+$blue:#00796B;
 $primary: #006064;
 $secondary: #004D40;
 $info: #006064;
@@ -27,7 +28,13 @@ $warning: #ffc800;
 $success: #00695C;
 $dark:black;
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
-// Bootstrap
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+/* Override Bootstrap font stack */
+$font-family-base: 'Nunito', sans-serif;
+
+//// Bootstrap
 @import "bootstrap/scss/bootstrap";
 @import "admin-lte/dist/css/adminlte.css";
 //FontAwesome

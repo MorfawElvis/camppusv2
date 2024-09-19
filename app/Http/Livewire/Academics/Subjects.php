@@ -92,7 +92,7 @@ class Subjects extends Component
 
     public function render()
     {
-        $subjects = Subject::with('department')->paginate(10);
+        $subjects = Subject::with('department')->orderBy('created_at', 'desc')->paginate(10);
 
         //       $subjects = DB::table('subjects')
         //              ->rightJoin('departments', 'department_id', '=' , 'departments.id')

@@ -32,7 +32,7 @@
                     <tbody>
                     @forelse($expenses as $expense)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $expenses->firstItem() + $loop->iteration }}</td>
                             <td>{{ $expense->expense_item }}</td>
                             <td>{{ number_format($expense->expense_amount)}} XAF</td>
                             <td>{{ \Carbon\Carbon::parse($expense->entry_date)->format('d M Y') }}</td>

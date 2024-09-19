@@ -1,41 +1,48 @@
 <?php
-
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array
-     */
+
+    protected $levels = [
+        //
+    ];
+
     protected $dontReport = [
         //
     ];
 
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
-     */
     protected $dontFlash = [
         'current_password',
         'password',
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
-     */
-    public function register()
+    public function report(Throwable $e): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        $exception = $e;
+        parent::report($exception);
+    }
+
+    public function render($request, Throwable $e): \Symfony\Component\HttpFoundation\Response
+    {
+        $exception = $e;
+        if ($exception instanceof AuthenticationException) {
+            return $this->unauthenticated($request, $exception);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception): \Symfony\Component\HttpFoundation\Response
+    {
+        return $request->expectsJson()
+            ? response()->json(['message' => 'Unauthenticated.'], 401)
+            : redirect()->guest(route('login'));
     }
 }
+

@@ -7,6 +7,9 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -107,6 +110,30 @@ class Employee extends Model
             ->withPivot('status')
             ->withTimestamps();
     }
+
+    public function subjects():BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'employee_subjects');
+    }
+
+    public function classSubjects(): BelongsToMany
+    {
+        return $this->belongsToMany(ClassSubjectAssignment::class, 'employee_class_subject', 'employee_id', 'class_subject_assignment_id');
+    }
+    public function employeeSubjects() : HasMany
+    {
+        return $this->hasMany(EmployeeSubject::class);
+    }
+    public function classMaster(): HasOne
+    {
+        return $this->hasOne(ClassMaster::class);
+    }
+
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class, 'employee_id');
+    }
+
     public static function boot()
     {
         parent::boot();

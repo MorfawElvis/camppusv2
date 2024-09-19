@@ -5,7 +5,7 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "axios": "^0.21",
+    "axios": "^1.7.2",
     "jquery": "^3.6",
     "laravel-vite-plugin": "^0.7.0",
     "lodash": "^4.17.19",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
-    "admin-lte": "^3.1.0",
+    "admin-lte": "^3.2.0",
     "alpinejs": "^3.13.0",
     "bootstrap": "^5.0.1",
     "chart.js": "^3.9.1",

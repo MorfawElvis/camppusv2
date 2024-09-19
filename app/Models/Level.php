@@ -32,19 +32,26 @@ use Illuminate\Support\Str;
  */
 class Level extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'level_name', 'level_rank',
     ];
+    protected $table = 'levels';
 
-    public function setLevelNameAttribute($value)
+    public function classSubjects(): HasMany
     {
-        $this->attributes['level_name'] = Str::upper($value);
+        return $this->hasMany(ClassSubject::class);
     }
 
     public function class_rooms(): HasMany
     {
         return $this->hasMany(ClassRoom::class);
     }
+
+    public function setLevelNameAttribute($value)
+    {
+        $this->attributes['level_name'] = Str::upper($value);
+    }
+
 }

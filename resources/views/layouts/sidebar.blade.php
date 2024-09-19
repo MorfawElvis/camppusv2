@@ -1,46 +1,26 @@
 <div class="sidebar-mini">
-    <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Camppus Logo -->
         <a href="" class="brand-link text-decoration-none text-start text-wrap">
-            <img src="{{ asset('images/sabibi.JPG') }}" alt="Camppus Logo" class="brand-image img-circle elevation-3">
-            <!--<img src="{{ asset('storage/logo/camppus-logo-transparent.png') }}" alt="Camppus Logo" class="brand-image img-circle elevation-3">-->
             @if($general_setting->school_name ?? '')
                 <span class="fs-6">{{ $general_setting->school_name}}</span>
             @else
-                <span class="fs-6">Camppus V2</span>
+                <img src="{{ asset('images/camppus_logo.png') }}" alt="Camppus Logo" width="140" class="ml-4">
             @endif
         </a>
-        <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <!--<div class="image">-->
-                <!--    <img src="{{asset('storage/images/user-male.svg')}}" class="img-circle elevation-2" alt="User Image">-->
-                <!--</div>-->
-                <div class="info">
+            <div class="user-panel my-4 d-flex">
+                <div class="image">
+                <img src="{{asset('storage/images/user-male.svg')}}" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info mb-2">
                     @auth
                         <a href="#" class="d-block text-decoration-none">{{\Illuminate\Support\Facades\Auth::user()->user_code}}</a>
                     @endauth
                 </div>
             </div>
-            <!-- SidebarSearch Form -->
-            <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Sidebar Menu -->
             <div id="sidebar-menu">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
                         <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
                             <a href="{{route('dashboard')}}" class="nav-link">
                                 <span class="material-icons text-orange">dashboard</span>
@@ -75,8 +55,22 @@
                                             <p>View Students</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.student.cards') }}" class="nav-link">
+                                            <i class="fas fa-id-card"></i>
+                                            <p>Student ID Cards</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item nav-item-submenu {{ request()->is('student-attendance') ? 'active' : '' }}">
+                                        <a href="{{ route('student-attendance') }}" class="nav-link">
+                                            <span class="orange"></span>
+                                            <i class="fas fa-calendar-check"></i>
+                                            <p>Student Attendance</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
+                            @hasanyrole('Admin')
                             <li class="nav nav-item">
                                 <a href="#" class="nav-link">
                                 <span style="font-size: 16px; color:rgb(255, 191, 71);">
@@ -100,9 +94,30 @@
                                             <p>View Staff List</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item nav-item-submenu {{ request()->is('assign-subjects-to-teacher') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.assign-subjects-to-teacher') }}" class="nav-link">
+                                            <i class="fas fa-user-tie"></i>
+                                            <p>Assign Subjects</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item nav-item-submenu">
+                                        <a href="#" class="nav-link">
+                                            <span class="orange"></span>
+                                            <i class="fas fa-calendar-check"></i>
+                                            <p>Staff Attendance</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.employee.cards') }}" class="nav-link">
+                                            <i class="fas fa-id-card"></i>
+                                            <p>Staff Professional Cards</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
+                            @endhasanyrole
                         </div>
+                        @hasanyrole('Admin|Bursar')
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:deeppink;">
@@ -175,31 +190,26 @@
                                </li> --}}
                             </ul>
                         </li>
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#" class="nav-link">--}}
-{{--                            <span style="font-size: 16px; color:deepskyblue;">--}}
-{{--                            <i class="nav-icon fas fa-book"></i>--}}
-{{--                            </span>--}}
-{{--                                <p>--}}
-{{--                                    BOOKS--}}
-{{--                                    <i class="right fas fa-angle-left"></i>--}}
-{{--                                </p>--}}
-{{--                            </a>--}}
-{{--                            <ul class="nav nav-treeview">--}}
-{{--                                <li class="nav-item nav-item-submenu {{ request()->is('book-registration') ? 'active' : '' }}">--}}
-{{--                                    <a href="{{ route('books.book-registration') }}" class="nav-link">--}}
-{{--                                        <i class="fas fa-list"></i>--}}
-{{--                                        <p>Manage BookList</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li class="nav-item nav-item-submenu {{ request()->is('book-selection') ? 'active' : '' }}">--}}
-{{--                                    <a href="{{ route('books.book-selection') }}" class="nav-link">--}}
-{{--                                        <i class="fas fa-book-reader"></i>--}}
-{{--                                        <p>Book Selection</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
+                        @endhasanyrole
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <span style="font-size: 16px; color:deepskyblue;">
+                            <i class="nav-icon fas fa-book"></i>
+                            </span>
+                                <p>
+                                    BOOKS
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-book-list') ? 'active' : '' }}">
+                                    <a href="{{ route('manage-book-list') }}" class="nav-link">
+                                        <i class="fas fa-list"></i>
+                                        <p>Manage BookList</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:coral;">
@@ -240,7 +250,7 @@
                             <i class="nav-icon fas fa-credit-card"></i>
                             </span>
                                 <p>
-                                    PAYROLL
+                                    HRM/PAYROLL
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -263,47 +273,45 @@
                                         <p>Payroll List</p>
                                     </a>
                                 </li>
-{{--                                <li class="nav-item nav-item-submenu">--}}
-{{--                                    <a href="#" class="nav-link">--}}
-{{--                                        <span class="orange"></span>--}}
-{{--                                        <i class="fas fa-calendar-check"></i>--}}
-{{--                                        <p>Staff Attendance</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li class="nav-item nav-item-submenu">--}}
-{{--                                    <a href="#" class="nav-link">--}}
-{{--                                        <i class="fas fa-suitcase-rolling"></i>--}}
-{{--                                        <p>Staff Leave</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                <li class="nav-item nav-item-submenu">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-suitcase-rolling"></i>
+                                        <p>Staff Leave</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        {{-- <li class="nav-item">
+                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:yellowgreen;">
                             <i class="nav-icon fas fa-file-contract"></i>
                             </span>
                                 <p>
-                                    Academic Reports
+                                    ACADEMICS
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item nav-item-submenu">
                                     <a href="#" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-file-signature"></i>
-                                        <p>Generate Reports</p>
+                                        <i class="fas fa-cog"></i>
+                                        <p>Manage Marks</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-cog"></i>
-                                        <p>Report Settings</p>
+                                        <p>Manage Grades</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-cog"></i>
+                                        <p>Reports</p>
                                     </a>
                                 </li>
                             </ul>
-                        </li> --}}
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:cyan;">
@@ -336,39 +344,7 @@
                                 </li> --}}
                             </ul>
                         </li>
-                        <!-- TODO: Facilities module not done -->
-                        {{-- <li class="nav-item">
-                            <a href="#" class="nav-link">
-                            <span style="font-size: 16px; color:violet;">
-                            <i class="nav-icon fas fa-bus-alt"></i>
-                            </span>
-                                <p>
-                                    Facilities
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
-                                        <span class="orange"></span>
-                                        <i class="fas fa-coins"></i>
-                                        <p>Manage Dormitory</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-building"></i>
-                                        <p>Bus Transport</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-book-reader"></i>
-                                        <p>Manage Library</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> --}}
+                        @hasanyrole('Admin|Secretary')
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:tomato;">
@@ -432,41 +408,86 @@
                                 </li>
                             </ul>
                         </li>
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#" class="nav-link">--}}
-{{--                                <span style="font-size: 16px; color:rgb(5, 145, 63);"><i class="nav-icon fas fa-folder-plus"></i></span>--}}
-{{--                                <p>--}}
-{{--                                    Extras--}}
-{{--                                    <i class="right fas fa-angle-left"></i>--}}
-{{--                                </p>--}}
-{{--                            </a>--}}
-{{--                            <ul class="nav nav-treeview">--}}
-{{--                                <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">--}}
-{{--                                    <a href="{{ route('admin.student.cards') }}" class="nav-link">--}}
-{{--                                        <i class="fas fa-id-card"></i>--}}
-{{--                                        <p>Student Cards</p>--}}
+                        @endhasanyrole
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-school text-teal"></i>
+                                <p>
+                                    FACILITIES
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('dormitory-management') ? 'active' : '' }}">
+                                    <a href="{{ route('dormitory-management') }}" class="nav-link">
+                                        <i class="fas fa-home"></i>
+                                        <p>Dormitory</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="material-icons text-blue">alarm</i>
+                                <p>
+                                    TIMETABLE
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('time-table-settings') ? 'active' : '' }}">
+                                    <a href="{{ route('time-table-settings') }}" class="nav-link">
+                                        <i class="material-icons">timelapse</i>
+                                        <p>TimeTable Settings</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu" {{ request()->is('manage-class-subjects') ? 'active' : '' }}>
+                                    <a href="{{ route('admin.manage-class-subjects') }}" class="nav-link">
+                                        <span class="orange"></span>
+                                        <i class="fas fa-file-signature"></i>
+                                        <p>Class Subjects</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-timetable') ? 'active' : '' }}">
+                                    <a href="{{ route('manage-timetable') }}" class="nav-link">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <p>Manage Timetable</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-shield-alt"></i>
+                                <p>
+                                    SECURITY
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item nav-item-submenu {{ request()->is('manage-database') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.manage-database') }}" class="nav-link">
+                                        <i class="fas fa-database"></i>
+                                        <p>Manage Database</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-item-submenu {{ request()->is('user-roles') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.user-roles') }}" class="nav-link">
+                                        <i class="fas fa-user-tag"></i>
+                                        <p>Manage Roles</p>
+                                    </a>
+                                </li>
+{{--                                <li class="nav-item nav-item-submenu">--}}
+{{--                                    <a href="" class="nav-link">--}}
+{{--                                        <i class="fas fa-tasks"></i>--}}
+{{--                                        <p>Manage Permissions</p>--}}
 {{--                                    </a>--}}
 {{--                                </li>--}}
-{{--                                --}}{{-- <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">--}}
-{{--                                    <a href="{{ route('admin.employee.cards') }}" class="nav-link">--}}
-{{--                                        <i class="fas fa-id-card"></i>--}}
-{{--                                        <p>Employee Cards</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                 <li class="nav-item nav-item-submenu {{ request()->is('student-category') ? 'active' : '' }} ">--}}
-{{--                                    <a href="{{ route('admin.student.category') }}" class="nav-link">--}}
-{{--                                        <span class="orange"></span>--}}
-{{--                                        <i class="fas fa-plus-square"></i>--}}
-{{--                                        <p>Student Category</p>--}}
-{{--                                    </a>--}}
-{{--                                 </li> --}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
-            <!-- /.sidebar-menu -->
         </div>
-        <!-- /.sidebar -->
     </aside>
 </div>

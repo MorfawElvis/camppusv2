@@ -9,12 +9,12 @@
                         <div class="inner">
                             <h3>{{ get_total_students() }}</h3>
 
-                            <p>Students</p>
+                            <p>{{ __('messages.students') }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-user-graduate"></i>
                         </div>
-                        <a href="{{ route('admin.student-registration.create') }}" class="small-box-footer">Manage students <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('admin.student-registration.create') }}" class="small-box-footer">{{ __('messages.manage_students') }}<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
@@ -22,12 +22,12 @@
                         <div class="inner">
                             <h3>0</h3>
 
-                            <p>Staff</p>
+                            <p>{{ __('messages.staff') }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-chalkboard-teacher"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Manage staff <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">{{ __('messages.manage_staff') }}<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
@@ -35,12 +35,12 @@
                         <div class="inner">
                             <h3>{{ get_total_subjects() }}</h3>
 
-                            <p>Subjects</p>
+                            <p>{{ __('messages.subjects') }}</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-book-reader"></i>
                         </div>
-                        <a href="{{ route('admin.manage.subjects') }}" class="small-box-footer">Manage subjects <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('admin.manage.subjects') }}" class="small-box-footer">{{ __('messages.manage_subjects') }}<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
@@ -60,8 +60,10 @@
            <div class="row mt-2">
                 <div class="col-lg-3 col-6">
                     <div class="info-box">
-                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bill-wave"></i></span>
-
+                        <span class="info-box-icon bg-warning elevation-1">
+{{--                            <i class="fas fa-money-bill-wave"></i>--}}
+                            <i class="material-icons">favorite</i>
+                        </span>
                         <div class="info-box-content">
                             <span class="info-box-text">Total Expected Fees</span>
                             <span class="info-box-number">
@@ -95,16 +97,20 @@
                </div>
                <div class="col-lg-3 col-6">
                    <div class="info-box">
-                       <span class="info-box-icon bg-info elevation-1"><i class="fas fa-coins"></i></span>
-
+                       <span class="info-box-icon bg-orange elevation-1"><i class="fas fa-coins"></i></span>
                        <div class="info-box-content">
                            <span class="info-box-text">Total Monthly Payroll</span>
-                           <span class="info-box-number">
-                  0
-                  <small>FCFA</small>
-                </span>
+                           <span class="info-box-number">0<small>FCFA</small></span>
                        </div>
-                       <!-- /.info-box-content -->
+                   </div>
+               </div>
+               <div class="col-lg-3 col-6">
+                   <div class="info-box">
+                       <span class="info-box-icon bg-cyan elevation-1"><i class="fas fa-coins"></i></span>
+                       <div class="info-box-content">
+                           <span class="info-box-text">Total Monthly Expenses</span>
+                           <span class="info-box-number">0<small>FCFA</small></span>
+                       </div>
                    </div>
                </div>
            </div>

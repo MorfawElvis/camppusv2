@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\NewStaffRequest;
 use App\Models\Employee;
 use App\Models\GeneralSetting;
+use App\Services\UserRegistration;
 use Spatie\Permission\Models\Role;
 use App\Services\Employee\EmployeeService;
-use App\Services\UserRegistration;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class StaffRegistrationController extends Controller
@@ -41,8 +41,8 @@ class StaffRegistrationController extends Controller
     }
     public function store(NewStaffRequest $request)
     {
-       $this->employee_service->createEmployee($request);
-        return back()->with('alert-success', 'Record has been successfully created');
+        $this->employee_service->createEmployee($request);
+        return back();
     }
     public function edit($staff_id, int $current_page)
     {

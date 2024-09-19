@@ -35,6 +35,14 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('employee_subject', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -43,5 +51,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('employees');
+        Schema::dropIfExists('employee_subject');
     }
 };

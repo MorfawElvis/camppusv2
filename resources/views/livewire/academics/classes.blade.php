@@ -20,24 +20,29 @@
                 <caption class="mt-2">{{ $class_rooms->links() }}</caption>
                 <thead>
                 <tr>
-                    <th>S/N</th>
-                    <th>Level</th>
-                    <th>Class Name</th>
-                    <th>Section</th>
-                    <th class="text-center">Enrollment</th>
+                    <th>Class Room</th>
+                    <th class="text-center">Class Master</th>
+                    <th class="text-center">Class Enrollment</th>
+                    <th class="text-center">Assign ClassMaster</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse ($class_rooms as $class )
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $class->level->level_name }}</td>
                     <td>{{ $class->class_name }}</td>
-                    <td>{{ $class->section->section_name }}</td>
+                    <td class="text-center">{{ $class->classMaster->employee->full_name ?? 'Not Assigned' }}</td>
                     <td class="text-center">{{ $class->students_count }}</td>
                     <td class="text-center">
-                        <span><button class="btn btn-xs btn-outline-primary"><i class="fas fa-tasks mr-1"></i>Manage Subjects</button></span>
+                        <span>
+                            @if($class->classMaster)
+                                <button wire:click="removeClassMaster({{ $class->id }})" class="btn btn-outline-danger btn-sm">Remove Class Master</button>
+                            @else
+                                <button wire:click="openTeacherModal({{ $class->id }})" class="btn btn-outline-primary btn-sm">Assign Class Master</button>
+                            @endif
+                        </span>
+                    </td>
+                    <td class="text-center">
                         <span><a href="{{ route('admin.upload.students', $class->id) }}" class="btn btn-xs btn-light" ><i class="fas fa-file-import mr-1"></i>Import Students</a></span>
                         <span><a wire:click.prevent="editModal({{ $class }})" class="btn btn-xs btn-primary" ><i class="fas fa-edit mr-1"></i>Edit</a></span>
                         <span><a class="btn btn-xs btn-danger " ><i class="fas fa-trash mr-1"></i>Delete</a></span>
@@ -111,7 +116,42 @@
             </div>
         </div>
     </div>
-    </div>
+    @if ($showTeacherModal)
+        <div class="modal show d-block" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Assign Class Master</h5>
+                        <button type="button" class="close" wire:click="$set('showTeacherModal', false)">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        @if ($teachers->isEmpty())
+                            <div class="alert alert-warning">No teachers assigned to this class.</div>
+                        @else
+                            <form wire:submit.prevent="assignClassMaster">
+                                @foreach($teachers as $teacher)
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="selectedTeacherId"
+                                            value="{{ $teacher->id }}"
+                                            id="teacher{{ $teacher->id }}"
+                                            wire:model="selectedTeacherId">
+                                        <label class="form-check-label" for="teacher{{ $teacher->id }}">
+                                            {{ $teacher->full_name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                                <button type="submit" class="btn btn-success mt-3 float-right">Assign as ClassMaster</button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
 @push('page-scripts')
     <script>
         window.addEventListener('showClassModal', event => {

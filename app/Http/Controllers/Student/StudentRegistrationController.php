@@ -63,11 +63,11 @@ class StudentRegistrationController extends Controller
                 $profile_image = $this->storeImage($request->file('photo'));
             }
             $user = User::create([
-                'role_id' => 7,
                 'user_code' => (rand(100, 1000).Str::upper(Str::random(3))),
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
             ]);
+            $user->assignRole('student');
             Student::create([
                 'full_name' => $request->input('full_name'),
                 'user_id' => $user->id,
@@ -82,7 +82,6 @@ class StudentRegistrationController extends Controller
                 'phone_number' => $request->input('phone_number'),
                 'profile_image' => $profile_image ?? null,
             ]);
-
         });
 
         return back()->with('alert-success', 'New record created successfully!');

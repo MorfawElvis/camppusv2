@@ -58,7 +58,7 @@ class StudentList extends Component
     ];
     public function render()
     {
-        $class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id)->orderBy('class_name', 'asc')->get();
+        $class_rooms = ClassRoom::where('academic_year_id', current_school_year()->id ?? '')->orderBy('class_name', 'asc')->get();
         $students = Student::with('user', 'class_room.section')
             ->whereHas('user', function ($query) {
                 $query->where('user_status', '=', '1');

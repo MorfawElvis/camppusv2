@@ -13,21 +13,24 @@
         {{-- Display of current school year --}}
         @if (current_school_year() ?? '')
             <li class="nav-item d-none d-sm-inline-block ml-5">
-                <a  class="nav-link">Current School Year: <strong>{{ current_school_year()->year_name ?? ''}}</strong></a>
+                <a  class="nav-link">{{ __('Current School Year') }}: <strong>{{ current_school_year()->year_name ?? ''}}</strong></a>
             </li>
         @else
             <li class="nav-item d-none d-sm-inline-block ml-5">
-                <a href="{{ route('admin.academic.years') }}" class="nav-link"><span class="fw-bold text-warning">Current School Year:</span>  school year not set!</a>
+                <a href="{{ route('admin.academic.years') }}" class="nav-link"><span class="fw-bold text-warning">
+                        {{ __('Current Academic Year') }}:</span>{{ __('Academic Year not set!') }}</a>
             </li>
         @endif
         {{-- Display of current school term --}}
         @if (current_school_term() ?? '')
             <li class="nav-item d-none d-sm-inline-block ml-5">
-                <a class="nav-link">Current Term: <strong>{{current_school_term()->term_name}}</strong></a>
+                <a class="nav-link">{{ __('Current School Term') }}: <strong>{{ __(current_school_term()->term_name) }}</strong></a>
             </li>
         @else
             <li class="nav-item d-none d-sm-inline-block ml-5">
-                <a href="{{ route('admin.academic.terms') }}" class="nav-link"><span class="fw-bold text-warning">Current Term:</span>  school term not set!</a>
+                <a href="{{ route('admin.academic.terms') }}" class="nav-link"><span class="fw-bold text-warning">
+                        {{ __('Current School Term') }}:
+                    </span>{{ __('school term not set!') }}</a>
             </li>
         @endif
     </ul>
@@ -35,14 +38,40 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item mr-4">
             <button type="button" class="btn btn-primary rounded d-none d-md-block" data-bs-toggle="modal" data-bs-target="#supportModal">
-                <i class="fas fa-tools h6"> Contact Support</i>
+                {{ __(' Contact Support') }}
             </button>
+        </li>
+        <!-- Language Switcher Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                @php
+                    $language = session('language', 'en');
+                @endphp
+                @if($language == 'en')
+                    <img src="{{ asset('flags/gb.png') }}" alt="English" width="25" height="15">
+                @elseif($language == 'fr')
+                    <img src="{{ asset('flags/fr.png') }}" alt="Français" width="25" height="15">
+                @endif
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                <li>
+                    <a class="dropdown-item" href="{{ url('lang/en') }}">
+                        <img src="{{ asset('flags/gb.png') }}" alt="English" width="25" height="15"> English
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ url('lang/fr') }}">
+                        <img src="{{ asset('flags/fr.png') }}" alt="Français" width="25" height="15"> Français
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item ml-3">
             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#logout" href="#">
-                <span class="h6 ml-1"><i class="fas fa-sign-out-alt"></i> Logout</span>
+                <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
             </a>
         </li>
+{{--        <button id="dark-mode-toggle" class="btn btn-primary">Toggle Dark Mode</button>--}}
     </ul>
 </nav>
 <!-- /.navbar -->
@@ -54,12 +83,12 @@
                 <i class="fas fa-exclamation-circle fa-5x ml-3 text-warning"></i>
             </div>
             <div class="modal-body">
-                <p class="text-center h2">Are you sure you want to logout?</p>
+                <p class="text-center h2">{{ __('Are you sure you want to logout?') }}</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-lg btn-info" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg btn-info" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                 <button type="button" class="btn btn-lg btn-danger" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();" href="{{route('logout')}}">Yes</button>
+                    document.getElementById('logout-form').submit();" href="{{route('logout')}}">{{ __('Yes') }}</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

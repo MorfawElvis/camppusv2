@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -39,6 +40,8 @@ class ClassRoom extends Model
         'class_name', 'level_id', 'academic_year_id', 'section_id',
     ];
 
+    protected $table = 'class_rooms';
+
     public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class);
@@ -58,7 +61,10 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Student::class);
     }
-
+    public function classMaster(): HasOne
+    {
+        return $this->hasOne(ClassMaster::class);
+    }
     public function class_enrollment() : BelongsTo
     {
         return $this->belongsTo(ClassEnrollment::class);
@@ -72,6 +78,19 @@ class ClassRoom extends Model
     public function payments() : HasManyThrough
     {
         return $this->hasManyThrough(FeePayment::class, Student::class);
+    }
+    public function classSubjects() : HasMany
+    {
+        return $this->hasMany(ClassSubjectAssignment::class);
+    }
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class, 'class_room_id');
+    }
+
+    public function textbooks(): HasMany
+    {
+        return $this->hasMany(Textbook::class);
     }
 
     public function setClassNameAttribute($value)

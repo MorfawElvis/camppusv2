@@ -7,16 +7,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link rel="icon" href="{{ url('favicon.ico') }}" type="image/x-icon">
-    <!-- Styles -->
     @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
     @livewireStyles
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.dark.min.css') }}">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('page-css')
 </head>
     <body class="hold-transition sidebar-mini {{ $general_setting->collapsed_sidebar ?? 'collapsed_sidebar'}} layout-navbar-fixed">
-        <div class="wrapper" id="app">
+    <div class="wrapper" id="app">
             @include('layouts.header')
             @include('layouts.sidebar')
             <div class="content-wrapper">

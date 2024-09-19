@@ -115,6 +115,10 @@ class Livewire {
     onPageExpired(callback) {
         this.components.sessionHasExpiredCallback = callback
     }
+
+    static on(event, callback) {
+
+    }
 }
 
 if (!window.Livewire) {

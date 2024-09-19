@@ -255,8 +255,4 @@ class RedirectResponse extends BaseRedirectResponse
 
         static::throwBadMethodCallException($method);
     }
-
-    public function toResponse(mixed $request)
-    {
-    }
 }

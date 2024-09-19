@@ -22,16 +22,16 @@ class EmployeeService
     public function createEmployee($request)
     {
         try {
-         return   DB::transaction(function () use ($request) {
+           DB::transaction(function () use ($request) {
                 if ($request->hasFile('photo')) {
                     $profile_image = $this->storeEmployeeImage($request->file('photo'));
                 }
                 $user = User::create([
-                    'role_id' => $request->input('role'),
                     'user_code' => (rand(100, 1000) . Str::upper(Str::random(3))),
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
                 ]);
+                $user->assignRole($request->role);
                 Employee::create([
                     'full_name' => $request->input('full_name'),
                     'user_id' => $user->id,
@@ -50,9 +50,10 @@ class EmployeeService
                     'profile_image' => $profile_image ?? null,
                 ]);
             });
-        } catch (\Throwable $e) {
-            report($e);
-            return false;
+            return back()->with('alert-success', 'Record has been successfully created');
+        }
+        catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
