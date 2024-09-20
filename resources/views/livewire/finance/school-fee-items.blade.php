@@ -3,11 +3,11 @@
     <x-card.card>
         <x-slot:header>Manage Fee Items</x-slot:header>
         <x-slot:body>
-            <x-table.table :headers="['S/N','Class','Fee Items','Total Fee', '']">
+            <x-table.table :headers="['Class','Fee Items','Total Fee', '']">
                 <caption>{{ $class_rooms->links() }}</caption>
                @forelse($class_rooms as $index => $class_room)
                     <tr>
-                        <td>{{ $class_rooms->firstItem() + $loop->index }}</td>
+{{--                        <td>{{ $class_rooms->firstItem() + $loop->index }}</td>--}}
                         <td>{{ $class_room->class_name }}</td>
                            <td>
                                @foreach($class_room->feeItems  as $fee_item)
@@ -49,13 +49,13 @@
                         </div>
                     </form>
                     <hr>
-                    <x-table.table :headers="['S/N','Fee Item','Amount','']">
+                    <x-table.table :headers="['Fee Item','Amount','']">
                         @php
                             $payable_fee = 0;
                         @endphp
                         @forelse($class_fee_items as $fee_item)
                             <tr>
-                                <td>{{ $class_fee_items->firstItem() + $loop->index }}</td>
+{{--                                <td>{{ $class_fee_items->firstItem() + $loop->index }}</td>--}}
                                 <td>{{ $fee_item->name }}</td>
                                 <td>{{ number_format($fee_item->amount) }}</td>
                                 <td>

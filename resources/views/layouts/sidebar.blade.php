@@ -344,7 +344,7 @@
                                 </li> --}}
                             </ul>
                         </li>
-                        @hasanyrole('Admin|Secretary')
+                        @hasanyrole('admin|secretary')
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                             <span style="font-size: 16px; color:tomato;">
