@@ -43,9 +43,10 @@ Route::get('/users/{user}', function (User $user) {
 
 Auth::routes();
 
-Route::middleware(['role:Admin'])->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard')
+    ->middleware(['role:Admin|Bursar|Secretary|Dean|Proprietor|Principal']);
 
+Route::middleware(['role:Admin|Bursar'])->group(function () {
     Route::group(['middleware' => 'role:Admin', 'as' => 'admin.'], function() {
         Route::get('/general-settings', SchoolSettings::class)->name('general.settings');
         Route::get('/academic-years', \App\Http\Livewire\Settings\AcademicYears::class)->name('academic.years');

@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
 //        $user->assignRole($role1);
 //        $this->call(RolesTableSeeder::class);
 //        $this->call(UsersTableSeeder::class);
-        $this->call(schoolYearSeeder::class);
-        $this->call(schoolTermSeeder::class);
+//        $this->call(schoolYearSeeder::class);
+//        $this->call(schoolTermSeeder::class);
+//        $this->call(WeekdaysTableSeeder::class);
     }
 }
