@@ -1,24 +1,20 @@
 <div class="sidebar-mini">
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="" class="brand-link text-decoration-none text-start text-wrap">
-            @if($general_setting->school_name ?? '')
-                <span class="fs-6">{{ $general_setting->school_name}}</span>
-            @else
-                <img src="{{ asset('images/camppus_logo.png') }}" alt="Camppus Logo" width="140" class="ml-4">
-            @endif
+            <img src="{{ asset('images/camppus_logo.png') }}" alt="Camppus Logo" width="140" class="ml-4">
         </a>
         <div class="sidebar">
             <div class="user-panel my-4 d-flex">
                 <div class="image">
                 <img src="{{asset('storage/images/user-male.svg')}}" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info mb-2">
+                <div class="info mb-2 text-white">
                     @if(Auth::user()->employee)
                         {{ Auth::user()->employee->full_name }}
                     @elseif(Auth::user()->student)
                         {{ Auth::user()->student->full_name }}
                     @else
-                        <span class="text-white">No Name</span>
+                        <span>No Name</span>
                     @endif
                 </div>
             </div>
