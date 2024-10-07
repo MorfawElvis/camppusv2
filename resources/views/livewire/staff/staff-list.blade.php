@@ -29,7 +29,7 @@
                     <td>{{ $employee->employee->highest_qualification }}</td>
                     <td>{{ $employee->user_code }}</td>
                     <td class="text-center">
-                        <a href="{{ route('admin.edit.staff', ['staff_id' => $employee->id, 'current_page' => $employees->currentPage()]) }}" class="btn btn-xs btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                        <a href="{{ route('edit.staff', ['staff_id' => $employee->id, 'current_page' => $employees->currentPage()]) }}" class="btn btn-xs btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
                         <a wire:click.prevent="deleteConfirmation({{ $employee->id }})" class="btn btn-xs btn-danger "><i class="fas fa-trash mr-1"></i>Delete</a>
                     </td>
                   </tr>

@@ -17,7 +17,7 @@
         </div>
         <div class="card-body">
                 <div class="d-flex justify-content-center p-4">
-                    <a href="{{ route('admin.generate.employee.cards') }}" target="_blank" class="btn btn-primary btn-lg mx-auto" id="generate">
+                    <a href="{{ route('generate.employee.cards') }}" target="_blank" class="btn btn-primary btn-lg mx-auto" id="generate">
                     <i id="spinner" class="fa fa-spinner fa-spin hide mr-2"></i>
                         <span id="button-text">Generate Cards</span>
                     </a>

@@ -43,32 +43,32 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item nav-item-submenu {{ request()->is('student-registration/create') ? 'active' : '' }} ">
-                                        <a href="{{ route('admin.student-registration.create') }}" class="nav-link">
+                                        <a href="{{ route('student-registration.create') }}" class="nav-link">
                                             <span class="orange"></span>
                                             <i class="fas fa-user-graduate"></i>
                                             <p>Register Student</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('student-list') ? 'active' : '' }} ">
-                                        <a href="{{ route('admin.student.list') }}" class="nav-link">
+                                        <a href="{{ route('student.list') }}" class="nav-link">
                                             <span class="orange"></span>
                                             <i class="fas fa-user-graduate"></i>
                                             <p>View Students</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.student.cards') }}" class="nav-link">
-                                            <i class="fas fa-id-card"></i>
-                                            <p>Student ID Cards</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item nav-item-submenu {{ request()->is('student-attendance') ? 'active' : '' }}">
-                                        <a href="{{ route('student-attendance') }}" class="nav-link">
-                                            <span class="orange"></span>
-                                            <i class="fas fa-calendar-check"></i>
-                                            <p>Student Attendance</p>
-                                        </a>
-                                    </li>
+{{--                                    <li class="nav-item nav-item-submenu {{ request()->is('student-cards') ? 'active' : '' }}">--}}
+{{--                                        <a href="{{ route('student.cards') }}" class="nav-link">--}}
+{{--                                            <i class="fas fa-id-card"></i>--}}
+{{--                                            <p>Student ID Cards</p>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="nav-item nav-item-submenu {{ request()->is('student-attendance') ? 'active' : '' }}">--}}
+{{--                                        <a href="{{ route('student-attendance') }}" class="nav-link">--}}
+{{--                                            <span class="orange"></span>--}}
+{{--                                            <i class="fas fa-calendar-check"></i>--}}
+{{--                                            <p>Student Attendance</p>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
                                 </ul>
                             </li>
                             @endhasanyrole
@@ -85,20 +85,20 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item nav-item-submenu {{ request()->is('staff-registration/create') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.staff-registration.create') }}" class="nav-link">
+                                        <a href="{{ route('staff-registration.create') }}" class="nav-link">
                                             <i class="fas fa-user-tie"></i>
                                             <p>Register Staff</p>
                                         </a>
                                     </li>
-                                    @hasanyrole('Admin|Dean')
+                                    @hasanyrole('Admin|Dean|Secretary')
                                     <li class="nav-item nav-item-submenu {{ request()->is('staff-list') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.staff.list') }}" class="nav-link">
+                                        <a href="{{ route('staff.list') }}" class="nav-link">
                                             <i class="fas fa-user-tie"></i>
                                             <p>View Staff List</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('assign-subjects-to-teacher') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.assign-subjects-to-teacher') }}" class="nav-link">
+                                        <a href="{{ route('assign-subjects-to-teacher') }}" class="nav-link">
                                             <i class="fas fa-user-tie"></i>
                                             <p>Assign Subjects</p>
                                         </a>
@@ -111,12 +111,12 @@
                                         </a>
                                     </li>
                                     @endhasanyrole
-                                    <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.employee.cards') }}" class="nav-link">
-                                            <i class="fas fa-id-card"></i>
-                                            <p>Staff Professional Cards</p>
-                                        </a>
-                                    </li>
+{{--                                    <li class="nav-item nav-item-submenu {{ request()->is('employee-cards') ? 'active' : '' }}">--}}
+{{--                                        <a href="{{ route('employee.cards') }}" class="nav-link">--}}
+{{--                                            <i class="fas fa-id-card"></i>--}}
+{{--                                            <p>Staff Professional Cards</p>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
                                 </ul>
                             </li>
                             @endhasanyrole
@@ -368,51 +368,51 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item nav-item-submenu {{ request()->is('general-settings') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.general.settings') }}" class="nav-link">
+                                        <a href="{{ route('general.settings') }}" class="nav-link">
                                             <span class="orange"></span>
                                             <i class="fas fa-users-cog"></i>
                                             <p>General Settings</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('academic-years') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.academic.years') }}" class="nav-link">
+                                        <a href="{{ route('academic.years') }}" class="nav-link">
                                             <i class="fas fa-calendar-check"></i>
                                             <p>Academic Years</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('academic-terms') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.academic.terms') }}" class="nav-link">
+                                        <a href="{{ route('academic.terms') }}" class="nav-link">
                                             <i class="fas fa-calendar-check"></i>
                                             <p>Academic Terms</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('manage-sections') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.manage.sections') }}" class="nav-link">
+                                        <a href="{{ route('manage.sections') }}" class="nav-link">
                                             <span class="orange"></span>
                                             <i class="fas fa-tasks"></i>
                                             <p>Sections</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('manage-levels') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.manage.levels') }}" class="nav-link">
+                                        <a href="{{ route('manage.levels') }}" class="nav-link">
                                             <i class="fas fa-tasks"></i>
                                             <p>Levels</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('manage-classes') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.manage.classes') }}" class="nav-link">
+                                        <a href="{{ route('manage.classes') }}" class="nav-link">
                                             <i class="fas fa-tasks"></i>
                                             <p>Classes</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('manage-departments') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.manage.departments') }}" class="nav-link">
+                                        <a href="{{ route('manage.departments') }}" class="nav-link">
                                             <i class="fas fa-tasks"></i>
                                             <p>Departments</p>
                                         </a>
                                     </li>
                                     <li class="nav-item nav-item-submenu {{ request()->is('manage-subjects') ? 'active' : '' }}">
-                                        <a href="{{ route('admin.manage.subjects') }}" class="nav-link">
+                                        <a href="{{ route('manage.subjects') }}" class="nav-link">
                                             <i class="fas fa-tasks"></i>
                                             <p>Subjects</p>
                                         </a>
@@ -456,7 +456,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu" {{ request()->is('manage-class-subjects') ? 'active' : '' }}>
-                                    <a href="{{ route('admin.manage-class-subjects') }}" class="nav-link">
+                                    <a href="{{ route('manage-class-subjects') }}" class="nav-link">
                                         <span class="orange"></span>
                                         <i class="fas fa-file-signature"></i>
                                         <p>Class Subjects</p>
@@ -482,13 +482,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item nav-item-submenu {{ request()->is('manage-database') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.manage-database') }}" class="nav-link">
+                                    <a href="{{ route('manage-database') }}" class="nav-link">
                                         <i class="fas fa-database"></i>
                                         <p>Manage Database</p>
                                     </a>
                                 </li>
                                 <li class="nav-item nav-item-submenu {{ request()->is('user-roles') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.user-roles') }}" class="nav-link">
+                                    <a href="{{ route('user-roles') }}" class="nav-link">
                                         <i class="fas fa-user-tag"></i>
                                         <p>Manage Roles</p>
                                     </a>

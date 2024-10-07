@@ -12,7 +12,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <form action="{{ route('admin.staff-registration.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('staff-registration.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">
@@ -110,7 +110,10 @@
                                     <select class="form-select @error('role') is-invalid @enderror" aria-label="class" name="role">
                                         <option value="" selected>Open this select menu</option>
                                         @foreach($roles as $role)
-                                            <option {{ old('role' == $role ? 'selected' : '') }} value="{{$role->id}}">{{$role->name}}</option>
+                                            {{-- Only show Admin and Bursar roles if the user has the Admin role --}}
+                                            @if(auth()->user()->hasRole('Admin') || !in_array($role->name, ['Admin', 'Bursar', 'PROPRIETOR']))
+                                                <option {{ old('role') == $role->id ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror

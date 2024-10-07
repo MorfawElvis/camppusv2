@@ -17,7 +17,7 @@
         </div>
         <div class="card-body ">
                 <x-forms.errors/>
-            <form action="{{ route('admin.student-registration.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('student-registration.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mt-2">
                     <fieldset class="border p-4">

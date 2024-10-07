@@ -46,8 +46,34 @@ Auth::routes();
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard')
     ->middleware(['role:Admin|Bursar|Secretary|Dean|Proprietor|Principal']);
 
+Route::group(['middleware' => 'role:Admin|Secretary'], function () {
+    Route::resources([
+        'student-registration' => \App\Http\Controllers\Student\StudentRegistrationController::class,
+        'staff-registration' => \App\Http\Controllers\Staff\StaffRegistrationController::class,
+    ]);
+    Route::get('/student-list', StudentList::class)->name('student.list');
+
+    Route::controller(StaffRegistrationController::class)->group(function () {
+        Route::get('/employee-cards', 'employeeCards')->name('employee.cards');
+        Route::get('/generate-cards', 'generateEmployeeCards')->name('generate.employee.cards');
+    });
+
+    Route::controller(StudentRegistrationController::class)->group(function () {
+        Route::get('/class-rooms', 'get_class_rooms');
+        Route::get('/student-cards', 'studentCards')->name('student.cards');
+        Route::post('/generate-cards', 'generateCards')->name('generate.cards');
+    });
+
+    //Staff routes
+    Route::get('/staff-list', StaffList::class)->name('staff.list');
+    Route::get('/edit-staff/{staff_id}/{current_page}', [StaffRegistrationController::class, 'edit'])->name('edit.staff');
+
+    //Attendance
+    Route::get('/student-attendance', \App\Http\Livewire\Student\Attendance::class)->name('student-attendance');
+    Route::get('/attendance-report/{classId}/{startDate}/{endDate}', [\App\Http\Controllers\Student\StudentAttendanceController::class, 'printReport'])->name('attendance.report');
+});
 Route::middleware(['role:Admin|Bursar'])->group(function () {
-    Route::group(['middleware' => 'role:Admin', 'as' => 'admin.'], function() {
+    Route::group(['middleware' => 'role:Admin'], function() {
         Route::get('/general-settings', SchoolSettings::class)->name('general.settings');
         Route::get('/academic-years', \App\Http\Livewire\Settings\AcademicYears::class)->name('academic.years');
         Route::get('/academic-terms', \App\Http\Livewire\Settings\AcademicTerms::class)->name('academic.terms');
@@ -59,25 +85,6 @@ Route::middleware(['role:Admin|Bursar'])->group(function () {
         Route::get('/upload-students/{id}', [\App\Http\Controllers\User\UsersController::class, 'upLoadView'])->name('upload.students');
         Route::post('/import-students', [\App\Http\Controllers\User\UsersController::class, 'import'])->name('import.students');
         Route::get('/student-category', StudentCategory::class)->name('student.category');
-        Route::get('/student-list', StudentList::class)->name('student.list');
-        Route::get('/staff-list', StaffList::class)->name('staff.list');
-        Route::get('/edit-staff/{staff_id}/{current_page}', [StaffRegistrationController::class, 'edit'])->name('edit.staff');
-
-        Route::controller(StudentRegistrationController::class)->group(function () {
-            Route::get('/class-rooms', 'get_class_rooms');
-            Route::get('/student-cards', 'studentCards')->name('student.cards');
-            Route::post('/generate-cards', 'generateCards')->name('generate.cards');
-        });
-
-        Route::controller(StaffRegistrationController::class)->group(function () {
-            Route::get('/employee-cards', 'employeeCards')->name('employee.cards');
-            Route::get('/generate-cards', 'generateEmployeeCards')->name('generate.employee.cards');
-        });
-
-        Route::resources([
-            'student-registration' => \App\Http\Controllers\Student\StudentRegistrationController::class,
-            'staff-registration' => \App\Http\Controllers\Staff\StaffRegistrationController::class,
-        ]);
 
         //Staff
         Route::get('assign-subjects-to-teacher', \App\Http\Livewire\Teacher\AssignSubjectsToTeacher::class )->name('assign-subjects-to-teacher');
@@ -138,10 +145,6 @@ Route::middleware(['role:Admin|Bursar'])->group(function () {
     //Facilities
     Route::get('/dormitory-management',  \App\Http\Livewire\Facilities\DormitoryManagement::class)->name('dormitory-management');
     Route::get('/dormitory/{id}/download', [DormitoryController::class, 'downloadDormitory'])->name('dormitory.download');
-
-    //Attendance
-    Route::get('/student-attendance', \App\Http\Livewire\Student\Attendance::class)->name('student-attendance');
-    Route::get('/attendance-report/{classId}/{startDate}/{endDate}', [\App\Http\Controllers\Student\StudentAttendanceController::class, 'printReport'])->name('attendance.report');
 
 });
 

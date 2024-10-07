@@ -17,7 +17,7 @@
         </div>
         <div class="card-body ">
            <x-forms.errors></x-forms.errors>
-            <form action="{{ route('admin.generate.cards') }}" method="post" class=" row g-4 p-5">
+            <form action="{{ route('generate.cards') }}" method="post" class=" row g-4 p-5">
                 @csrf
                   <div class="col-sm-4">
                       <select class="form-select @error('section_id') is-invalid @enderror" aria-label="section" name="section_id" id="section_id" required>
@@ -50,21 +50,21 @@
      const button   = document.getElementById('generate');
      const btn_text = document.getElementById('button-text');
      const spinner  = document.getElementById("spinner");
-     
+
     $(function() {
         var  loader = $("#loader");
              section_id = $('select[name="section_id"]');
              class_id  = $('select[name="class_id"]');
-             
+
               loader.hide();
               class_id.attr('disabled', 'disabled');
               button.disabled = true;
-  
+
               class_id.change(function() {
                 var id = $(this).val();
                 if(!id){
                     class_id.attr('disabled','disabled')
-                   
+
                 }
                 if(id){
                     button.disabled = false;
@@ -92,7 +92,7 @@
                         }
                     })
                    }
-              })            
+              })
     });
     button.addEventListener('click', () => {
         btn_text.innerText = "Generating"
