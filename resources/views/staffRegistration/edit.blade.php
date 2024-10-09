@@ -7,7 +7,7 @@
         </div>
         <div class="card-body ">
             <x-alerts/>
-            <form action="{{ route('admin.staff-registration.update', [$employee->user->id]) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('staff-registration.update', [$employee->user->id]) }}" method="post" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <input type="hidden" name="current_page" value="{{ $current_page }}">
@@ -107,7 +107,7 @@
                             <div class="col-lg-3">
                                 <div class="form-floating">
                                     <select class="form-select @error('role') is-invalid @enderror" aria-label="class" name="role">
-                                        <option value="{{ $employee->user->role->id }}" selected>{{ $employee->user->role->role_name }}</option>
+                                        <option value="{{ $employee->user->role->id ?? 'Select role'}}" selected>{{ $employee->user->role->role_name ?? '' }}</option>
                                         @foreach($roles as $role)
                                             <option {{ old('role' == $role ? 'selected' : '') }} value="{{$role->id}}">{{$role->name}}</option>
                                         @endforeach
