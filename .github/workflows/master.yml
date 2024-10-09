@@ -1,20 +1,34 @@
-on: 
+name: Deploy to Namecheap SABIBI
+
+on:
   push:
     branches:
-       - master
-name: 🚀 Deploy website on push
+      - master
+
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  deploy:
+    name: FTP Deploy
     runs-on: ubuntu-latest
+
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.2
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME}}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /sabibi/
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install NPM dependencies and build assets
+        run: |
+          npm install
+          npm run production
+      - name: Deploy to FTP Server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /home/edvaovlu/sabibicc/sabibi
+          dry-run: false
+          excludes: |
+            .git*
+            node_modules/
+            vendor/
+            .env
+            storage/
