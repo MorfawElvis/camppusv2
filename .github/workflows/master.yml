@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  deploy:
+  web-deploy:
     name: FTP Deploy
     runs-on: ubuntu-latest
 
@@ -17,7 +17,7 @@ jobs:
       - name: Deploy to FTP Server
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: 198.187.31.223
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /home/edvaovlu/sabibicc/sabibi/
