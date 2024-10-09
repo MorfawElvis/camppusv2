@@ -14,10 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install NPM dependencies and build assets
-        run: |
-          npm install
-          npm run production
       - name: Deploy to FTP Server
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
