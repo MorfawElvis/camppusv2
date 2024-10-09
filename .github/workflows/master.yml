@@ -20,9 +20,9 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /home/edvaovlu/sabibicc/sabibi
+          server-dir: /home/edvaovlu/sabibicc/sabibi/
           dry-run: false
-          excludes: |
+          exclude: |
             .git*
             node_modules/
             vendor/
